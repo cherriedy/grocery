@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.ProductManagement;
+package com.example.doanmonhoc.Activity.ProductManagement;
 
 import android.os.Bundle;
 
