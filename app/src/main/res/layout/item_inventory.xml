@@ -1,0 +1,71 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:padding="16dp">
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/radius_4_goc"
+        />
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp">
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mì Gói Hảo Hảo"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+        <TableRow
+            android:layout_marginTop="7sp">
+            <TextView
+                android:id="@+id/soluong_nhap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số lượng nhập: "
+                android:textColor="@color/lightgray"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/txt_soluong_nhap"
+                android:text="20"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/soluong_ban"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số lượng bán: "
+                android:textColor="@color/lightgray"
+                android:textSize="14sp" />
+            <TextView
+                android:id="@+id/txt_soluong_ban"
+                android:text="5"/>
+        </TableRow>
+        <TableRow
+            android:layout_marginTop="7sp">
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <TextView
+                android:id="@+id/soluong_ton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#8A8A8A"
+                android:text="Tồn: "
+                android:textSize="17sp" />
+            <TextView
+                android:id="@+id/txt_soluong_ton"
+                android:text="15"
+                android:textSize="17sp"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
+
