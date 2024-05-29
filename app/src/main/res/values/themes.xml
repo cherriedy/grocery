@@ -1,0 +1,28 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.DoAnMonHoc" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+    </style>
+
+    <style name="Theme.DoAnMonHoc" parent="Base.Theme.DoAnMonHoc" />
+
+    <style name="roundedImageStyle" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">5dp</item>
+    </style>
+
+
+<!--    Custom theme for FloatingActionButton-->
+    <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/fabStyle1</item>
+    </style>
+
+    <style name="fabStyle1" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="strokeColor">@color/primaryColor</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+</resources>

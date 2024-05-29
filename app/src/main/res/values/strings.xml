@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DoAnMonHoc</string>
+    <string name="product_name_input_field">Tên sản phẩm *</string>
+    <string name="product_out_price_txt_field">Giá bán *</string>
+    <string name="product_in_price_txt_field">Giá vốn</string>
+    <string name="product_discount_txt_field">Giá khuyến mãi</string>
+</resources>
