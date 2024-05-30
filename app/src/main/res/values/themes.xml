@@ -4,6 +4,8 @@
         <!-- Customize your light theme here. -->
         <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
         <item name="colorPrimary">@color/primaryColor</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowBackground">@color/backgroundColor</item>
     </style>
 
     <style name="Theme.DoAnMonHoc" parent="Base.Theme.DoAnMonHoc" />
@@ -14,7 +16,7 @@
     </style>
 
 
-<!--    Custom theme for FloatingActionButton-->
+    <!--    Custom theme for FloatingActionButton-->
     <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">
         <item name="shapeAppearanceOverlay">@style/fabStyle1</item>
     </style>
