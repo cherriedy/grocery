@@ -1,0 +1,44 @@
+<!-- res/layout/activity_inventory.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+    <ImageButton
+        android:layout_width="78dp"
+        android:layout_height="60dp"
+        android:background="@color/white"
+        android:src="@drawable/icon_back" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Thống Kê Tồn Kho"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvTitle"
+        android:layout_margin="20dp"
+        android:hint="Tìm kiếm mặt hàng"
+        android:padding="12dp"
+        android:drawableStart="@drawable/icon_search"
+        android:background="@drawable/edit_text_timkiem" />
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/etSearch"
+        android:layout_marginTop="16dp" />
+
+</RelativeLayout>
