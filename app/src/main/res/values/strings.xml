@@ -4,4 +4,16 @@
     <string name="product_out_price_txt_field">Giá bán *</string>
     <string name="product_in_price_txt_field">Giá vốn</string>
     <string name="product_discount_txt_field">Giá khuyến mãi</string>
+
+    <string-array name="mockBrands">
+        <item>Kinh Đô</item>
+        <item>Oshi</item>
+        <item>Chinsu</item>
+    </string-array>
+
+    <string-array name="mockTypes">
+        <item>Bánh</item>
+        <item>Kẹo</item>
+        <item>Đồ ăn vặt</item>
+    </string-array>
 </resources>

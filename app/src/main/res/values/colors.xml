@@ -5,4 +5,5 @@
     <color name="primaryColor">#4BAC4D</color>
     <color name="textHeading">#7b818b</color>
     <color name="bold_sky">#346ecd</color>
+    <color name="backgroundColor">#f3f3f6</color>
 </resources>

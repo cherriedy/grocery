@@ -5,7 +5,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#f3f3f6"
     tools:context=".Activity.ProductManagement.AddProductActivity">
 
     <LinearLayout
@@ -13,12 +12,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!--        <androidx.appcompat.widget.Toolbar-->
-        <!--            android:id="@+id/toolbar"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content" />-->
-
         <RelativeLayout
+            android:id="@+id/action_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -251,7 +246,8 @@
                     android:background="@drawable/radio_group_rounded"
                     android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/inStock_btn"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -259,12 +255,14 @@
                         android:button="@android:color/transparent"
                         android:checked="true"
                         android:gravity="center"
+                        android:onClick="onRadioButtonClicked"
                         android:text="Còn hàng"
                         android:textColor="@color/primaryColor"
                         android:textSize="12dp"
                         android:textStyle="bold" />
 
-                    <androidx.appcompat.widget.AppCompatRadioButton
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/outStock_btn"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -272,6 +270,7 @@
                         android:button="@android:color/transparent"
                         android:checked="false"
                         android:gravity="center"
+                        android:onClick="onRadioButtonClicked"
                         android:text="Hết hàng"
                         android:textColor="#6e7b8b"
                         android:textSize="12dp"
@@ -343,7 +342,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/acv_brand"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -371,10 +371,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:id="@+id/acv_type"
                         android:inputType="none"
                         android:text="Chọn loại sản phẩm" />
                 </com.google.android.material.textfield.TextInputLayout>
