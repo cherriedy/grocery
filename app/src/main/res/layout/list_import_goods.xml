@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:background="#F3EFEF"
+
+tools:context=".MainActivity">
+
+
+<!-- Header with Back Button and Title -->
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF"
+    android:padding="16dp">
+
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_revert"
+        android:contentDescription="Back" />
+
+    <TextView
+        android:id="@+id/headerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Nhập hàng"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+</RelativeLayout>
+
+<!-- Tabs -->
+    <LinearLayout
+        android:layout_width="250dp"
+        android:layout_height="61dp"
+        android:padding="7dp"
+        android:weightSum="5">
+
+        <Button
+            android:id="@+id/tabAll"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:backgroundTint="#FFFFFF"
+            android:text="Tất cả"
+            android:textColor="@color/colorOnBackground"
+            android:textSize="14dp" />
+
+        <Button
+            android:id="@+id/tabPackage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:backgroundTint="#FFFFFF"
+            android:text="Gói"
+            android:textColor="@color/colorOnBackground" />
+
+        <Button
+            android:id="@+id/tabPowder"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:backgroundTint="#FFFFFF"
+            android:text="Bột"
+            android:textColor="@color/colorOnBackground" />
+    </LinearLayout>
+
+
+    <!-- item here -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="488dp"
+
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/item_product"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <ImageView
+                    android:id="@+id/productImage"
+                    android:layout_width="71dp"
+                    android:layout_height="61dp"
+                    android:layout_marginEnd="16dp"
+                    android:scaleType="centerCrop" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/productName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Product Name"
+                        android:textColor="#635F5F"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/productQuantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Còn: 50"
+                        android:textColor="#635F5F"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:layout_margin="16dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/buttonMinus"
+                        android:layout_width="63dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#FFFFFF"
+                        android:text="-"
+                        android:textColor="@color/colorOnBackground"
+                        android:textSize="30dp" />
+
+                    <TextView
+                        android:id="@+id/productCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="0"
+                        android:textColor="#635F5F"
+                        android:textSize="16sp" />
+
+                    <Button
+                        android:id="@+id/buttonPlus"
+                        android:layout_width="63dp"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="#FFFFFF"
+                        android:text="+"
+                        android:textColor="@color/colorOnBackground"
+                        android:textSize="30dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+<!-- Footer with Selected Items Count and Continue Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="61dp"
+        android:background="@drawable/layout2"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/selectedItemCount"
+            android:layout_width="159dp"
+            android:layout_height="61dp"
+            android:layout_weight="1"
+            android:padding="20dp"
+            android:text="1 SP"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/continueButton"
+            android:layout_width="184dp"
+            android:layout_height="61dp"
+            android:backgroundTint="#07BF0E"
+            android:text="Tiếp tục"
+            android:textColor="#FFFFFF"
+            android:textSize="20dp" />
+    </LinearLayout>
+</LinearLayout>
