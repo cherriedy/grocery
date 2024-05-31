@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.Activity;
+package com.example.doanmonhoc.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,8 +13,8 @@ import com.example.doanmonhoc.MainActivity;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.RetrofitClient;
 import com.example.doanmonhoc.api.ApiService;
-import com.example.doanmonhoc.Model.Account;
-import com.example.doanmonhoc.Model.LoginResponse;
+import com.example.doanmonhoc.model.Account;
+import com.example.doanmonhoc.model.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -1,7 +1,7 @@
 package com.example.doanmonhoc.api;
 
-import com.example.doanmonhoc.Model.Account;
-import com.example.doanmonhoc.Model.LoginResponse;
+import com.example.doanmonhoc.model.Account;
+import com.example.doanmonhoc.model.LoginResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

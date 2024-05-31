@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.Model;
+package com.example.doanmonhoc.model;
 
 import com.google.gson.annotations.SerializedName;
 

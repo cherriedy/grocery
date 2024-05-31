@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.Model;
+package com.example.doanmonhoc.model;
 
 public class Account {
     private String username;
