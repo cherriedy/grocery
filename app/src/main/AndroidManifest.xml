@@ -21,15 +21,15 @@
             android:exported="false"
             />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activity.ProductManagement.ProductManagementActivity"
             android:exported="false"
             />
-        <!-- <activity -->
-        <!-- android:name=".ProductManagementActivity" -->
-        <!-- android:exported="false" -->
-        <!-- /> -->
         <activity
-            android:name=".Activity.ProductManagement.ProductManagementActivity"
+            android:name=".MainActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".Activity.LoginActivity"
             android:exported="true"
             >
             <intent-filter>

@@ -1,0 +1,5 @@
+<!-- res/drawable/rounded_searchview_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#07BF0E" /> <!-- Màu nền của SearchView -->
+    <corners android:radius="20dp" /> <!-- Độ cong của góc -->
+</shape>
