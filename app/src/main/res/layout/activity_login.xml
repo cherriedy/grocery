@@ -126,8 +126,7 @@
             android:textSize="18dp"
             android:layout_alignParentBottom="true"
             android:text="Đăng nhập"
-            android:background="@drawable/radius_4_goc"
-            android:backgroundTint="#4bac4d"/>
+            android:background="@drawable/radius_4_goc"/>
     </RelativeLayout>
 
 

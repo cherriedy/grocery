@@ -13,7 +13,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.databinding.ActivityAddProductBinding;
-
 import java.lang.reflect.Array;
 import java.util.Objects;
 
