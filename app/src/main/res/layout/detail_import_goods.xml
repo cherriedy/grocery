@@ -12,7 +12,7 @@
         android:id="@+id/toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorBackground"
+        android:background="@color/primaryColor"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -361,7 +361,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Nhập hàng"
-        android:background="@drawable/layout2"
+        android:background="@drawable/radius_4_goc"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -372,20 +372,16 @@
         android:layout_width="410dp"
         android:layout_height="66dp"
         android:background="#FFFFFF"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="-1dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/backButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="79dp"
-            android:layout_marginBottom="19dp"
-            android:layout_toStartOf="@+id/headerTitle"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
             android:contentDescription="Back"
-            android:src="@android:drawable/ic_menu_revert" />
+            android:src="@drawable/ic_arrow_back" />
 
         <TextView
             android:id="@+id/headerTitle"
