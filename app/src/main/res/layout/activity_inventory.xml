@@ -10,7 +10,7 @@
         android:layout_width="78dp"
         android:layout_height="60dp"
         android:background="@color/white"
-        android:src="@drawable/icon_back" />
+        android:src="@drawable/ic_arrow_back" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -31,7 +31,7 @@
         android:layout_margin="20dp"
         android:hint="Tìm kiếm mặt hàng"
         android:padding="12dp"
-        android:drawableStart="@drawable/icon_search"
+        android:drawableStart="@drawable/ic_search"
         android:background="@drawable/edit_text_timkiem" />
 
     <ListView
