@@ -87,7 +87,6 @@
         android:textColor="#000000"
         android:textSize="15sp"
         app:layout_constraintStart_toEndOf="@+id/creator_info"
-        app:layout_constraintStart_toEndtOf="@id/creator_info"
         app:layout_constraintTop_toBottomOf="@+id/order_code" />
 
     <TextView

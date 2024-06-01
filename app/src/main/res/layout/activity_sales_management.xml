@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="17dp"
-            android:text="Lịch sử nhập hàng"
+            android:text="Đơn hàng"
             android:textSize="20sp"
             android:textStyle="bold" />
         <EditText
@@ -120,7 +120,7 @@
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp"
         android:backgroundTint="@color/bold_sky"
-        android:text="+ Tạo nhập hàng"
+        android:text="+ Tạo đơn hàng"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>
