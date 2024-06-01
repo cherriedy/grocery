@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.Activity.ProductManagement;
+package com.example.doanmonhoc.activity.ProductManagement;
 
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -6,15 +6,12 @@ import android.widget.ArrayAdapter;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.databinding.ActivityAddProductBinding;
-import java.lang.reflect.Array;
-import java.util.Objects;
 
 public class AddProductActivity extends AppCompatActivity {
 

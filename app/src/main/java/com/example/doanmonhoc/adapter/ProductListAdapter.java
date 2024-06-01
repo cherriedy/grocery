@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.Adapter;
+package com.example.doanmonhoc.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-import com.example.doanmonhoc.Model.Product;
+import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.R;
 
 import java.util.List;

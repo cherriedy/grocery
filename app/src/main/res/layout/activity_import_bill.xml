@@ -7,9 +7,6 @@
     android:background="#FFFFFF"
     android:textColor="#000000"
     tools:context=".MainActivity">
-    <!-- Toolbar -->
-
-    <!-- Order Details -->
 
     <RelativeLayout
         android:id="@+id/layout_tren"

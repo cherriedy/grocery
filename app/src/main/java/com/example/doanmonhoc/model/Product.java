@@ -1,4 +1,6 @@
-package com.example.doanmonhoc.Model;
+package com.example.doanmonhoc.model;
+
+import com.google.gson.annotations.SerializedName;
 
 public class Product {
     private long id;
@@ -8,15 +10,18 @@ public class Product {
     private float inPrice;
     private float outPrice;
     private String avatarPath;
-//    test
-    private int resource;
+    private int resource;           // test
     private short inventoryQuantity;
     private short actuallyQuantity;
     private String description;
     private boolean status;
     private float discount;
     private String note;
+
+    @SerializedName("ProductGroupid")
     private long productGroupId;
+
+    @SerializedName("brandOfProductid")
     private long productBrandId;
 
     public Product() {
