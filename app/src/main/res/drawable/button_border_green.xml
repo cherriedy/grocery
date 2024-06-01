@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@android:color/white"/> <!-- Màu nền của nút -->
-    <stroke android:width="2dp" android:color="#4bac4d"/> <!-- Viền của nút -->
-    <corners android:radius="4dp"/> <!-- Góc bo của viền -->
-</shape>

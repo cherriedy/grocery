@@ -16,15 +16,13 @@
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:paddingHorizontal="32dp"
-            android:paddingVertical="16dp">
+            android:background="@color/white">
 
-            <ImageView
-                android:id="@+id/back_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@color/white"
                 android:src="@drawable/ic_arrow_back" />
 
             <TextView

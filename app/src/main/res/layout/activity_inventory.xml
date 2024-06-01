@@ -6,28 +6,36 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white">
 
-    <ImageButton
-        android:layout_width="78dp"
-        android:layout_height="60dp"
-        android:background="@color/white"
-        android:src="@drawable/ic_arrow_back" />
-
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/layout_tren"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Thống Kê Tồn Kho"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:background="#FFFFFF">
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Thống kê tồn kho"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
 
     <EditText
         android:id="@+id/etSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitle"
+        android:layout_below="@id/layout_tren"
         android:layout_margin="20dp"
         android:hint="Tìm kiếm mặt hàng"
         android:padding="12dp"

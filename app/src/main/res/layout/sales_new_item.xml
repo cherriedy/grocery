@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -28,42 +29,42 @@
                 app:layout_constraintVertical_bias="0.0" />
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
-                android:layout_height="25dp"
-                app:cardCornerRadius="5dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.466"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.355" >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="25dp"-->
+<!--                app:cardCornerRadius="5dp"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/imageView"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintHorizontal_bias="0.466"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:layout_constraintVertical_bias="0.355" >-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent">-->
 
-                    <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="start"
-                        android:background="@color/white"
-                        android:src="@drawable/ic_minus"/>
+<!--                    <ImageButton-->
+<!--                        android:layout_width="32dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_gravity="start"-->
+<!--                        android:background="@color/white"-->
+<!--                        android:src="@drawable/ic_minus"/>-->
 
-                    <TextView
-                        android:layout_width="35dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:textSize="17dp"
-                        android:text="2" />
+<!--                    <TextView-->
+<!--                        android:layout_width="35dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:gravity="center"-->
+<!--                        android:textSize="17dp"-->
+<!--                        android:text="2" />-->
 
-                    <ImageButton
-                        android:layout_width="32dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"
-                        app:tint="@color/black"
-                        android:src="@drawable/ic_add" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+<!--                    <ImageButton-->
+<!--                        android:layout_width="32dp"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:background="@color/white"-->
+<!--                        app:tint="@color/black"-->
+<!--                        android:src="@drawable/ic_add" />-->
+<!--                </LinearLayout>-->
+<!--            </androidx.cardview.widget.CardView>-->
 
             <TextView
                 android:id="@+id/textViewName"

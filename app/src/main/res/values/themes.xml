@@ -8,7 +8,10 @@
         <item name="android:windowBackground">@color/backgroundColor</item>
     </style>
 
-    <style name="Theme.DoAnMonHoc" parent="Base.Theme.DoAnMonHoc" />
+    <style name="Theme.DoAnMonHoc" parent="Base.Theme.DoAnMonHoc">
+    <item name="colorPrimary">@color/white</item>
+    </style>
+
 
     <style name="roundedImageStyle" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
