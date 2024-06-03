@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
+    android:theme="@style/Base.Theme.DoAnMonHoc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.SplashActivity">
 
     <ImageView
         android:id="@+id/imageView2"
@@ -20,11 +21,11 @@
         app:srcCompat="@drawable/group2" />
 
     <Button
-        android:id="@+id/btdangnhap"
+        android:id="@+id/btnStart"
         android:layout_width="319dp"
         android:layout_height="50dp"
-
         android:backgroundTint="#4bac4d"
+        android:background="@drawable/radius_4_goc"
         android:text="Bắt dầu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +51,7 @@
         android:layout_height="wrap_content"
         android:text="Dễ dàng hơn với 7-Eleven"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/btdangnhap"
+        app:layout_constraintBottom_toTopOf="@+id/btnStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
