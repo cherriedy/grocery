@@ -1,5 +1,6 @@
 package com.example.doanmonhoc.api;
 
+<<<<<<< HEAD
 import android.database.Observable;
 
 import com.example.doanmonhoc.model.Brand;
@@ -76,3 +77,7 @@ public interface KiotApiService {
     @GET("/type")
     Call<List<ProductGroup>> getProductGroupList();
 }
+=======
+public class KiotApiService {
+}
+>>>>>>> fcd443eb5dce141ed2b1b115205d4d28e9f425c6

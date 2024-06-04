@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="horizontal"
+    android:background="@drawable/radius_4_goc"
+    android:backgroundTint="@color/white"
+    android:padding="16dp">
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_launcher_background"
+        app:shapeAppearanceOverlay="@style/roundedImageStyle" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp">
+        <TextView
+            android:id="@+id/item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bàn chải"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TableRow
+            android:layout_marginTop="7sp">
+            <TextView
+                android:text="15.000"
+                android:textColor="@color/primaryColor"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.466"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.355" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:background="@color/white"
+                        android:src="@drawable/ic_minus"/>
+
+                    <TextView
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:textSize="17dp"
+                        android:text="2" />
+
+                    <ImageButton
+                        android:layout_width="32dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        app:tint="@color/black"
+                        android:src="@drawable/ic_add" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
+

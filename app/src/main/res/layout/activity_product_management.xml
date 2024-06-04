@@ -21,7 +21,13 @@
         <ImageView
             android:id="@+id/button_turn_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
             android:src="@drawable/ic_arrow_back" />
 
 
@@ -29,27 +35,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="48dp"
             android:layout_toEndOf="@id/button_turn_back"
             android:text="Quản lý"
             android:textSize="20dp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/search_btn"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:orientation="horizontal">
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_search"
+            app:tint="@color/black" />
 
-            <ImageView
-                android:id="@+id/search_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_search"
-                app:tint="@color/black" />
 
-        </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout

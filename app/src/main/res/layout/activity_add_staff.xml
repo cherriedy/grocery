@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Base.Theme.DoAnMonHoc">
+
+    <RelativeLayout
+        android:id="@+id/action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_arrow_back" />
+
+
+        <TextView
+            android:layout_width="194dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="78dp"
+            android:layout_marginEnd="79dp"
+            android:layout_toEndOf="@id/btnBack"
+            android:text="Chi tiết nhân viên"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/staffimg"
+        android:layout_width="210dp"
+        android:layout_height="186dp"
+        android:background="@drawable/staff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/action_bar"
+        app:layout_constraintVertical_bias="0.024"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/staffname"
+        android:layout_width="75dp"
+        android:layout_height="32dp"
+        android:text="Họ và tên"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/staffimg"
+        app:layout_constraintVertical_bias="0.118" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ipstaffname"
+        android:layout_width="239dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:hint="Nguyễn Ngọc Yến Nhi"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/staffname"
+        app:layout_constraintTop_toBottomOf="@+id/staffid" />
+
+    <TextView
+        android:id="@+id/staffdob"
+        android:layout_width="77dp"
+        android:layout_height="26dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="19dp"
+        android:text="Ngày sinh"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffname"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ipstaffdob"
+        android:layout_width="239dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="300dp"
+        android:hint="17/11/2004"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/staffdob"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffname"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/staffid"
+        android:layout_width="135dp"
+        android:layout_height="23dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="A10939"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/staffimg" />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ipstaffgender"
+        android:layout_width="239dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="52dp"
+
+        android:hint="Nữ"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffdob"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/staffgender"
+        android:layout_width="76dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="4dp"
+
+        android:text="Giới tính"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/ipstaffgender"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffdob"
+        app:layout_constraintVertical_bias="0.033" />
+
+    <TextView
+        android:id="@+id/staffaddress"
+        android:layout_width="73dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="16dp"
+
+        android:text="Địa chỉ"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffgender" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ipstaffaddress"
+        android:layout_width="239dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:hint="Bình Tân"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintStart_toEndOf="@+id/staffaddress"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffgender" />
+
+    <TextView
+        android:id="@+id/staffemail"
+        android:layout_width="70dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+
+        android:text="Email"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffaddress" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ipstaffemail"
+        android:layout_width="239dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:hint="nhi@gmail.com"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.145"
+        app:layout_constraintStart_toEndOf="@+id/staffemail"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffaddress" />
+
+    <TextView
+        android:id="@+id/staffphone"
+        android:layout_width="96dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+
+        android:text="Số điện thoại"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffemail" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ipstaffphone"
+        android:layout_width="239dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:hint="0584328132"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/staffphone"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffemail" />
+
+    <TextView
+        android:id="@+id/staffstartdate"
+        android:layout_width="97dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="Ngày bắt đầu làm việc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffphone" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/ipstaffstartdate"
+        android:layout_width="239dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:hint="3/4/2021"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/staffstartdate"
+        app:layout_constraintTop_toBottomOf="@+id/ipstaffphone" />
+
+    <Button
+        android:id="@+id/close"
+        android:layout_width="117dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="88dp"
+        android:background="@drawable/radius_4_goc"
+        android:backgroundTint="#4bac4d"
+        android:text="Thoát"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/save"
+        app:layout_constraintHorizontal_bias="0.421"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/save"
+        android:layout_width="123dp"
+        android:layout_height="41dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginBottom="88dp"
+        android:background="@drawable/radius_4_goc"
+        android:backgroundTint="#4bac4d"
+        android:text="Lưu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
