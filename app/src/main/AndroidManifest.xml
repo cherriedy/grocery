@@ -27,15 +27,21 @@
         <activity
             android:name=".activity.ProductManagement.AddProductActivity"
             android:exported="false" />
-        <activity
-            android:name=".activity.StaffManagement.StaffManagementActivity"
-            android:exported="false" />
+
         <activity
             android:name=".activity.ProductManagement.ProductManagementActivity"
             android:exported="false" />
         <activity
             android:name=".activity.SplashActivity"
-            android:exported="true">
+            android:exported="false"/>
+        <activity
+            android:name=".activity.StaffManagement.AddStaffActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".activity.StaffManagement.StaffManagementActivity"
+            android:exported="true" >
+
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

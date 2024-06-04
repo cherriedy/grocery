@@ -22,10 +22,9 @@
 
     <Button
         android:id="@+id/btnStart"
-        android:layout_width="319dp"
         android:layout_height="50dp"
-        android:backgroundTint="#4bac4d"
         android:background="@drawable/radius_4_goc"
+        android:backgroundTint="#4bac4d"
         android:text="Bắt dầu"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

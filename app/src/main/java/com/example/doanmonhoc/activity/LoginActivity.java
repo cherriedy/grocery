@@ -74,8 +74,6 @@ public class LoginActivity extends AppCompatActivity {
                         }
                         startActivity(intent);
                         finish();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Failed to parse response", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Toast.makeText(LoginActivity.this, "Sai username hoặc mật khẩu ", Toast.LENGTH_SHORT).show();
