@@ -1,8 +1,19 @@
 package com.example.doanmonhoc.model;
 
+import android.util.Log;
+
+import com.example.doanmonhoc.api.KiotApiService;
 import com.google.gson.annotations.SerializedName;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class Product {
+
+    public static String PREFIX = "PDR";
+//    private static Product latestRow = new Product();
+
     private long id;
     private String productKey;
     private String productBarcode;
@@ -10,11 +21,10 @@ public class Product {
     private float inPrice;
     private float outPrice;
     private String avatarPath;
-    private int resource;           // test
-    private short inventoryQuantity;
-    private short actuallyQuantity;
+    private int inventoryQuantity;
+    private int actualQuantity;
     private String description;
-    private boolean status;
+    private byte status;
     private float discount;
     private String note;
 
@@ -27,11 +37,19 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productName, float outPrice, int resource) {
-        this.productName = productName;
-        this.outPrice = outPrice;
-        this.resource = resource;
-    }
+//    public static String generateProductKey() {
+//        int latestNumber = -1, newNumber = -1;
+////        String latestProductKey = getLatestProductKey();
+////        Log.i("LATEST_PRODUCT_KEY", latestProductKey);
+//        String latestProductKey = latestRow.getProductKey();
+//
+//        if (latestProductKey != null && !latestProductKey.isEmpty()) {
+//            latestNumber = extractNumber(latestProductKey);
+//            newNumber = latestNumber + 1;
+//            Log.i("LATEST_NUMBER", String.valueOf(latestNumber));
+//        }
+//        return formatProductKey(newNumber);
+//    }
 
     public long getId() {
         return id;
@@ -89,20 +107,24 @@ public class Product {
         this.avatarPath = avatarPath;
     }
 
-    public short getInventoryQuantity() {
+    public int getInventoryQuantity() {
         return inventoryQuantity;
     }
 
-    public void setInventoryQuantity(short inventoryQuantity) {
+    public void setInventoryQuantity(int inventoryQuantity) {
         this.inventoryQuantity = inventoryQuantity;
     }
 
-    public short getActuallyQuantity() {
-        return actuallyQuantity;
+    public int getActualQuantity() {
+        return actualQuantity;
     }
 
-    public void setActuallyQuantity(short actuallyQuantity) {
-        this.actuallyQuantity = actuallyQuantity;
+    public void setActualQuantity(int actualQuantity) {
+        this.actualQuantity = actualQuantity;
+    }
+
+    public byte getStatus() {
+        return status;
     }
 
     public String getDescription() {
@@ -113,11 +135,11 @@ public class Product {
         this.description = description;
     }
 
-    public boolean isStatus() {
+    public byte isStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(byte status) {
         this.status = status;
     }
 
@@ -133,7 +155,7 @@ public class Product {
         return note;
     }
 
-    public void setNote(String note) {
+    public void setProductNote(String note) {
         this.note = note;
     }
 
@@ -153,11 +175,34 @@ public class Product {
         this.productBrandId = productBrandId;
     }
 
-    public int getResource() {
-        return resource;
-    }
-
-    public void setResource(int resource) {
-        this.resource = resource;
-    }
+//    private static int extractNumber(String latestProductKey) {
+//        if (latestProductKey.startsWith(PREFIX)) {
+//            String numberPart = latestProductKey.substring(PREFIX.length());
+//            return Integer.parseInt(numberPart);
+//        }
+//        return 0;
+//    }
+//
+//    private static String formatProductKey(int newNumber) {
+//        return String.format(PREFIX + "%03d", newNumber);
+//    }
+//
+//    private static void getLatestProductKey() {
+//        KiotApiService.apiService.getLatestProduct().enqueue(new Callback<Product>() {
+//            @Override
+//            public void onResponse(Call<Product> call, Response<Product> response) {
+//                if (response.isSuccessful()) {
+//                    latestRow = response.body();
+//                    Log.i("PRODUCT_KEY", latestRow.getProductKey());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Product> call, Throwable throwable) {
+//
+//            }
+//        });
+//    }
 }
+
+
