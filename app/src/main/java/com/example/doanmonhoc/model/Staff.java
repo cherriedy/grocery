@@ -1,25 +1,94 @@
 package com.example.doanmonhoc.model;
 
+import java.util.Date;
+
 public class Staff {
-    private String name;
-    private String email;
-    private int photo;
+    private long id;
+    private String staffKey;
+    private String staffName;
+    private Date staffDob;
+    private Byte staffGender;
+    private String staffPhone;
+    private String staffEmail;
+    private String address;
 
-    public Staff(String name, String email, int photo) {
-        this.name = name;
-        this.email = email;
-        this.photo = photo;
+    // Constructors
+    public Staff() {
     }
 
-    public String getName() {
-        return name;
+    public Staff(long id, String staffKey, String staffName, Date staffDob, Byte staffGender, String staffPhone, String staffEmail, String address) { // Change staffDob type to Date
+        this.id = id;
+        this.staffKey = staffKey;
+        this.staffName = staffName;
+        this.staffDob = staffDob;
+        this.staffGender = staffGender;
+        this.staffPhone = staffPhone;
+        this.staffEmail = staffEmail;
+        this.address = address;
     }
 
-    public String getEmail() {
-        return email;
+    // Getters and Setters
+    public long getId() {
+        return id;
     }
 
-    public int getPhoto() {
-        return photo;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getStaffKey() {
+        return staffKey;
+    }
+
+    public void setStaffKey(String staffKey) {
+        this.staffKey = staffKey;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
+    public Date getStaffDob() {
+        return staffDob;
+    }
+
+    public void setStaffDob(Date staffDob) {
+        this.staffDob = staffDob;
+    }
+
+    public Byte getStaffGender() {
+        return staffGender;
+    }
+
+    public void setStaffGender(Byte staffGender) {
+        this.staffGender = staffGender;
+    }
+
+    public String getStaffPhone() {
+        return staffPhone;
+    }
+
+    public void setStaffPhone(String staffPhone) {
+        this.staffPhone = staffPhone;
+    }
+
+    public String getStaffEmail() {
+        return staffEmail;
+    }
+
+    public void setStaffEmail(String staffEmail) {
+        this.staffEmail = staffEmail;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         call.enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() ) {
                     LoginResponse loginResponse = response.body();
                     if (loginResponse != null) {
 
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putLong("Roleid", Roleid);
                         editor.apply();
 
-                        Toast.makeText(LoginActivity.this, "Login Successful! " + message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Đăng nhập thành công! " + message, Toast.LENGTH_SHORT).show();
                         Intent intent;
                         if (Roleid == 1) {
                             intent = new Intent(LoginActivity.this, MainActivity.class);
