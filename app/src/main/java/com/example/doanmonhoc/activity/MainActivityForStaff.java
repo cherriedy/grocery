@@ -10,6 +10,8 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.AccountManagement.AccountDetailActivity;
+import com.example.doanmonhoc.activity.ProductManagement.AddProductActivity;
 
 public class MainActivityForStaff extends AppCompatActivity {
 
@@ -19,6 +21,11 @@ public class MainActivityForStaff extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main_for_staff);
 
+        Button btnAccountDetail = findViewById(R.id.btnAccountDetail);
+        btnAccountDetail.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivityForStaff.this, AccountDetailActivity.class);
+            startActivity(intent);
+        });
 
         Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(v -> logout());
@@ -26,7 +33,7 @@ public class MainActivityForStaff extends AppCompatActivity {
     }
 
     private void logout() {
-        SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = getSharedPreferences("myPrefs", MODE_PRIVATE).edit();
         editor.remove("id");
         editor.remove("Roleid");
         editor.apply();
@@ -34,8 +41,8 @@ public class MainActivityForStaff extends AppCompatActivity {
         Toast.makeText(this, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, LoginActivity.class);
-        //xóa tất cả các activity trước đó khỏi stack
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);//
+        // Xóa tất cả các activity trước đó khỏi stack
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         // Kết thúc tất cả các Activity hiện tại để người dùng không thể quay lại bằng nút back
         finishAffinity();

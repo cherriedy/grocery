@@ -16,6 +16,12 @@
         android:theme="@style/Theme.DoAnMonHoc"
         tools:targetApi="31">
         <activity
+            android:name=".activity.AccountManagement.EditAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AccountManagement.AccountDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.StaffManagement.StaffManagementActivity"
             android:exported="false" />
         <activity
@@ -27,21 +33,18 @@
         <activity
             android:name=".activity.ProductManagement.AddProductActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.ProductManagement.ProductManagementActivity"
             android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activity.StaffManagement.AddStaffActivity"
-            android:exported="true"/>
+            android:exported="true" />
         <activity
             android:name=".activity.SplashActivity"
-            android:exported="true" >
-
-
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -24,13 +24,13 @@
 
 
         <TextView
-            android:layout_width="194dp"
+            android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="78dp"
             android:layout_marginEnd="79dp"
             android:layout_toEndOf="@id/btnBack"
-            android:text="Chi tiết nhân viên"
+            android:text="Chỉnh sửa thông tin tài khoản"
             android:gravity="center"
             android:textSize="20dp"
             android:textStyle="bold" />
@@ -62,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@+id/staffimg"
         app:layout_constraintVertical_bias="0.118" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/ipstaffname"
         android:layout_width="239dp"
         android:layout_height="48dp"
@@ -85,7 +85,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ipstaffname"
         app:layout_constraintVertical_bias="0.0" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/ipstaffdob"
         android:layout_width="239dp"
         android:layout_height="48dp"
@@ -111,7 +111,7 @@
         app:layout_constraintTop_toBottomOf="@+id/staffimg" />
 
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/ipstaffgender"
         android:layout_width="239dp"
         android:layout_height="48dp"
@@ -148,7 +148,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ipstaffgender" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/ipstaffaddress"
         android:layout_width="239dp"
         android:layout_height="48dp"
@@ -170,7 +170,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ipstaffaddress" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/ipstaffemail"
         android:layout_width="239dp"
         android:layout_height="48dp"
@@ -192,7 +192,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ipstaffemail" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/ipstaffphone"
         android:layout_width="239dp"
         android:layout_height="48dp"
@@ -213,7 +213,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ipstaffphone" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <EditText
         android:id="@+id/ipstaffstartdate"
         android:layout_width="239dp"
         android:layout_height="48dp"
