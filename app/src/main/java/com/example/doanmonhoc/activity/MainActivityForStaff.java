@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.AccountManagement.AccountDetailActivity;
-import com.example.doanmonhoc.activity.ProductManagement.AddProductActivity;
+import com.example.doanmonhoc.activity.product.ProductAddActivity;
 
 public class MainActivityForStaff extends AppCompatActivity {
 

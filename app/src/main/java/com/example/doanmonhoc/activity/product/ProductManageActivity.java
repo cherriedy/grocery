@@ -1,10 +1,11 @@
-package com.example.doanmonhoc.activity.ProductManagement;
+package com.example.doanmonhoc.activity.product;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,24 +16,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.adapter.ProductListAdapter;
+import com.example.doanmonhoc.adapter.ProductRecyclerViewAdapter;
 import com.example.doanmonhoc.databinding.ActivityProductManagementBinding;
 import com.example.doanmonhoc.model.Product;
+import com.example.doanmonhoc.presenter.ProductManagePresenter;
+import com.example.doanmonhoc.contract.ProductManageContract;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductManagementActivity extends AppCompatActivity {
+public class ProductManageActivity extends AppCompatActivity implements ProductManageContract {
 
     ActivityProductManagementBinding binding;
 
-    // This check if all sub fabs are visible or not
+    private List<Product> productList;
+
     private boolean isSubMenuOpen;
 
     private Animation animFromBottomFab;
     private Animation animToBottomFab;
     private Animation animRotateClockWise;
     private Animation animRotateAntiClockWise;
+
+    ProductManagePresenter productManagePresenter = new ProductManagePresenter(ProductManageActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,25 +50,20 @@ public class ProductManagementActivity extends AppCompatActivity {
         // Gán layout cho activity
         setContentView(binding.getRoot());
 
-//        setContentView(R.layout.activity_product_management);
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        // Tạo Adpater cho productList (RecyclerView)
-        ProductListAdapter productListAdapter = new ProductListAdapter(ProductManagementActivity.this);
         // Tạo LinearLayoutManager để quản lý các item
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ProductManagementActivity.this, RecyclerView.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ProductManageActivity.this, RecyclerView.VERTICAL, false);
         // Thiết lập LayoutManager
         binding.productList.setLayoutManager(linearLayoutManager);
 
-        // Gán mảng dữ liệu cho Adapter thông qua gọi phương thức getListData
-        productListAdapter.setData(getListData());
-        // Gán Adapter cho productView
-        binding.productList.setAdapter(productListAdapter);
+        productList = new ArrayList<>();
+//        callApiGetProductList();
+        productManagePresenter.getProductList();
 
         initializeAnimation();
 
@@ -75,16 +76,29 @@ public class ProductManagementActivity extends AppCompatActivity {
         });
 
         binding.addOne.setOnClickListener(v -> {
-            Intent intent = new Intent(ProductManagementActivity.this, AddProductActivity.class);
+            Intent intent = new Intent(ProductManageActivity.this, ProductAddActivity.class);
             startActivity(intent);
         });
     }
 
+    @Override
+    public void getProductListSuccessfully(List<Product> productList) {
+        ProductRecyclerViewAdapter productRecyclerViewAdapter = new ProductRecyclerViewAdapter(ProductManageActivity.this);
+        productRecyclerViewAdapter.setData(productList);
+        binding.productList.setAdapter(productRecyclerViewAdapter);
+    }
+
+    @Override
+    public void getProductListFail(Throwable throwable) {
+        Log.i("API", throwable.getMessage());
+        Toast.makeText(ProductManageActivity.this, "Lỗi!", Toast.LENGTH_SHORT).show();
+    }
+
     private void initializeAnimation() {
-        animFromBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.from_bottom_fab);
-        animToBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.to_bottom_fab);
-        animRotateClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_clock_wise);
-        animRotateAntiClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_anti_clock_wise);
+        animFromBottomFab = AnimationUtils.loadAnimation(ProductManageActivity.this, R.anim.from_bottom_fab);
+        animToBottomFab = AnimationUtils.loadAnimation(ProductManageActivity.this, R.anim.to_bottom_fab);
+        animRotateClockWise = AnimationUtils.loadAnimation(ProductManageActivity.this, R.anim.rotate_clock_wise);
+        animRotateAntiClockWise = AnimationUtils.loadAnimation(ProductManageActivity.this, R.anim.rotate_anti_clock_wise);
     }
 
     private void closeMenu() {
@@ -105,17 +119,18 @@ public class ProductManagementActivity extends AppCompatActivity {
         isSubMenuOpen = true;
     }
 
-    private List<Product> getListData() {
-        List<Product> list = new ArrayList<>();
 
-        list.add(new Product("maggi", 100.3f, R.drawable.maggi));
-        list.add(new Product("burger", 100.3f, R.drawable.burge));
-        list.add(new Product("cake", 100.3f, R.drawable.cake));
-        list.add(new Product("fries", 100.3f, R.drawable.fries));
-        list.add(new Product("pancake", 100.3f, R.drawable.pancake));
-        list.add(new Product("pasta", 100.3f, R.drawable.pasta));
-        list.add(new Product("pizza", 100.3f, R.drawable.pizza));
-
-        return list;
-    }
+//    private List<Product1> getListData() {
+//        List<Product1> list = new ArrayList<>();
+//
+//        list.add(new Product1("maggi", 100.3f, R.drawable.maggi));
+//        list.add(new Product1("burger", 100.3f, R.drawable.burge));
+//        list.add(new Product1("cake", 100.3f, R.drawable.cake));
+//        list.add(new Product1("fries", 100.3f, R.drawable.fries));
+//        list.add(new Product1("pancake", 100.3f, R.drawable.pancake));
+//        list.add(new Product1("pasta", 100.3f, R.drawable.pasta));
+//        list.add(new Product1("pizza", 100.3f, R.drawable.pizza));
+//
+//        return list;
+//    }
 }

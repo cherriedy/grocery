@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ProductManagement.AddProductActivity">
+    tools:context=".activity.product.ProductAddActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,12 +18,11 @@
             android:layout_height="wrap_content"
             android:background="@color/white">
 
-            <ImageButton
-                android:id="@+id/backButton"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_arrow_back" />
+            <ImageView
+                android:id="@+id/button_turn_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,6 +41,7 @@
             android:paddingVertical="12dp">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_upload_images"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
@@ -56,6 +56,7 @@
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_take_picture"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@android:color/transparent"
@@ -102,14 +103,17 @@
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_layout_product_name"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/product_name_txt"
+                        android:id="@+id/text_product_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColorHint="#c9c9c9" />
+                        android:hint="@string/product_name_hint" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -136,13 +140,17 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/text_layout_out_price"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        app:endIconMode="clear_text"
+                        app:hintEnabled="false">
 
                         <EditText
-                            android:id="@+id/product_out_price_txt"
+                            android:id="@+id/text_product_out_price"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:hint="@string/product_price_hint" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -168,12 +176,15 @@
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        app:endIconMode="clear_text"
+                        app:hintEnabled="false">
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/product_in_price_txt"
+                            android:id="@+id/text_product_in_price"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:hint="@string/product_price_hint" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
@@ -190,19 +201,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="@string/product_discount_txt_field"
+                    android:text="@string/title_product_discount_precent"
                     android:textColor="@color/textHeading"
                     android:textSize="14dp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/product_discount_txt"
+                        android:id="@+id/text_product_discount"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:hint="Ví dụ: 5%" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -220,7 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:text="Quản lý tồn kho"
+                android:text="@string/title_product_invetory_quantity"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -234,7 +248,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="12dp"
-                    android:text="Tình trạng sản phẩm"
+                    android:text="@string/title_product_status"
                     android:textStyle="bold" />
 
                 <RadioGroup
@@ -245,7 +259,7 @@
                     android:orientation="horizontal">
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/inStock_btn"
+                        android:id="@+id/button_inStock"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -254,13 +268,13 @@
                         android:checked="true"
                         android:gravity="center"
                         android:onClick="onRadioButtonClicked"
-                        android:text="Còn hàng"
+                        android:text="@string/action_inStock"
                         android:textColor="@color/primaryColor"
                         android:textSize="12dp"
                         android:textStyle="bold" />
 
                     <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/outStock_btn"
+                        android:id="@+id/button_outStock"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -269,7 +283,7 @@
                         android:checked="false"
                         android:gravity="center"
                         android:onClick="onRadioButtonClicked"
-                        android:text="Hết hàng"
+                        android:text="@string/action_outStock"
                         android:textColor="#6e7b8b"
                         android:textSize="12dp"
                         android:textStyle="bold" />
@@ -287,18 +301,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="Mã SKU"
+                    android:text="@string/title_product_sku"
+                    android:textColor="@color/textHeading"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/product_sku_txt"
+                        android:id="@+id/text_product_sku"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:enabled="false" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -317,7 +334,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="14dp"
-                android:text="Thông tin khác"
+                android:text="@string/title_product_other_infomations_section"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -331,22 +348,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="Tên nhãn hàng *"
+                    android:text="@string/title_product_brand"
                     android:textSize="14dp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/acv_brand"
+                        android:id="@+id/auto_complete_brand"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:inputType="none"
-                        android:text="Chọn nhãn hàng" />
+                        android:hint="@string/choose_brand_hint" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -360,23 +377,84 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="Loại sản phẩm *"
+                    android:text="@string/title_product_type"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:hintEnabled="false">
 
                     <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/auto_complete_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:id="@+id/acv_type"
-                        android:inputType="none"
-                        android:text="Chọn loại sản phẩm" />
+                        android:hint="@string/choose_type_of_product_hint" />
                 </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/title_product_barcode"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_product_barcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/title_product_description"
+                    android:textColor="@color/textHeading"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/text_layout_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    app:helperTextEnabled="true"
+                    app:helperTextTextColor="@android:color/holo_red_light"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/text_product_description"
+                        android:layout_width="match_parent"
+                        android:layout_height="120dp"
+                        android:gravity="top|left"
+                        android:hint="@string/product_description_hint"
+                        android:inputType="textMultiLine"
+                        app:endIconMode="clear_text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
             </LinearLayout>
 
             <LinearLayout
@@ -388,18 +466,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="4dp"
-                    android:text="Barcode"
+                    android:text="@string/title_note"
+                    android:textColor="@color/textHeading"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:endIconMode="clear_text" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/product_barcode_txt"
+                        android:id="@+id/text_product_note"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="120dp"
+                        android:gravity="top|left"
+                        android:inputType="textMultiLine" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -412,15 +496,15 @@
             android:padding="16dp">
 
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_create"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
-                android:text="Hoàn tất"
+                android:text="@string/action_done"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:cornerRadius="5dp" />
         </LinearLayout>
-
 
     </LinearLayout>
 
