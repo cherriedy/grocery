@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.activity.product;
+package com.example.doanmonhoc.activity.ProductManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -25,11 +26,9 @@ import com.example.doanmonhoc.contract.ProductManageContract;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductManageActivity extends AppCompatActivity implements ProductManageContract {
+public class ProductManagementActivity extends AppCompatActivity implements ProductManageContract {
 
-    ActivityProductManagementBinding binding;
-
-    private List<Product> productList;
+    ActivityProductManagementBinding b;
 
     private boolean isSubMenuOpen;
 
@@ -38,17 +37,15 @@ public class ProductManageActivity extends AppCompatActivity implements ProductM
     private Animation animRotateClockWise;
     private Animation animRotateAntiClockWise;
 
-    ProductManagePresenter productManagePresenter = new ProductManagePresenter(ProductManageActivity.this);
+    ProductManagePresenter productManagePresenter = new ProductManagePresenter(ProductManagementActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
 
-        // Thiết lập ViewBinding
-        binding = ActivityProductManagementBinding.inflate(getLayoutInflater());
-        // Gán layout cho activity
-        setContentView(binding.getRoot());
+        b = ActivityProductManagementBinding.inflate(getLayoutInflater());              // Thiết lập ViewBinding
+        setContentView(b.getRoot());                                                    // Gán layout cho activity
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -57,17 +54,15 @@ public class ProductManageActivity extends AppCompatActivity implements ProductM
         });
 
         // Tạo LinearLayoutManager để quản lý các item
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ProductManageActivity.this, RecyclerView.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ProductManagementActivity.this, RecyclerView.VERTICAL, false);
         // Thiết lập LayoutManager
-        binding.productList.setLayoutManager(linearLayoutManager);
+        b.productList.setLayoutManager(linearLayoutManager);
 
-        productList = new ArrayList<>();
-//        callApiGetProductList();
         productManagePresenter.getProductList();
 
         initializeAnimation();
 
-        binding.addButton.setOnClickListener(v -> {
+        b.addButton.setOnClickListener(v -> {
             if (!isSubMenuOpen) {
                 openMenu();
             } else {
@@ -75,47 +70,50 @@ public class ProductManageActivity extends AppCompatActivity implements ProductM
             }
         });
 
-        binding.addOne.setOnClickListener(v -> {
-            Intent intent = new Intent(ProductManageActivity.this, ProductAddActivity.class);
+        b.addOne.setOnClickListener(v -> {
+            Intent intent = new Intent(ProductManagementActivity.this, AddProductActivity.class);
             startActivity(intent);
+        });
+
+        b.buttonTurnBack.setOnClickListener(v -> {
         });
     }
 
     @Override
     public void getProductListSuccessfully(List<Product> productList) {
-        ProductRecyclerViewAdapter productRecyclerViewAdapter = new ProductRecyclerViewAdapter(ProductManageActivity.this);
+        ProductRecyclerViewAdapter productRecyclerViewAdapter = new ProductRecyclerViewAdapter(ProductManagementActivity.this);
         productRecyclerViewAdapter.setData(productList);
-        binding.productList.setAdapter(productRecyclerViewAdapter);
+        b.productList.setAdapter(productRecyclerViewAdapter);
     }
 
     @Override
     public void getProductListFail(Throwable throwable) {
         Log.i("API", throwable.getMessage());
-        Toast.makeText(ProductManageActivity.this, "Lỗi!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(ProductManagementActivity.this, "Lỗi!", Toast.LENGTH_SHORT).show();
     }
 
     private void initializeAnimation() {
-        animFromBottomFab = AnimationUtils.loadAnimation(ProductManageActivity.this, R.anim.from_bottom_fab);
-        animToBottomFab = AnimationUtils.loadAnimation(ProductManageActivity.this, R.anim.to_bottom_fab);
-        animRotateClockWise = AnimationUtils.loadAnimation(ProductManageActivity.this, R.anim.rotate_clock_wise);
-        animRotateAntiClockWise = AnimationUtils.loadAnimation(ProductManageActivity.this, R.anim.rotate_anti_clock_wise);
+        animFromBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.from_bottom_fab);
+        animToBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.to_bottom_fab);
+        animRotateClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_clock_wise);
+        animRotateAntiClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_anti_clock_wise);
     }
 
     private void closeMenu() {
-        binding.addButton.startAnimation(animRotateAntiClockWise);
-        binding.addOne.startAnimation(animToBottomFab);
-        binding.addMany.startAnimation(animToBottomFab);
-        binding.addOneTxt.startAnimation(animToBottomFab);
-        binding.addManyTxt.startAnimation(animToBottomFab);
+        b.addButton.startAnimation(animRotateAntiClockWise);
+        b.addOne.startAnimation(animToBottomFab);
+        b.addMany.startAnimation(animToBottomFab);
+        b.addOneTxt.startAnimation(animToBottomFab);
+        b.addManyTxt.startAnimation(animToBottomFab);
         isSubMenuOpen = false;
     }
 
     private void openMenu() {
-        binding.addButton.startAnimation(animRotateClockWise);
-        binding.addOne.startAnimation(animFromBottomFab);
-        binding.addMany.startAnimation(animFromBottomFab);
-        binding.addOneTxt.startAnimation(animFromBottomFab);
-        binding.addManyTxt.startAnimation(animFromBottomFab);
+        b.addButton.startAnimation(animRotateClockWise);
+        b.addOne.startAnimation(animFromBottomFab);
+        b.addMany.startAnimation(animFromBottomFab);
+        b.addOneTxt.startAnimation(animFromBottomFab);
+        b.addManyTxt.startAnimation(animFromBottomFab);
         isSubMenuOpen = true;
     }
 

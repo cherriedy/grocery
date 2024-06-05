@@ -65,7 +65,7 @@
         android:layout_width="214dp"
         android:layout_height="92dp"
         android:layout_marginTop="24dp"
-        android:text="Chào mừng đến với 7-Elenven, app quản lý cửa hàng tiện lợi và dễ dàng.Hãy bắt đầu ngay để tối ưu hóa cửa hàng của bạn!"
+        android:text="Chào mừng đến với 7-Eleven, app quản lý cửa hàng tiện lợi và dễ dàng.Hãy bắt đầu ngay để tối ưu hóa cửa hàng của bạn!"
         android:textAlignment="center"
 
         app:layout_constraintEnd_toEndOf="parent"

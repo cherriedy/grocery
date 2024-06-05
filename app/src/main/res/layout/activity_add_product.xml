@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.product.ProductAddActivity">
+    android:theme="@style/Base.Theme.DoAnMonHoc"
+    tools:context=".activity.ProductManagement.AddProductActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

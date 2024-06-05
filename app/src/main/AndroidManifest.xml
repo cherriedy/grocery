@@ -31,7 +31,7 @@
             android:exported="false"
             />
         <activity
-            android:name=".activity.product.ProductAddActivity"
+            android:name=".activity.ProductManagement.AddProductActivity"
             android:exported="false"
             />
         <!--        <activity-->
@@ -39,7 +39,7 @@
         <!--            android:exported="false"-->
         <!--            />-->
         <activity
-            android:name=".activity.product.ProductManageActivity"
+            android:name=".activity.ProductManagement.ProductManagementActivity"
             android:exported="true"
             />
 

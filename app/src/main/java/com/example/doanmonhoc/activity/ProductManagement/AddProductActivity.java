@@ -1,9 +1,8 @@
-package com.example.doanmonhoc.activity.product;
+package com.example.doanmonhoc.activity.ProductManagement;
 
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
@@ -25,7 +24,7 @@ import com.example.doanmonhoc.presenter.ProductAddPresenter;
 
 import java.util.List;
 
-public class ProductAddActivity extends AppCompatActivity implements ProductAddContract.View {
+public class AddProductActivity extends AppCompatActivity implements ProductAddContract.View {
 
     private int brandClickItemId = -1;
     private int productGroupClickItemId = -1;
@@ -33,7 +32,7 @@ public class ProductAddActivity extends AppCompatActivity implements ProductAddC
     private List<Brand> brandList;
     private List<ProductGroup> productGroupList;
 
-    ProductAddPresenter productAddPresenter = new ProductAddPresenter(ProductAddActivity.this);
+    ProductAddPresenter productAddPresenter = new ProductAddPresenter(AddProductActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,25 +74,25 @@ public class ProductAddActivity extends AppCompatActivity implements ProductAddC
     @Override
     public void getBrandAutoCompleteDataSuccessfully(List<Brand> brandList) {
         if (brandList != null) {
-            BrandAutoCompleteAdapter adapter = new BrandAutoCompleteAdapter(ProductAddActivity.this, R.layout.dropdown_item, brandList);
+            BrandAutoCompleteAdapter adapter = new BrandAutoCompleteAdapter(AddProductActivity.this, R.layout.dropdown_item, brandList);
             b.autoCompleteBrand.setAdapter(adapter);
         } else {
-            Toast.makeText(ProductAddActivity.this, "Không có dữ liệu nhãn hàng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddProductActivity.this, "Không có dữ liệu nhãn hàng", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void getBrandAutoCompleteDataFail() {
-        Toast.makeText(ProductAddActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AddProductActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void getProductGroupAutoCompleteDataSuccessfully(List<ProductGroup> productGroupList) {
         if (productGroupList != null) {
-            TypeAutoCompleteAdapter adapter = new TypeAutoCompleteAdapter(ProductAddActivity.this, R.layout.dropdown_item, productGroupList);
+            TypeAutoCompleteAdapter adapter = new TypeAutoCompleteAdapter(AddProductActivity.this, R.layout.dropdown_item, productGroupList);
             b.autoCompleteType.setAdapter(adapter);
         } else {
-            Toast.makeText(ProductAddActivity.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddProductActivity.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -121,7 +120,7 @@ public class ProductAddActivity extends AppCompatActivity implements ProductAddC
 
     @Override
     public void getProductGroupAutoCompleteDataFail() {
-        Toast.makeText(ProductAddActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AddProductActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
     }
 
     @Override
