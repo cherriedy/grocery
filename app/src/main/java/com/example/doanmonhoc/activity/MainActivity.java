@@ -10,7 +10,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.activity.ProductManagement.AddProductActivity;
+import com.example.doanmonhoc.activity.AccountManagement.AccountDetailActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
         Button btnProduct = findViewById(R.id.btnProduct);
         btnProduct.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ProductManagementActivity.class);
+            startActivity(intent);
+        });
+
+        Button btnAccountDetail = findViewById(R.id.btnAccountDetail);
+        btnAccountDetail.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AccountDetailActivity.class);
             startActivity(intent);
         });
 

@@ -11,18 +11,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
-import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.model.Product;
 
 import java.util.List;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductListViewHolder> {
 
+    public interface OnItemClickListener {
+        void onItemClick(Product product);
+    }
+
     private final Context context;
     private List<Product> productList;              // Lưu data để binding
+    private final OnItemClickListener onItemClickListener;
 
-    public ProductRecyclerViewAdapter(Context context) {
+    public ProductRecyclerViewAdapter(Context context, OnItemClickListener onItemClickListener) {
         this.context = context;
+        this.onItemClickListener = onItemClickListener;
     }
 
     // Gán data cho recyclerview
@@ -38,7 +44,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         // Tạo đối tượng View từ product_card_item layout, cho các item của list
         View view = LayoutInflater.from(context).inflate(R.layout.product_card_item, parent, false);
         // Trả về viewholder
-        return new ProductListViewHolder(view);
+        return new ProductListViewHolder(view, onItemClickListener);
     }
 
     @SuppressLint("SetTextI18n")
@@ -53,6 +59,12 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         // Gán dữ liệu các view trong layout
         holder.productName.setText(product.getProductName());
         holder.productPrice.setText(String.valueOf(product.getOutPrice()));
+
+        holder.itemView.setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(product);
+            }
+        });
     }
 
     @Override
@@ -65,16 +77,16 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     }
 
     public static class ProductListViewHolder extends ViewHolder {
-//        private final ImageView productAvatar;
+        //        private final ImageView productAvatar;
         private final TextView productName;
         private final TextView productPrice;
 
-        public ProductListViewHolder(@NonNull View itemView) {
+        public ProductListViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
-
 //            productAvatar = itemView.findViewById(R.id.product_avatar);
             productName = itemView.findViewById(R.id.product_name);
             productPrice = itemView.findViewById(R.id.product_price);
+
         }
     }
 }

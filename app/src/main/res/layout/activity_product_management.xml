@@ -12,37 +12,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingHorizontal="32dp"
-        android:paddingVertical="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/button_turn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <ImageButton
-            android:id="@+id/btnBack"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:background="@color/white"
+            android:id="@+id/button_back"
+            android:layout_width="@dimen/toolbar_icon"
+            android:layout_height="@dimen/toolbar_icon"
+            android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_back" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="48dp"
-            android:layout_toEndOf="@id/button_turn_back"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="@dimen/toolbar_marginStart"
+            android:layout_toEndOf="@id/button_back"
             android:text="Quản lý"
-            android:textSize="20dp"
+            android:textSize="@dimen/toolbar_text"
             android:textStyle="bold" />
 
         <ImageButton
-            android:id="@+id/search_btn"
+            android:id="@+id/button_search"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"

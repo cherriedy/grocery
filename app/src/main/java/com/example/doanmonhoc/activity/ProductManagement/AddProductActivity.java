@@ -1,5 +1,6 @@
 package com.example.doanmonhoc.activity.ProductManagement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,7 +32,6 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
     private ActivityAddProductBinding b;
     private List<Brand> brandList;
     private List<ProductGroup> productGroupList;
-
     ProductAddPresenter productAddPresenter = new ProductAddPresenter(AddProductActivity.this);
 
     @Override
@@ -48,15 +48,21 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
             return insets;
         });
 
-        productAddPresenter.getCurrentLatestProductKey();
-
         onFocusProductName();
         onTextChangeProductName();
 
         onFocusOutPrice();
         onTextChangeOutPrice();
 
-        b.buttonCreate.setOnClickListener(v -> getNewProductInformation());
+        Intent intent = getIntent();
+        String intentMode = intent.getStringExtra("MODE");
+        if (intentMode.equals(ProductManagementActivity.EXTRA_MODE_CREATE)) {
+            productAddPresenter.getCurrentLatestProductKey();
+            b.buttonCreate.setOnClickListener(v -> getNewProductInformation());
+        } else if (intentMode.equals(ProductManagementActivity.EXTRA_MODE_UPDATE)) {
+            b.textActionBarHeader.setText("Cập nhật dữ liệu");
+            productAddPresenter.getExtraProduct(intent);
+        }
     }
 
     @Override
@@ -180,6 +186,39 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
     @Override
     public void notifyCreateProductFail() {
         Toast.makeText(this, "Tạo sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void getExtraProductSuccessfully(Product receivedExtraProduct) {
+        b.textProductName.setText(receivedExtraProduct.getProductName());
+        b.textProductOutPrice.setText(String.valueOf(receivedExtraProduct.getOutPrice()));
+        b.textProductDescription.setText(receivedExtraProduct.getDescription());
+
+        Float inPrice = receivedExtraProduct.getInPrice();
+        if (inPrice > 0.0f) {
+            b.textProductInPrice.setText(String.valueOf(inPrice));
+        }
+
+        Float discount = receivedExtraProduct.getDiscount();
+        if (discount > 0.0f) {
+            b.textProductDiscount.setText(String.valueOf(discount));
+        }
+
+        String barcode = receivedExtraProduct.getProductBarcode();
+        if (!barcode.isEmpty()) {
+            b.textProductBarcode.setText(barcode);
+        }
+
+        String note = receivedExtraProduct.getNote();
+        if (!note.isEmpty()) {
+            b.textProductNote.setText(note);
+        }
+
+    }
+
+    @Override
+    public void getExtraProductFail() {
+
     }
 
     private float parseFloatOrDefault(String text) {

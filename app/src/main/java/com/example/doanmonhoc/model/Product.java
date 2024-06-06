@@ -5,11 +5,13 @@ import android.util.Log;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Product {
+public class Product implements Serializable {
 
     public static String PREFIX = "PDR";
 //    private static Product latestRow = new Product();

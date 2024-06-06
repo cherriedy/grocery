@@ -92,14 +92,14 @@
                 android:textSize="16dp"
                 android:textStyle="bold"
                 android:text="Ngày sinh" />
-
             <EditText
                 android:id="@+id/txtDob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:textSize="16dp"
-                android:text="30/1/2004" />
+                android:text="2004 - 01 -30"
+                android:focusable="false"/>
         </TableRow>
         <TableRow>
 
@@ -115,20 +115,27 @@
                 android:text="Giới tính"
                 android:textStyle="bold"/>
 
-<!--            <Spinner-->
-<!--                android:id="@+id/spinnerGender"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="10dp"-->
-<!--                android:textSize="16dp" />-->
 
-            <EditText
-                android:id="@+id/txtGender"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:textSize="16dp"
-                android:text="Nữ" />
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupGender"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radioButtonMale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nam" />
+
+                        <RadioButton
+                            android:id="@+id/radioButtonFemale"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Nữ" />
+                    </RadioGroup>
+
 
 
         </TableRow>
