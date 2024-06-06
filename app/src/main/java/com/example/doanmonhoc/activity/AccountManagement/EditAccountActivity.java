@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.Staff;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -39,6 +40,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private Staff staff;
     private Gson gson;
     private RadioButton radioButtonMale, radioButtonFemale;
+    private ShapeableImageView staffImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,9 @@ public class EditAccountActivity extends AppCompatActivity {
         txtAddress = findViewById(R.id.txtAddress);
         txtEmail = findViewById(R.id.txtEmail);
         txtPhone = findViewById(R.id.txtPhone);
+        staffImage = findViewById(R.id.staffImage);
 
+        // setText
         txtName.setText(staff.getStaffName());
         txtDob.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(staff.getStaffDob()));
         if (staff.getStaffGender() == 1) {
@@ -69,6 +73,12 @@ public class EditAccountActivity extends AppCompatActivity {
         txtAddress.setText(staff.getAddress());
         txtEmail.setText(staff.getStaffEmail());
         txtPhone.setText(staff.getStaffPhone());
+        if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
+            int resID = getResources().getIdentifier(staff.getStaffImage(), "drawable", getPackageName());
+            staffImage.setImageResource(resID);
+            staffImage.setTag(staff.getStaffImage()); // Lưu tên tài nguyên vào tag
+        }
+
 
         txtDob.setOnClickListener(v -> {
             // Lấy ngày hiện tại để làm mặc định cho DatePicker
@@ -117,7 +127,6 @@ public class EditAccountActivity extends AppCompatActivity {
         String newAddress = txtAddress.getText().toString();
         String newEmail = txtEmail.getText().toString();
         String newPhone = txtPhone.getText().toString();
-
         RadioGroup radioGroupGender = findViewById(R.id.radioGroupGender);
         int selectedRadioButtonId = radioGroupGender.getCheckedRadioButtonId();
 
@@ -133,8 +142,12 @@ public class EditAccountActivity extends AppCompatActivity {
             return;
         }
 
-        staff.setStaffName(newName);
 
+        staff.setStaffName(newName);
+        staff.setStaffGender((byte) newGender);
+        staff.setStaffEmail(newEmail);
+        staff.setAddress(newAddress);
+        staff.setStaffPhone(newPhone);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
             Date date = sdf.parse(newDob);
@@ -144,11 +157,9 @@ public class EditAccountActivity extends AppCompatActivity {
             Toast.makeText(this, "Định dạng ngày sinh không hợp lệ. Vui lòng nhập lại.", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        staff.setStaffGender((byte) newGender);
-        staff.setStaffEmail(newEmail);
-        staff.setAddress(newAddress);
-        staff.setStaffPhone(newPhone);
+        if (staffImage.getTag() != null) {
+            staff.setStaffImage(staffImage.getTag().toString());
+        }
 
         KiotApiService.apiService.updateStaff(staff.getId(), staff).enqueue(new Callback<Staff>() {
             @Override

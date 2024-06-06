@@ -11,12 +11,14 @@ public class Staff {
     private String staffPhone;
     private String staffEmail;
     private String address;
+    private String staffImage;
+
 
     // Constructors
     public Staff() {
     }
 
-    public Staff(long id, String staffKey, String staffName, Date staffDob, Byte staffGender, String staffPhone, String staffEmail, String address) { // Change staffDob type to Date
+    public Staff(long id, String staffKey, String staffName, Date staffDob, Byte staffGender, String staffPhone, String staffEmail, String address, String staffImage) {
         this.id = id;
         this.staffKey = staffKey;
         this.staffName = staffName;
@@ -25,6 +27,7 @@ public class Staff {
         this.staffPhone = staffPhone;
         this.staffEmail = staffEmail;
         this.address = address;
+        this.staffImage = staffImage;
     }
 
     // Getters and Setters
@@ -90,5 +93,13 @@ public class Staff {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getStaffImage() {
+        return staffImage;
+    }
+
+    public void setStaffImage(String staffImage) {
+        this.staffImage = staffImage;
     }
 }

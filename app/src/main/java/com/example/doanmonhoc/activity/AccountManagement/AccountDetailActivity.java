@@ -14,9 +14,11 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.Staff;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +31,7 @@ import java.util.Locale;
 public class AccountDetailActivity extends AppCompatActivity {
     private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone;
     private Gson gson;
+    private ShapeableImageView staffImage;
 
     // Khởi tạo ActivityResultLauncher
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
@@ -54,6 +57,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         txtAddress = findViewById(R.id.txtAddress);
         txtEmail = findViewById(R.id.txtEmail);
         txtPhone = findViewById(R.id.txtPhone);
+        staffImage = findViewById(R.id.staffImage);
 
         gson = new Gson();
 
@@ -87,6 +91,12 @@ public class AccountDetailActivity extends AppCompatActivity {
                     txtAddress.setText(staff.getAddress());
                     txtEmail.setText(staff.getStaffEmail());
                     txtPhone.setText(staff.getStaffPhone());
+
+                    if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
+                        int resID = getResources().getIdentifier(staff.getStaffImage(), "drawable", getPackageName());
+                        staffImage.setImageResource(resID);
+                        staffImage.setTag(staff.getStaffImage()); // Store the resource name in the tag
+                    }
                 } else {
                     Toast.makeText(AccountDetailActivity.this, "Failed to get staff info", Toast.LENGTH_SHORT).show();
                 }
@@ -109,6 +119,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         staff.setStaffPhone(txtPhone.getText().toString());
         staff.setAddress(txtAddress.getText().toString());
 
+        // set Dob
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
             staff.setStaffDob(dateFormat.parse(txtDob.getText().toString()));
@@ -118,8 +129,14 @@ public class AccountDetailActivity extends AppCompatActivity {
             return;
         }
 
+        // set gender
         Byte gender = txtGender.getText().toString().equalsIgnoreCase("Nam") ? (byte) 1 : (byte) 0;
         staff.setStaffGender(gender);
+
+        //set image
+        if (staffImage.getTag() != null) {
+            staff.setStaffImage(staffImage.getTag().toString());
+        }
 
         String staffJson = gson.toJson(staff);
 
