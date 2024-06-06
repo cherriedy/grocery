@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="toolbar_icon">60dp</dimen>
+    <dimen name="toolbar_text">20dp</dimen>
+    <dimen name="toolbar_marginStart">8dp</dimen>
+</resources>

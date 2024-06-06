@@ -8,7 +8,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,26 +21,46 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.adapter.ProductRecyclerViewAdapter;
+import com.example.doanmonhoc.contract.ProductManageContract;
 import com.example.doanmonhoc.databinding.ActivityProductManagementBinding;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.presenter.ProductManagePresenter;
-import com.example.doanmonhoc.contract.ProductManageContract;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductManagementActivity extends AppCompatActivity implements ProductManageContract {
 
-    ActivityProductManagementBinding b;
-
+    public static final String EXTRA_PRODUCT = "EXTRA_PRODUCT";
+    public static final String EXTRA_MODE_CREATE = "EXTRA_NODE_CREATE";
+    public static final String EXTRA_MODE_UPDATE = "EXTRA_MODE_UPDATE";
+    private ActivityProductManagementBinding b;
     private boolean isSubMenuOpen;
-
     private Animation animFromBottomFab;
     private Animation animToBottomFab;
     private Animation animRotateClockWise;
     private Animation animRotateAntiClockWise;
+    private ProductManagePresenter productManagePresenter;
 
-    ProductManagePresenter productManagePresenter = new ProductManagePresenter(ProductManagementActivity.this);
+    ProductRecyclerViewAdapter.OnItemClickListener onItemClickListener = new ProductRecyclerViewAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(Product product) {
+            Intent intent = new Intent(ProductManagementActivity.this, AddProductActivity.class);
+            intent.putExtra("MODE", EXTRA_MODE_UPDATE);
+            intent.putExtra(EXTRA_PRODUCT, product);
+            startActivity(intent);
+        }
+    };
+
+//    ActivityResultLauncher<Intent> startProductDetailActivityIntent = registerForActivityResult(
+//            new ActivityResultContracts.StartActivityForResult(),
+//            new ActivityResultCallback<ActivityResult>() {
+//                @Override
+//                public void onActivityResult(ActivityResult o) {
+//                    if (o.getResultCode() == RESULT_OK) {
+//
+//                    }
+//                }
+//            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +76,12 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
             return insets;
         });
 
+        productManagePresenter = new ProductManagePresenter(ProductManagementActivity.this);
+
         // Tạo LinearLayoutManager để quản lý các item
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ProductManagementActivity.this, RecyclerView.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(
+                ProductManagementActivity.this, RecyclerView.VERTICAL, false);
+
         // Thiết lập LayoutManager
         b.productList.setLayoutManager(linearLayoutManager);
 
@@ -72,16 +99,17 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
 
         b.addOne.setOnClickListener(v -> {
             Intent intent = new Intent(ProductManagementActivity.this, AddProductActivity.class);
+            intent.putExtra("MODE", EXTRA_MODE_CREATE);
             startActivity(intent);
         });
 
-        b.buttonTurnBack.setOnClickListener(v -> {
+        b.buttonBack.setOnClickListener(v -> {
         });
     }
 
     @Override
     public void getProductListSuccessfully(List<Product> productList) {
-        ProductRecyclerViewAdapter productRecyclerViewAdapter = new ProductRecyclerViewAdapter(ProductManagementActivity.this);
+        ProductRecyclerViewAdapter productRecyclerViewAdapter = new ProductRecyclerViewAdapter(ProductManagementActivity.this, onItemClickListener);
         productRecyclerViewAdapter.setData(productList);
         b.productList.setAdapter(productRecyclerViewAdapter);
     }
@@ -116,19 +144,4 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
         b.addManyTxt.startAnimation(animFromBottomFab);
         isSubMenuOpen = true;
     }
-
-
-//    private List<Product1> getListData() {
-//        List<Product1> list = new ArrayList<>();
-//
-//        list.add(new Product1("maggi", 100.3f, R.drawable.maggi));
-//        list.add(new Product1("burger", 100.3f, R.drawable.burge));
-//        list.add(new Product1("cake", 100.3f, R.drawable.cake));
-//        list.add(new Product1("fries", 100.3f, R.drawable.fries));
-//        list.add(new Product1("pancake", 100.3f, R.drawable.pancake));
-//        list.add(new Product1("pasta", 100.3f, R.drawable.pasta));
-//        list.add(new Product1("pizza", 100.3f, R.drawable.pizza));
-//
-//        return list;
-//    }
 }

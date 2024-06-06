@@ -1,7 +1,12 @@
 package com.example.doanmonhoc.presenter;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
+import com.example.doanmonhoc.activity.ProductManagement.AddProductActivity;
+import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.contract.ProductAddContract;
 import com.example.doanmonhoc.databinding.ActivityAddProductBinding;
@@ -21,12 +26,12 @@ public class ProductAddPresenter implements ProductAddContract.Presenter {
     private List<Brand> brandList;
     private List<ProductGroup> productGroupList;
     private ActivityAddProductBinding b;
-    private final ProductAddContract.View productAddView;
+    private final ProductAddContract.View productAddViewContract;
     private String currentLatestProductKey;
     public static String CREATE_TAG = "CREATE_PRODUCT";
 
-    public ProductAddPresenter(ProductAddContract.View productAddView) {
-        this.productAddView = productAddView;
+    public ProductAddPresenter(ProductAddContract.View productAddViewContract) {
+        this.productAddViewContract = productAddViewContract;
         brandList = new ArrayList<>();
         productGroupList = new ArrayList<>();
     }
@@ -37,13 +42,13 @@ public class ProductAddPresenter implements ProductAddContract.Presenter {
             public void onResponse(Call<List<Brand>> call, Response<List<Brand>> response) {
                 if (response.isSuccessful()) {
                     brandList = response.body();
-                    productAddView.getBrandAutoCompleteDataSuccessfully(brandList);
+                    productAddViewContract.getBrandAutoCompleteDataSuccessfully(brandList);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Brand>> call, Throwable throwable) {
-                productAddView.getBrandAutoCompleteDataFail();
+                productAddViewContract.getBrandAutoCompleteDataFail();
             }
         });
     }
@@ -54,13 +59,13 @@ public class ProductAddPresenter implements ProductAddContract.Presenter {
             public void onResponse(Call<List<ProductGroup>> call, Response<List<ProductGroup>> response) {
                 if (response.isSuccessful()) {
                     productGroupList = response.body();
-                    productAddView.getProductGroupAutoCompleteDataSuccessfully(productGroupList);
+                    productAddViewContract.getProductGroupAutoCompleteDataSuccessfully(productGroupList);
                 }
             }
 
             @Override
             public void onFailure(Call<List<ProductGroup>> call, Throwable throwable) {
-                productAddView.getProductGroupAutoCompleteDataFail();
+                productAddViewContract.getProductGroupAutoCompleteDataFail();
             }
         });
     }
@@ -71,17 +76,29 @@ public class ProductAddPresenter implements ProductAddContract.Presenter {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 if (response.isSuccessful()) {
-                    productAddView.notifyCreateProductSuccessfully();
+                    productAddViewContract.notifyCreateProductSuccessfully();
                 }
             }
 
             @Override
             public void onFailure(Call<Product> call, Throwable throwable) {
                 Log.e(CREATE_TAG, throwable.getMessage());
-                productAddView.notifyCreateProductFail();
+                productAddViewContract.notifyCreateProductFail();
             }
         });
     }
+
+    @Override
+    public void getExtraProduct(Intent intent) {
+        if (intent != null) {
+            Product receivedExtraProduct = (Product) intent.getSerializableExtra(ProductManagementActivity.EXTRA_PRODUCT);
+            if (receivedExtraProduct != null) {
+                productAddViewContract.getExtraProductSuccessfully(receivedExtraProduct);
+            }
+        }
+        productAddViewContract.getExtraProductFail();
+    }
+
 
     public String generateLatestProductKey() {
 //        getCurrentLatestProductKey();

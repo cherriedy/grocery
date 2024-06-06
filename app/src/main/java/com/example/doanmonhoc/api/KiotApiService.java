@@ -1,10 +1,9 @@
 package com.example.doanmonhoc.api;
 
-import android.database.Observable;
-
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
+import com.example.doanmonhoc.model.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -21,6 +20,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface KiotApiService {
@@ -75,4 +75,7 @@ public interface KiotApiService {
     // ProductGroup API
     @GET("/type")
     Call<List<ProductGroup>> getProductGroupList();
+
+    @PUT("staff/{id}")
+    Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
 }

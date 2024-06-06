@@ -17,12 +17,14 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.RetrofitClient;
 import com.example.doanmonhoc.api.ApiService;
+import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -58,8 +60,10 @@ public class EditAccountActivity extends AppCompatActivity {
         txtPhone = findViewById(R.id.txtPhone);
 
         txtName.setText(staff.getStaffName());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        txtDob.setText(sdf.format(staff.getStaffDob()));
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        txtDob.setText(sdf.format(staff.getStaffDob()));
+//        LocalDate staffDob =
+
         txtGender.setText(staff.getStaffGender() == 1 ? "Nam" : "Nữ");
         txtAddress.setText(staff.getAddress());
         txtEmail.setText(staff.getStaffEmail());
@@ -100,10 +104,10 @@ public class EditAccountActivity extends AppCompatActivity {
         staff.setAddress(newAddress);
         staff.setStaffPhone(newPhone);
 
-        ApiService apiService = RetrofitClient.getApiService(this);
-        Call<Staff> call = apiService.updateStaff(staff.getId(), staff);
+//        ApiService apiService = RetrofitClient.getApiService(this);
+//        Call<Staff> call = apiService.updateStaff(staff.getId(), staff);
 
-        call.enqueue(new Callback<Staff>() {
+        KiotApiService.apiService.updateStaff(staff.getId(), staff).enqueue(new Callback<Staff>() {
             @Override
             public void onResponse(Call<Staff> call, Response<Staff> response) {
                 if (response.isSuccessful()) {
