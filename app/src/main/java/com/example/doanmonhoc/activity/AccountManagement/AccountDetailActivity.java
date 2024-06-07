@@ -1,5 +1,6 @@
 package com.example.doanmonhoc.activity.AccountManagement;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,87 +10,64 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.RetrofitClient;
-import com.example.doanmonhoc.api.ApiService;
-import com.example.doanmonhoc.model.Account;
+import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.Staff;
+import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Locale;
 
 public class AccountDetailActivity extends AppCompatActivity {
-
+    private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone;
     private Gson gson;
+    private ShapeableImageView staffImage;
 
+    // Khởi tạo ActivityResultLauncher
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                loadAccountDetail();
+            }
+        });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_account_detail);
 
-        gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
-        TextView maNV = findViewById(R.id.maNV);
-        TextView txtName = findViewById(R.id.txtName);
-        TextView txtDob = findViewById(R.id.txtDob);
-        TextView txtGender = findViewById(R.id.txtGender);
-        TextView txtAddress = findViewById(R.id.txtAddress);
-        TextView txtEmail = findViewById(R.id.txtEmail);
-        TextView txtPhone = findViewById(R.id.txtPhone);
+        maNV = findViewById(R.id.maNV);
+        txtName = findViewById(R.id.txtName);
+        txtDob = findViewById(R.id.txtDob);
+        txtGender = findViewById(R.id.txtGender);
+        txtAddress = findViewById(R.id.txtAddress);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtPhone = findViewById(R.id.txtPhone);
+        staffImage = findViewById(R.id.staffImage);
+
+        gson = new Gson();
 
         Button btnEdit = findViewById(R.id.btnEdit);
-        btnEdit.setOnClickListener(v -> {
-            Staff staff = new Staff();
-            staff.setStaffKey(maNV.getText().toString());
-            staff.setStaffName(txtName.getText().toString());
-            staff.setStaffEmail(txtEmail.getText().toString());
-            staff.setStaffPhone(txtPhone.getText().toString());
-            staff.setAddress(txtAddress.getText().toString());
+        btnEdit.setOnClickListener(v -> btnEditOnClick());
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            try {
-                Date date = sdf.parse(txtDob.getText().toString());
-                staff.setStaffDob(date);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            Byte gender = txtGender.getText().toString().equals("Nam") ? (byte) 1 : (byte) 0;
-            staff.setStaffGender(gender);
-
-            String staffJson = gson.toJson(staff);
-
-            Intent intent = new Intent(AccountDetailActivity.this, EditAccountActivity.class);
-            intent.putExtra("staff", staffJson);
-            startActivity(intent);
-        });
-
-        loadAccountDetail(maNV, txtName, txtDob, txtEmail, txtPhone, txtAddress, txtGender);
+        loadAccountDetail();
     }
 
-    private void loadAccountDetail(TextView maNV, TextView txtName, TextView txtDob, TextView txtEmail, TextView txtPhone, TextView txtAddress, TextView txtGender) {
+    private void loadAccountDetail() {
         SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
         long staffId = sharedPreferences.getLong("id", -1);
 
@@ -98,9 +76,7 @@ public class AccountDetailActivity extends AppCompatActivity {
             return;
         }
 
-        ApiService apiService = RetrofitClient.getApiService(this);
-        Call<Staff> call = apiService.getStaffById(staffId);
-        call.enqueue(new Callback<Staff>() {
+        KiotApiService.apiService.getStaffById(staffId).enqueue(new Callback<Staff>() {
             @Override
             public void onResponse(Call<Staff> call, Response<Staff> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -108,14 +84,19 @@ public class AccountDetailActivity extends AppCompatActivity {
                     maNV.setText(staff.getStaffKey());
                     txtName.setText(staff.getStaffName());
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                    String formattedDate = sdf.format(staff.getStaffDob());
-                    txtDob.setText(formattedDate);
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    txtDob.setText(dateFormat.format(staff.getStaffDob()));
 
                     txtGender.setText(staff.getStaffGender() == 1 ? "Nam" : "Nữ");
                     txtAddress.setText(staff.getAddress());
                     txtEmail.setText(staff.getStaffEmail());
                     txtPhone.setText(staff.getStaffPhone());
+
+                    if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
+                        int resID = getResources().getIdentifier(staff.getStaffImage(), "drawable", getPackageName());
+                        staffImage.setImageResource(resID);
+                        staffImage.setTag(staff.getStaffImage()); // Store the resource name in the tag
+                    }
                 } else {
                     Toast.makeText(AccountDetailActivity.this, "Failed to get staff info", Toast.LENGTH_SHORT).show();
                 }
@@ -126,5 +107,41 @@ public class AccountDetailActivity extends AppCompatActivity {
                 Toast.makeText(AccountDetailActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void btnEditOnClick() {
+        Staff staff = new Staff();
+        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        staff.setId(sharedPreferences.getLong("id", -1));
+        staff.setStaffKey(maNV.getText().toString());
+        staff.setStaffName(txtName.getText().toString());
+        staff.setStaffEmail(txtEmail.getText().toString());
+        staff.setStaffPhone(txtPhone.getText().toString());
+        staff.setAddress(txtAddress.getText().toString());
+
+        // set Dob
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+            staff.setStaffDob(dateFormat.parse(txtDob.getText().toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Định dạng ngày tháng không hợp lệ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // set gender
+        Byte gender = txtGender.getText().toString().equalsIgnoreCase("Nam") ? (byte) 1 : (byte) 0;
+        staff.setStaffGender(gender);
+
+        //set image
+        if (staffImage.getTag() != null) {
+            staff.setStaffImage(staffImage.getTag().toString());
+        }
+
+        String staffJson = gson.toJson(staff);
+
+        Intent intent = new Intent(AccountDetailActivity.this, EditAccountActivity.class);
+        intent.putExtra("staff", staffJson);
+        activityResultLauncher.launch(intent);
     }
 }

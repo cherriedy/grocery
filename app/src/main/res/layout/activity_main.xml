@@ -70,3 +70,28 @@
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </RelativeLayout>
+
+<!--    <Button-->
+<!--        android:id="@+id/btnAccountDetail"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="264dp"-->
+<!--        android:layout_marginTop="108dp"-->
+<!--        android:text="Tài khoản"-->
+<!--        android:backgroundTint="@color/bold_sky"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--    <Button-->
+<!--        android:id="@+id/btnLogout"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="264dp"-->
+<!--        android:layout_marginTop="204dp"-->
+<!--        android:backgroundTint="@color/primaryColor"-->
+<!--        android:text="Đăng xuất"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+

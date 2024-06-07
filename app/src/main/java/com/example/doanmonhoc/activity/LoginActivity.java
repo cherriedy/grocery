@@ -10,10 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.RetrofitClient;
-import com.example.doanmonhoc.activity.MainActivity;
-import com.example.doanmonhoc.activity.MainActivityForStaff;
-import com.example.doanmonhoc.api.ApiService;
+import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.Account;
 import com.example.doanmonhoc.model.LoginResponse;
 
@@ -45,11 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String username, String password) {
-        ApiService apiService = RetrofitClient.getApiService(this);
         Account account = new Account(username, password);
-        Call<LoginResponse> call = apiService.loginUser(account);
-
-        call.enqueue(new Callback<LoginResponse>() {
+        KiotApiService.apiService.loginUser(account).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() ) {
@@ -67,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putLong("Roleid", Roleid);
                         editor.apply();
 
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thành công! " + message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
                         Intent intent;
                         if (Roleid == 1) {
                             intent = new Intent(LoginActivity.this, MainActivity.class);

@@ -1,6 +1,8 @@
 package com.example.doanmonhoc.api;
 
+import com.example.doanmonhoc.model.Account;
 import com.example.doanmonhoc.model.Brand;
+import com.example.doanmonhoc.model.LoginResponse;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
 import com.example.doanmonhoc.model.Staff;
@@ -39,7 +41,7 @@ public interface KiotApiService {
 
     // Create Gson instance with GsonBuilder()
     Gson gson = new GsonBuilder()
-            .setDateFormat("dd/mm/YYYY HH:mm:ss")   // Set the datetime format
+            .setDateFormat("yyyy-MM-dd")   // Set the datetime format
             .create();
 
     KiotApiService apiService = new Retrofit.Builder()
@@ -76,6 +78,14 @@ public interface KiotApiService {
     @GET("/type")
     Call<List<ProductGroup>> getProductGroupList();
 
+    @POST("login")
+    Call<LoginResponse> loginUser(@Body Account account);
+
+    @GET("staff/{id}")
+    Call<Staff> getStaffById(@Path("id") long id);
+
     @PUT("staff/{id}")
     Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
 }
+
+

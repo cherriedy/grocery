@@ -13,6 +13,8 @@ materialVersion = "1.13.0-alpha02"
 loggingInterceptor = "5.0.0-alpha.14"
 rxandroid = "3.0.2"
 rxjava = "3.1.8"
+glide = "5.0.0-rc01"
+compiler = "5.0.0-rc01"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -28,6 +30,8 @@ google-material = { group = "com.google.android.material", name = "material", ve
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "loggingInterceptor" }
 rxandroid = { group = "io.reactivex.rxjava3", name = "rxandroid", version.ref = "rxandroid" }
 rxjava = { group = "io.reactivex.rxjava3", name = "rxjava", version.ref = "rxjava" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "compiler" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

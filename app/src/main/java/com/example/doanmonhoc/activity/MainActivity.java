@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.AccountManagement.AccountDetailActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 import com.example.doanmonhoc.adapter.ViewPagerAdapter;
 import com.example.doanmonhoc.databinding.ActivityMainBinding;
@@ -146,6 +147,15 @@ public class MainActivity extends AppCompatActivity {
                 .getMenu()                          // Trả về instance của menu gán với navigationBar.
                 .findItem(correspondingItemId)      // Trả về item theo id trong correspondingItemId.
                 .setChecked(true);                  // Gắn cờ cho item là đang được chọn.
+
+//        Button btnAccountDetail = findViewById(R.id.btnAccountDetail);
+//        btnAccountDetail.setOnClickListener(v -> {
+//            Intent intent = new Intent(MainActivity.this, AccountDetailActivity.class);
+//            startActivity(intent);
+//        });
+//
+//        Button btnLogout = findViewById(R.id.btnLogout);
+//        btnLogout.setOnClickListener(v -> logout());
     }
 
     private void logout() {
