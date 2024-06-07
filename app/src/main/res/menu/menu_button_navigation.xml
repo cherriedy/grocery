@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_button_homepage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_home"
+        android:title="Quản lý" />
+
+    <item
+        android:id="@+id/navigation_button_sell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_note"
+        android:title="Đơn hàng" />
+
+    <item
+        android:id="@+id/navigation_button_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_product"
+        android:title="Sản phẩm" />
+
+    <item
+        android:id="@+id/navigation_button_stock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_warehouse"
+        android:title="Kho hàng" />
+
+    <item
+        android:id="@+id/navigation_icon_addition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/ic_circle_ellipsis"
+        android:title="Thêm" />
+
+</menu>

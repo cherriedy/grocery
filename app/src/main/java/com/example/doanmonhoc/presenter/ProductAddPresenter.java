@@ -1,11 +1,10 @@
 package com.example.doanmonhoc.presenter;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 
-import com.example.doanmonhoc.activity.ProductManagement.AddProductActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.contract.ProductAddContract;
@@ -98,7 +97,6 @@ public class ProductAddPresenter implements ProductAddContract.Presenter {
         }
         productAddViewContract.getExtraProductFail();
     }
-
 
     public String generateLatestProductKey() {
 //        getCurrentLatestProductKey();

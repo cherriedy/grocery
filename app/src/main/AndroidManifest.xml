@@ -43,7 +43,7 @@
             />
         <activity
             android:name=".activity.ProductManagement.ProductManagementActivity"
-            android:exported="true"
+            android:exported="false"
             />
 
         <activity

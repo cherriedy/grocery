@@ -51,13 +51,13 @@ public class BrandAutoCompleteAdapter extends ArrayAdapter<Brand> {
          * cuối cùng gán vào ResultFiler.
          **/
         return new Filter() {
+            /**
+             * constraint trả về kí tự nhập trong AutoCompleteTextView.
+             * Nếu constraint rỗng, trả về hết danh sách (đang lưu trong brandList).
+             * Nếu khác rỗng, trả về các item có kí tự trùng.
+             **/
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                /**
-                 * constraint trả về kí tự nhập trong AutoCompleteTextView.
-                 * Nếu constraint rỗng, trả về hết danh sách (đang lưu trong brandList).
-                 * Nếu khác rỗng, trả về các item có kí tự trùng.
-                 **/
 
                 List<Brand> brandSuggestionList = new ArrayList<>();
 

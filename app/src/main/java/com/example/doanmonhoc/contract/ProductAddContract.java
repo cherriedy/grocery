@@ -1,11 +1,7 @@
 package com.example.doanmonhoc.contract;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
-import com.example.doanmonhoc.activity.ProductManagement.AddProductActivity;
-import com.example.doanmonhoc.databinding.ActivityAddProductBinding;
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
@@ -43,7 +39,9 @@ public interface ProductAddContract {
         void notifyCreateProductSuccessfully();
 
         void notifyCreateProductFail();
+
         void getExtraProductSuccessfully(Product extrasProduct);
+
         void getExtraProductFail();
     }
 }

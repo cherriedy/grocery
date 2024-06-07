@@ -6,14 +6,12 @@ import java.util.List;
 
 public interface ProductManageContract {
 
-//    interface View {
-//    }
-//
-//    interface Presenter {
-//
-//    }
+    interface View {
+        void getProductListSuccessfully(List<Product> productList);
+        void getProductListFail(Throwable throwable);
+    }
 
-    void getProductListSuccessfully(List<Product> productList);
-    void getProductListFail(Throwable throwable);
-
+    interface Presenter {
+        void getProductList();
+    }
 }

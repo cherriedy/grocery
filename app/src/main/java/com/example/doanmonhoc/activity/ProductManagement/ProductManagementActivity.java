@@ -28,7 +28,7 @@ import com.example.doanmonhoc.presenter.ProductManagePresenter;
 
 import java.util.List;
 
-public class ProductManagementActivity extends AppCompatActivity implements ProductManageContract {
+public class ProductManagementActivity extends AppCompatActivity implements ProductManageContract.View {
 
     public static final String EXTRA_PRODUCT = "EXTRA_PRODUCT";
     public static final String EXTRA_MODE_CREATE = "EXTRA_NODE_CREATE";

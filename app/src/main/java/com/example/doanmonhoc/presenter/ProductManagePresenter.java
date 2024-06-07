@@ -1,17 +1,13 @@
 package com.example.doanmonhoc.presenter;
 
-import android.content.Context;
 import android.content.Intent;
 
 import androidx.activity.result.ActivityResultLauncher;
 
-import com.example.doanmonhoc.activity.ProductManagement.AddProductActivity;
-import com.example.doanmonhoc.adapter.ProductRecyclerViewAdapter;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.contract.ProductManageContract;
 import com.example.doanmonhoc.model.Product;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,13 +15,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductManagePresenter {
+public class ProductManagePresenter implements ProductManageContract.Presenter{
     private List<Product> productList;
     private ActivityResultLauncher<Intent> startDetailedProductActivityIntent;
-    private final ProductManageContract productManageContract;
+    private final ProductManageContract.View productManageViewContract;
 
-    public ProductManagePresenter(ProductManageContract productManageContract) {
-        this.productManageContract = productManageContract;
+    public ProductManagePresenter(ProductManageContract.View productManageViewContract) {
+        this.productManageViewContract = productManageViewContract;
         productList = new ArrayList<>();
     }
 
@@ -34,12 +30,12 @@ public class ProductManagePresenter {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 productList = response.body();
-                productManageContract.getProductListSuccessfully(productList);
+                productManageViewContract.getProductListSuccessfully(productList);
             }
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable throwable) {
-                productManageContract.getProductListFail(throwable);
+                productManageViewContract.getProductListFail(throwable);
             }
         });
 

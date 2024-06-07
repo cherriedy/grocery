@@ -49,7 +49,9 @@ public class TypeAutoCompleteAdapter extends ArrayAdapter<ProductGroup> {
                 FilterResults filterResults = new FilterResults();
                 List<ProductGroup> productGroupsSuggestionList = new ArrayList<>();
 
-                if (constraint != null && constraint.length() > 0) {
+                if (constraint == null || constraint.length() == 0) {
+                    productGroupsSuggestionList.addAll(productGroupList);
+                } else {
                     String filter = constraint.toString().toLowerCase().trim();
                     for (ProductGroup item : productGroupList) {
                         String productGroupName = item.getProductGroupName().toLowerCase();
@@ -57,11 +59,11 @@ public class TypeAutoCompleteAdapter extends ArrayAdapter<ProductGroup> {
                             productGroupsSuggestionList.add(item);
                         }
                     }
-                    filterResults.values = productGroupsSuggestionList;
-                    filterResults.count = productGroupsSuggestionList.size();
-                } else {
-                    addAll(productGroupsSuggestionList);
                 }
+
+                filterResults.values = productGroupsSuggestionList;
+                filterResults.count = productGroupsSuggestionList.size();
+
                 return filterResults;
             }
 
@@ -76,9 +78,9 @@ public class TypeAutoCompleteAdapter extends ArrayAdapter<ProductGroup> {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 clear();
-                if (results != null || results.count > 0) {
+//                if (results != null || results.count > 0) {
                     addAll((List<ProductGroup>) results.values);
-                }
+//                }
                 notifyDataSetInvalidated();
             }
 

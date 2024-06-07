@@ -20,14 +20,14 @@
     <string name="action_done">Hoàn tất</string>
     <string name="product_description_hint">Ví dụ: Mì hảo hảo chua cay</string>
     <string name="title_note">Ghi chú</string>
-    <string name="msg_product_name_requirement">Không được để trống tên sản phẩm</string>
+    <string name="msg_product_name_requirement">Không để trống tên sản phẩm</string>
     <string name="msg_required_field">Thông tin bắt buộc</string>
-    <string name="msg_product_out_price_requirement">Không được để trống giá bán</string>
+    <string name="msg_product_out_price_requirement">Không để trống giá bán</string>
     <string name="msg_invalid_price">Giá không hợp lệ</string>
-    <string name="msg_description_requirement">Không được để trống mô tả</string>
+    <string name="msg_description_requirement">Không để trống mô tả</string>
     <string name="choose_brand_hint">Chọn nhãn hàng</string>
     <string name="msg_product_name_limitation">Tên sản phẩm không quá 64 kí tự</string>
-    <string name="msg_fill_all_requierd_fields">Vui lòng điền đủ thông tin bắt buộc!</string>
+    <string name="msg_fill_all_requierd_fields">Vui lòng điền đủ thông tin!</string>
 
     <string-array name="mockBrands">
         <item>Kinh Đô</item>
@@ -40,4 +40,8 @@
         <item>Kẹo</item>
         <item>Đồ ăn vặt</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="msg_product_brand_requirement">Không để trống thương hiệu</string>
+    <string name="msg_product_type_requirement">Không để trống loại hàng</string>
 </resources>

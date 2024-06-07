@@ -15,12 +15,14 @@
         <item name="colorPrimary">@color/white</item>
     </style>
 
-
     <style name="roundedImageStyle" parent="ShapeAppearance.MaterialComponents.MediumComponent">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">5dp</item>
     </style>
 
+    <style name="circleImageView">
+        <item name="cornerSize">50%</item>
+    </style>
 
     <!--    Custom theme for FloatingActionButton-->
     <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">

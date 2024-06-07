@@ -54,6 +54,9 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
         onFocusOutPrice();
         onTextChangeOutPrice();
 
+        showValidationProductName();
+        showValidationProductType();
+
         Intent intent = getIntent();
         String intentMode = intent.getStringExtra("MODE");
         if (intentMode.equals(ProductManagementActivity.EXTRA_MODE_CREATE)) {
@@ -205,12 +208,12 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
         }
 
         String barcode = receivedExtraProduct.getProductBarcode();
-        if (!barcode.isEmpty()) {
+        if (barcode != null && !barcode.isEmpty()) {
             b.textProductBarcode.setText(barcode);
         }
 
         String note = receivedExtraProduct.getNote();
-        if (!note.isEmpty()) {
+        if (note != null && !note.isEmpty()) {
             b.textProductNote.setText(note);
         }
 
@@ -218,7 +221,7 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
 
     @Override
     public void getExtraProductFail() {
-
+        b.textLayoutAutoCompleteBrand.setError(null);
     }
 
     private float parseFloatOrDefault(String text) {
@@ -342,5 +345,75 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
             b.textLayoutProductName.setError(null);
             return true;
         }
+    }
+
+    private boolean validateProductBrand() {
+        String brandText = b.autoCompleteBrand.getText().toString().trim();
+        if (!brandText.isEmpty()) {
+            b.textLayoutAutoCompleteBrand.setError(null);
+            return true;
+        }
+        b.textLayoutAutoCompleteBrand.setError(getString(R.string.msg_product_brand_requirement));
+        return false;
+    }
+
+    private void showValidationProductName() {
+        b.autoCompleteBrand.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                validateProductBrand();
+            }
+        });
+
+        b.autoCompleteBrand.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                validateProductBrand();
+            }
+        });
+    }
+
+    private boolean validateProductType() {
+        String typeText = b.autoCompleteType.getText().toString().trim();
+        if (!typeText.isEmpty()) {
+            b.textLayoutAutoCompleteType.setError(null);
+            return true;
+        }
+        b.textLayoutAutoCompleteType.setError(getString(R.string.msg_product_type_requirement));
+        return false;
+    }
+
+    private void showValidationProductType() {
+        b.autoCompleteType.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                validateProductType();
+            }
+        });
+
+        b.autoCompleteType.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                validateProductType();
+            }
+        });
     }
 }
