@@ -4,11 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -48,6 +52,10 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
             return insets;
         });
 
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+
         onFocusProductName();
         onTextChangeProductName();
 
@@ -64,6 +72,8 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
             b.buttonCreate.setOnClickListener(v -> getNewProductInformation());
         } else if (intentMode.equals(ProductManagementActivity.EXTRA_MODE_UPDATE)) {
             b.textActionBarHeader.setText("Cập nhật dữ liệu");
+            b.buttonDelete.setVisibility(View.VISIBLE);
+            b.viewDividerButton.setVisibility(View.VISIBLE);
             productAddPresenter.getExtraProduct(intent);
         }
     }

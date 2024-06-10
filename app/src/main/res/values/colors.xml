@@ -7,6 +7,7 @@
     <color name="textHeading">#7b818b</color>
     <color name="bold_sky">#346ecd</color>
     <color name="lightgray">#A6A6A6</color>
-    <color name="backgroundColor">#f3f3f6</color>
+    <color name="backgroundColor">#F2F3F5</color>
+    <color name="card_gray_border">#E0E0E0</color>
 
 </resources>

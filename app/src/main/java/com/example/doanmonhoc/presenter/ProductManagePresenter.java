@@ -15,7 +15,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductManagePresenter implements ProductManageContract.Presenter{
+public class ProductManagePresenter implements ProductManageContract.Presenter {
     private List<Product> productList;
     private ActivityResultLauncher<Intent> startDetailedProductActivityIntent;
     private final ProductManageContract.View productManageViewContract;
@@ -38,7 +38,6 @@ public class ProductManagePresenter implements ProductManageContract.Presenter{
                 productManageViewContract.getProductListFail(throwable);
             }
         });
-
     }
 
 //    public void handleOnItemClick(Context context, Product product) {

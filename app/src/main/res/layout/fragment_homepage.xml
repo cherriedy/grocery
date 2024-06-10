@@ -1,317 +1,320 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
+    android:orientation="vertical"
     tools:context=".activity.HomepageFragment">
 
-    <RelativeLayout
+    <!--    <RelativeLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="332dp"-->
+    <!--        android:orientation="vertical">-->
+
+    <!--        <RelativeLayout-->
+    <!--            android:id="@+id/toolbar"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="@color/primaryColor"-->
+    <!--            android:paddingHorizontal="16dp"-->
+    <!--            android:paddingVertical="4dp">-->
+
+    <!--            <com.google.android.material.imageview.ShapeableImageView-->
+    <!--                android:id="@+id/image_view_avatar"-->
+    <!--                android:layout_width="48dp"-->
+    <!--                android:layout_height="48dp"-->
+    <!--                android:layout_centerVertical="true"-->
+    <!--                android:background="@color/white"-->
+    <!--                android:scaleType="centerCrop"-->
+    <!--                android:src="@drawable/store"-->
+    <!--                app:shapeAppearanceOverlay="@style/circleImageView" />-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_centerVertical="true"-->
+    <!--                android:layout_marginStart="16dp"-->
+    <!--                android:layout_marginBottom="8dp"-->
+    <!--                android:layout_toEndOf="@id/image_view_avatar"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                <TextView-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:text="Hồ Đình Huy"-->
+    <!--                    android:textColor="@color/white"-->
+    <!--                    android:textSize="20dp"-->
+    <!--                    android:textStyle="bold" />-->
+
+    <!--                <RelativeLayout-->
+    <!--                    android:layout_width="wrap_content"-->
+    <!--                    android:layout_height="wrap_content">-->
+
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/text_store_information"-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_centerVertical="true"-->
+    <!--                        android:text="Thông tin cửa hàng"-->
+    <!--                        android:textColor="@color/white" />-->
+
+    <!--                    <ImageView-->
+    <!--                        android:layout_width="18dp"-->
+    <!--                        android:layout_height="18dp"-->
+    <!--                        android:layout_centerVertical="true"-->
+    <!--                        android:layout_toEndOf="@id/text_store_information"-->
+    <!--                        android:src="@drawable/ic_arrow_right"-->
+    <!--                        app:tint="@color/white" />-->
+    <!--                </RelativeLayout>-->
+
+    <!--            </LinearLayout>-->
+
+    <!--            <ImageView-->
+    <!--                android:layout_width="32dp"-->
+    <!--                android:layout_height="32dp"-->
+    <!--                android:layout_alignParentEnd="true"-->
+    <!--                android:layout_centerVertical="true"-->
+    <!--                android:src="@drawable/ic_search"-->
+    <!--                app:tint="@color/white" />-->
+    <!--        </RelativeLayout>-->
+
+    <!--        <GridLayout-->
+    <!--            android:id="@+id/grid_layout_shortcut"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="match_parent"-->
+    <!--            android:layout_below="@id/toolbar"-->
+    <!--            android:columnCount="3"-->
+    <!--            android:rowCount="2">-->
+
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_row="0"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_column="0"-->
+    <!--                android:layout_columnWeight="1"-->
+    <!--                android:layout_gravity="fill"-->
+    <!--                android:layout_margin="8dp"-->
+    <!--                android:elevation="8dp"-->
+    <!--                app:cardCornerRadius="8dp">-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center"-->
+    <!--                    android:orientation="vertical">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:layout_width="30dp"-->
+    <!--                        android:layout_height="30dp"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:layout_marginBottom="12dp"-->
+    <!--                        android:src="@drawable/ic_product" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:text="Sản phẩm"-->
+    <!--                        android:textSize="12sp" />-->
+    <!--                </LinearLayout>-->
+    <!--            </androidx.cardview.widget.CardView>-->
+
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_row="0"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_column="1"-->
+    <!--                android:layout_columnWeight="1"-->
+    <!--                android:layout_gravity="fill"-->
+    <!--                android:layout_margin="8dp"-->
+    <!--                android:elevation="8dp"-->
+    <!--                app:cardCornerRadius="8dp">-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center"-->
+    <!--                    android:orientation="vertical"-->
+    <!--                    android:padding="16dp">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:layout_width="30dp"-->
+    <!--                        android:layout_height="30dp"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:layout_marginBottom="12dp"-->
+    <!--                        android:src="@drawable/ic_home" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:text="Bán hàng"-->
+    <!--                        android:textSize="12sp" />-->
+    <!--                </LinearLayout>-->
+    <!--            </androidx.cardview.widget.CardView>-->
+
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_row="0"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_column="2"-->
+    <!--                android:layout_columnWeight="1"-->
+    <!--                android:layout_gravity="fill"-->
+    <!--                android:layout_margin="8dp"-->
+    <!--                android:elevation="8dp"-->
+    <!--                app:cardCornerRadius="8dp">-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center"-->
+    <!--                    android:orientation="vertical"-->
+    <!--                    android:padding="16dp">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:layout_width="30dp"-->
+    <!--                        android:layout_height="30dp"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:layout_marginBottom="12dp"-->
+    <!--                        android:src="@drawable/ic_note" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:text="Đơn hàng"-->
+    <!--                        android:textSize="12sp" />-->
+    <!--                </LinearLayout>-->
+    <!--            </androidx.cardview.widget.CardView>-->
+
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_row="1"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_column="0"-->
+    <!--                android:layout_columnWeight="1"-->
+    <!--                android:layout_gravity="fill"-->
+    <!--                android:layout_margin="8dp"-->
+    <!--                android:elevation="8dp"-->
+    <!--                app:cardCornerRadius="8dp">-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center"-->
+    <!--                    android:orientation="vertical"-->
+    <!--                    android:padding="16dp">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:layout_width="30dp"-->
+    <!--                        android:layout_height="30dp"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:layout_marginBottom="12dp"-->
+    <!--                        android:src="@drawable/ic_customer" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:text="Khách hàng"-->
+    <!--                        android:textSize="12sp" />-->
+    <!--                </LinearLayout>-->
+    <!--            </androidx.cardview.widget.CardView>-->
+
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_row="1"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_column="1"-->
+    <!--                android:layout_columnWeight="1"-->
+    <!--                android:layout_gravity="fill"-->
+    <!--                android:layout_margin="8dp"-->
+    <!--                android:elevation="8dp"-->
+    <!--                app:cardCornerRadius="8dp">-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center"-->
+    <!--                    android:orientation="vertical"-->
+    <!--                    android:padding="16dp">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:layout_width="30dp"-->
+    <!--                        android:layout_height="30dp"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:layout_marginBottom="12dp"-->
+    <!--                        android:src="@drawable/ic_warehouse" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:text="Kiểm kho"-->
+    <!--                        android:textSize="12sp" />-->
+    <!--                </LinearLayout>-->
+    <!--            </androidx.cardview.widget.CardView>-->
+
+    <!--            <androidx.cardview.widget.CardView-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_row="1"-->
+    <!--                android:layout_rowWeight="1"-->
+    <!--                android:layout_column="2"-->
+    <!--                android:layout_columnWeight="1"-->
+    <!--                android:layout_gravity="fill"-->
+    <!--                android:layout_margin="8dp"-->
+    <!--                android:elevation="8dp"-->
+    <!--                app:cardCornerRadius="8dp">-->
+
+    <!--                <LinearLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_gravity="center"-->
+    <!--                    android:orientation="vertical"-->
+    <!--                    android:padding="16dp">-->
+
+    <!--                    <ImageView-->
+    <!--                        android:layout_width="30dp"-->
+    <!--                        android:layout_height="30dp"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:layout_marginBottom="12dp"-->
+    <!--                        android:src="@drawable/ic_circle_ellipsis" />-->
+
+    <!--                    <TextView-->
+    <!--                        android:layout_width="wrap_content"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_gravity="center"-->
+    <!--                        android:text="Thêm tính năng"-->
+    <!--                        android:textSize="12sp" />-->
+    <!--                </LinearLayout>-->
+    <!--            </androidx.cardview.widget.CardView>-->
+    <!--        </GridLayout>-->
+    <!--    </RelativeLayout>-->
+
+    <TextView
+        android:id="@+id/text_grid_view_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="16dp"
+        android:text="Quản lý thông minh"
+        android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+        android:textStyle="bold" />
+
+    <GridView
+        android:id="@+id/grid_view_shortcut"
         android:layout_width="match_parent"
-        android:layout_height="332dp"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/primaryColor"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="4dp">
-
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/image_view_avatar"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_centerVertical="true"
-                android:background="@color/white"
-                android:scaleType="centerCrop"
-                android:src="@drawable/store"
-                app:shapeAppearanceOverlay="@style/circleImageView" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="8dp"
-                android:layout_toEndOf="@id/image_view_avatar"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Hồ Đình Huy"
-                    android:textColor="@color/white"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/text_store_information"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="Thông tin cửa hàng"
-                        android:textColor="@color/white" />
-
-                    <ImageView
-                        android:layout_width="18dp"
-                        android:layout_height="18dp"
-                        android:layout_centerVertical="true"
-                        android:layout_toEndOf="@id/text_store_information"
-                        android:src="@drawable/ic_arrow_right"
-                        app:tint="@color/white" />
-                </RelativeLayout>
-
-            </LinearLayout>
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_search"
-                app:tint="@color/white" />
-        </RelativeLayout>
-
-        <!--        <View-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="85dp"-->
-        <!--            android:layout_below="@id/toolbar"-->
-        <!--            android:background="@drawable/background_homepage_fragment" />-->
-
-        <!--        <com.google.android.material.card.MaterialCardView-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_below="@id/toolbar"-->
-        <!--            app:cardCornerRadius="5dp">-->
-
-        <!--        </com.google.android.material.card.MaterialCardView>-->
-
-        <GridLayout
-            android:id="@+id/grid_layout_shortcut"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/toolbar"
-            android:columnCount="3"
-            android:rowCount="2">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_rowWeight="1"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="8dp"
-                android:elevation="8dp"
-                app:cardCornerRadius="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="12dp"
-                        android:src="@drawable/ic_product" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Sản phẩm"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_rowWeight="1"
-                android:layout_column="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="8dp"
-                android:elevation="8dp"
-                app:cardCornerRadius="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="12dp"
-                        android:src="@drawable/ic_home" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Bán hàng"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="0"
-                android:layout_rowWeight="1"
-                android:layout_column="2"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="8dp"
-                android:elevation="8dp"
-                app:cardCornerRadius="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="12dp"
-                        android:src="@drawable/ic_note" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Đơn hàng"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_rowWeight="1"
-                android:layout_column="0"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="8dp"
-                android:elevation="8dp"
-                app:cardCornerRadius="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="12dp"
-                        android:src="@drawable/ic_customer" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Khách hàng"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_rowWeight="1"
-                android:layout_column="1"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="8dp"
-                android:elevation="8dp"
-                app:cardCornerRadius="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="12dp"
-                        android:src="@drawable/ic_warehouse" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Kiểm kho"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_row="1"
-                android:layout_rowWeight="1"
-                android:layout_column="2"
-                android:layout_columnWeight="1"
-                android:layout_gravity="fill"
-                android:layout_margin="8dp"
-                android:elevation="8dp"
-                app:cardCornerRadius="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center"
-                        android:layout_marginBottom="12dp"
-                        android:src="@drawable/ic_circle_ellipsis" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Thêm tính năng"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-        </GridLayout>
-
-    </RelativeLayout>
-
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
+        android:horizontalSpacing="8dp"
+        android:numColumns="3"
+        android:verticalSpacing="8dp"
+        tools:listitem="@layout/shortcut_grid_view_item" />
+</LinearLayout>

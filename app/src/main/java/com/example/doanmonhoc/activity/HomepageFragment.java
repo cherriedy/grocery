@@ -1,65 +1,75 @@
 package com.example.doanmonhoc.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
+import com.example.doanmonhoc.adapter.ShortcutGridViewAdapter;
+import com.example.doanmonhoc.databinding.FragmentHomepageBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HomepageFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class HomepageFragment extends Fragment {
+import java.util.Arrays;
+import java.util.List;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public HomepageFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HomepageFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static HomepageFragment newInstance(String param1, String param2) {
-        HomepageFragment fragment = new HomepageFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+public class HomepageFragment extends Fragment implements ShortcutGridViewAdapter.OnItemClickListener {
+    private FragmentHomepageBinding b;
+    private List<ShortcutGridViewAdapter.Shortcut> shortcutList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_homepage, container, false);
+//        return inflater.inflate(R.layout.fragment_homepage, container, false);
+        b = FragmentHomepageBinding.inflate(getLayoutInflater());
+        return b.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        shortcutList = Arrays.asList(
+                new ShortcutGridViewAdapter.Shortcut("Sản phẩm", R.drawable.ic_product),
+                new ShortcutGridViewAdapter.Shortcut("Thống kê", R.drawable.ic_chart),
+                new ShortcutGridViewAdapter.Shortcut("Đơn hàng", R.drawable.ic_note),
+                new ShortcutGridViewAdapter.Shortcut("Kiểm kho", R.drawable.ic_supplier),
+                new ShortcutGridViewAdapter.Shortcut("Nhân viên", R.drawable.ic_customer),
+                new ShortcutGridViewAdapter.Shortcut("Thêm", R.drawable.ic_circle_ellipsis)
+        );
+
+        ShortcutGridViewAdapter shortcutGridViewAdapter = new ShortcutGridViewAdapter(getContext());
+        shortcutGridViewAdapter.setData(shortcutList);
+        shortcutGridViewAdapter.setOnItemClickListener(this);
+        b.gridViewShortcut.setAdapter(shortcutGridViewAdapter);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        if (position == ShortcutGridViewAdapter.SHORTCUT_PRODUCT) {
+//            Toast.makeText(requireContext(), "PRODUCT", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), ProductManagementActivity.class));
+        } else if (position == ShortcutGridViewAdapter.SHORTCUT_INVENTORY) {
+            Toast.makeText(requireContext(), "INVENTORY", Toast.LENGTH_SHORT).show();
+        } else if (position == ShortcutGridViewAdapter.SHORTCUT_ORDER) {
+            Toast.makeText(requireContext(), "ORDER", Toast.LENGTH_SHORT).show();
+        } else if (position == ShortcutGridViewAdapter.SHORTCUT_REPORT) {
+            Toast.makeText(requireContext(), "REPORT", Toast.LENGTH_SHORT).show();
+        } else if (position == ShortcutGridViewAdapter.SHORTCUT_STAFF) {
+            Toast.makeText(requireContext(), "STAFF", Toast.LENGTH_SHORT).show();
+        } else if (position == ShortcutGridViewAdapter.SHORTCUT_MORE) {
+            Toast.makeText(requireContext(), "MORE", Toast.LENGTH_SHORT).show();
+        }
     }
 }
