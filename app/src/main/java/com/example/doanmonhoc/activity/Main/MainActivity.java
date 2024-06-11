@@ -1,16 +1,13 @@
-package com.example.doanmonhoc.activity;
+package com.example.doanmonhoc.activity.Main;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -20,9 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.Auth.LoginActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 import com.example.doanmonhoc.databinding.ActivityMainBinding;
-import com.google.android.material.navigation.NavigationView;
 
 import java.util.HashMap;
 import java.util.Map;

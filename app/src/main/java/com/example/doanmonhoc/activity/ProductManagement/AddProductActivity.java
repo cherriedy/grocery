@@ -20,12 +20,12 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.adapter.BrandAutoCompleteAdapter;
 import com.example.doanmonhoc.adapter.TypeAutoCompleteAdapter;
-import com.example.doanmonhoc.contract.ProductAddContract;
+import com.example.doanmonhoc.contract.ProductManagement.ProductAddContract;
 import com.example.doanmonhoc.databinding.ActivityAddProductBinding;
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
-import com.example.doanmonhoc.presenter.ProductAddPresenter;
+import com.example.doanmonhoc.presenter.ProductManagament.ProductAddPresenter;
 
 import java.util.List;
 

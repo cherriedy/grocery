@@ -1,7 +1,6 @@
 package com.example.doanmonhoc.activity.ProductManagement;
 
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
@@ -11,11 +10,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -26,10 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.adapter.ProductRecyclerViewAdapter;
-import com.example.doanmonhoc.contract.ProductManageContract;
+import com.example.doanmonhoc.contract.ProductManagement.ProductManageContract;
 import com.example.doanmonhoc.databinding.ActivityProductManagementBinding;
 import com.example.doanmonhoc.model.Product;
-import com.example.doanmonhoc.presenter.ProductManagePresenter;
+import com.example.doanmonhoc.presenter.ProductManagament.ProductManagePresenter;
 
 import java.util.List;
 

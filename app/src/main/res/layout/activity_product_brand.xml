@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.brand.view.ProductBrandActivity">
+    tools:context=".activity.ProductBrandManagement.ProductBrandActivity">
 
     <RelativeLayout
         android:id="@+id/actionbar"
@@ -32,8 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/button_back"
-            android:text="Quản lý"
-            android:textAppearance="@style/TextAppearance.Material3.ActionBar.Title"
+            android:text="Quản lý hãng"
+            android:textAppearance="@style/TextAppearance.Material3.ActionBar.Subtitle"
             android:textColor="@color/white"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -47,9 +47,10 @@
         app:layout_constraintTop_toBottomOf="@id/actionbar">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list_product_brand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/product_card_item" />
+            tools:listitem="@layout/product_brand_list_item" />
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

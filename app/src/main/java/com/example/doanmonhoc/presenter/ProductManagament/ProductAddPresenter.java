@@ -1,13 +1,11 @@
-package com.example.doanmonhoc.presenter;
+package com.example.doanmonhoc.presenter.ProductManagament;
 
 import android.content.Intent;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 import com.example.doanmonhoc.api.KiotApiService;
-import com.example.doanmonhoc.contract.ProductAddContract;
+import com.example.doanmonhoc.contract.ProductManagement.ProductAddContract;
 import com.example.doanmonhoc.databinding.ActivityAddProductBinding;
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.model.Product;

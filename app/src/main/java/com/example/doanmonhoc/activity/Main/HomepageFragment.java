@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.activity;
+package com.example.doanmonhoc.activity.Main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.ProductBrandManagement.ProductBrandActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 import com.example.doanmonhoc.adapter.ShortcutGridViewAdapter;
 import com.example.doanmonhoc.databinding.FragmentHomepageBinding;
@@ -37,7 +38,7 @@ public class HomepageFragment extends Fragment implements ShortcutGridViewAdapte
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+   public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         shortcutList = Arrays.asList(
@@ -70,6 +71,7 @@ public class HomepageFragment extends Fragment implements ShortcutGridViewAdapte
             Toast.makeText(requireContext(), "STAFF", Toast.LENGTH_SHORT).show();
         } else if (position == ShortcutGridViewAdapter.SHORTCUT_MORE) {
             Toast.makeText(requireContext(), "MORE", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), ProductBrandActivity.class));
         }
     }
 }

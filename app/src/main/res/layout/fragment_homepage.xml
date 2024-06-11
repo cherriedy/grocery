@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:orientation="vertical"
-    tools:context=".activity.HomepageFragment">
+    tools:context=".activity.Main.HomepageFragment">
 
     <!--    <RelativeLayout-->
     <!--        android:layout_width="match_parent"-->

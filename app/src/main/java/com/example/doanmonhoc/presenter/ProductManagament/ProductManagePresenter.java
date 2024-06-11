@@ -1,11 +1,11 @@
-package com.example.doanmonhoc.presenter;
+package com.example.doanmonhoc.presenter.ProductManagament;
 
 import android.content.Intent;
 
 import androidx.activity.result.ActivityResultLauncher;
 
 import com.example.doanmonhoc.api.KiotApiService;
-import com.example.doanmonhoc.contract.ProductManageContract;
+import com.example.doanmonhoc.contract.ProductManagement.ProductManageContract;
 import com.example.doanmonhoc.model.Product;
 
 import java.util.ArrayList;
