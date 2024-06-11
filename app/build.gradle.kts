@@ -46,6 +46,8 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.rxandroid)
     implementation(libs.rxjava)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

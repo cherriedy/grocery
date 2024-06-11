@@ -40,4 +40,14 @@
     <style name="helperTextStyle">
         <item name="android:layout_margin">0dp</item>
     </style>
+
+    <style name="CircleBorder">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="RoundedBorderProductListItem">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8%</item>
+    </style>
 </resources>

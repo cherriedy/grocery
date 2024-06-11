@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.activity;
+package com.example.doanmonhoc.activity.Auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +10,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.Main.MainActivity;
+import com.example.doanmonhoc.activity.MainActivityForStaff;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.Account;
 import com.example.doanmonhoc.model.LoginResponse;

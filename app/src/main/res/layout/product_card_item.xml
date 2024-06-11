@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="10dp"
+    android:layout_marginVertical="5dp"
     android:backgroundTint="@color/white"
-    app:cardCornerRadius="12dp"
-    app:strokeColor="@color/textHeading"
+    app:cardCornerRadius="8dp"
+    app:strokeColor="@color/card_gray_border"
     app:strokeWidth="1dp">
 
     <RelativeLayout
@@ -18,8 +18,8 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/product_avatar"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="@dimen/product_avatar_on_list"
+            android:layout_height="@dimen/product_avatar_on_list"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/maggi" />
 

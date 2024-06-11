@@ -86,7 +86,6 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 //            productAvatar = itemView.findViewById(R.id.product_avatar);
             productName = itemView.findViewById(R.id.product_name);
             productPrice = itemView.findViewById(R.id.product_price);
-
         }
     }
 }

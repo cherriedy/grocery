@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.contract;
+package com.example.doanmonhoc.contract.ProductManagement;
 
 import com.example.doanmonhoc.model.Product;
 
