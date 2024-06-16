@@ -1,5 +1,6 @@
 package com.example.doanmonhoc.activity.ProductManagement;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,6 +27,7 @@ import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
 import com.example.doanmonhoc.presenter.ProductManagament.ProductAddPresenter;
+import com.example.doanmonhoc.utils.NumberUtils;
 
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
     private ActivityAddProductBinding b;
     private List<Brand> brandList;
     private List<ProductGroup> productGroupList;
+    private Intent resultIntent;
     ProductAddPresenter productAddPresenter = new ProductAddPresenter(AddProductActivity.this);
 
     @Override
@@ -55,6 +58,8 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+
+        resultIntent = new Intent();
 
         onFocusProductName();
         onTextChangeProductName();
@@ -152,9 +157,9 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
         String inPriceText = b.textProductInPrice.getText().toString().trim();
         String discountText = b.textProductDiscount.getText().toString().trim();
 
-        float outPrice = parseFloatOrDefault(outPriceText);
-        float inPrice = parseFloatOrDefault(inPriceText);
-        float discount = parseFloatOrDefault(discountText);
+        float outPrice = NumberUtils.parseFloatOrDefault(outPriceText);
+        float inPrice = NumberUtils.parseFloatOrDefault(inPriceText);
+        float discount = NumberUtils.parseFloatOrDefault(discountText);
 
         Product product = new Product();
         product.setProductKey(productAddPresenter.generateLatestProductKey());
@@ -184,7 +189,7 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
 
         if (validateProductName() && validateOutPrice()) {
             productAddPresenter.createProduct(product);
-            setResult(RESULT_OK);
+            setResult(Activity.RESULT_OK, resultIntent);
             finish();
         } else {
             Toast.makeText(this, getString(R.string.msg_fill_all_requierd_fields), Toast.LENGTH_SHORT).show();
@@ -232,18 +237,6 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
     @Override
     public void getExtraProductFail() {
         b.textLayoutAutoCompleteBrand.setError(null);
-    }
-
-    private float parseFloatOrDefault(String text) {
-        return parseFloatOrDefault(text, 0.0f);
-    }
-
-    private float parseFloatOrDefault(String text, Float defaultValue) {
-        try {
-            return Float.parseFloat(text);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
     }
 
     private void onFocusDescription() {

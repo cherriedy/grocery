@@ -86,4 +86,7 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="product_brand_name_hint">Masan</string>
+    <string name="product_brand_des_hint">Thương hiệu nổi tiếng...</string>
+    <string name="msg_text_product_brand_requirement">Không để trống tên nhãn hàng</string>
 </resources>

@@ -17,6 +17,7 @@
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_avatar_toggle"
             android:layout_width="45dp"
+            android:scaleType="centerCrop"
             android:layout_height="45dp"
             app:shapeAppearanceOverlay="@style/CircleBorder"
             app:srcCompat="@drawable/cat" />
