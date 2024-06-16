@@ -5,4 +5,5 @@
     <dimen name="toolbar_marginStart">8dp</dimen>
     <dimen name="product_avatar_on_list">60dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_multi_line_height">120dp</dimen>
 </resources>

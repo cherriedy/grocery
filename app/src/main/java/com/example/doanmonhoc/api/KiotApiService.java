@@ -74,6 +74,12 @@ public interface KiotApiService {
     @GET("/brand")
     Call<List<Brand>> getBrandList();
 
+    @POST("/brand")
+    Call<Brand> createBrand(@Body Brand brand);
+
+    @GET("/brand/latest")
+    Call<Brand> getLatestProductBrand();
+
     // ProductGroup API
     @GET("/type")
     Call<List<ProductGroup>> getProductGroupList();
@@ -87,5 +93,3 @@ public interface KiotApiService {
     @PUT("staff/{id}")
     Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
 }
-
-

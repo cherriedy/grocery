@@ -7,42 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.model.Shortcut;
 import com.google.android.material.imageview.ShapeableImageView;
 
 import java.util.List;
 
 public class ShortcutGridViewAdapter extends BaseAdapter {
-    public static class Shortcut {
-        private String name;
-        private int resource;
-
-        public Shortcut(String name, int resource) {
-            this.name = name;
-            this.resource = resource;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getResource() {
-            return resource;
-        }
-
-        public void setResource(int resource) {
-            this.resource = resource;
-        }
-    }
-
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
@@ -99,8 +73,9 @@ public class ShortcutGridViewAdapter extends BaseAdapter {
         TextView textShortcutName = convertView.findViewById(R.id.text_shortcut_name);
 
         try {
-            imageShortcutAvatar.setImageDrawable(ContextCompat.getDrawable(context, currentShortcut.getResource()));
             textShortcutName.setText(currentShortcut.getName());
+            imageShortcutAvatar.setColorFilter(ContextCompat.getColor(context, currentShortcut.getColor()));
+            imageShortcutAvatar.setImageDrawable(ContextCompat.getDrawable(context, currentShortcut.getResource()));
             convertView.setOnClickListener(v -> {
                 if (onItemClickListener != null) {
                     onItemClickListener.onItemClick(position);

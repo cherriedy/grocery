@@ -1,5 +1,6 @@
 package com.example.doanmonhoc.activity.ProductManagement;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -27,7 +32,8 @@ import com.example.doanmonhoc.presenter.ProductManagament.ProductManagePresenter
 
 import java.util.List;
 
-public class ProductManagementActivity extends AppCompatActivity implements ProductManageContract.View {
+public class ProductManagementActivity extends AppCompatActivity implements ProductManageContract.View,
+        ProductRecyclerViewAdapter.OnItemClickListener {
 
     public static final String EXTRA_PRODUCT = "EXTRA_PRODUCT";
     public static final String EXTRA_MODE_CREATE = "EXTRA_NODE_CREATE";
@@ -39,27 +45,6 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     private Animation animRotateClockWise;
     private Animation animRotateAntiClockWise;
     private ProductManagePresenter productManagePresenter;
-
-    ProductRecyclerViewAdapter.OnItemClickListener onItemClickListener = new ProductRecyclerViewAdapter.OnItemClickListener() {
-        @Override
-        public void onItemClick(Product product) {
-            Intent intent = new Intent(ProductManagementActivity.this, AddProductActivity.class);
-            intent.putExtra("MODE", EXTRA_MODE_UPDATE);
-            intent.putExtra(EXTRA_PRODUCT, product);
-            startActivity(intent);
-        }
-    };
-
-//    ActivityResultLauncher<Intent> startProductDetailActivityIntent = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult o) {
-//                    if (o.getResultCode() == RESULT_OK) {
-//
-//                    }
-//                }
-//            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +68,14 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
         productManagePresenter = new ProductManagePresenter(ProductManagementActivity.this);
 
         // Tạo LinearLayoutManager để quản lý các item
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ProductManagementActivity.this, RecyclerView.VERTICAL, false);
-        b.productList.setLayoutManager(linearLayoutManager);                   // Thiết lập LayoutManager
-        productManagePresenter.getProductList();                               // Gọi callback tới presenter, lấy dữ liệu từ api
+        LinearLayoutManager linearLayoutManager =
+                new LinearLayoutManager(ProductManagementActivity.this, RecyclerView.VERTICAL, false);
+        // Thiết lập LayoutManager
+        b.productList.setLayoutManager(linearLayoutManager);
+        //
+        b.productList.setNestedScrollingEnabled(true);
+        // Gọi callback tới presenter, lấy dữ liệu từ api
+        productManagePresenter.getProductList();
 
         initializeAnimation();
 
@@ -97,15 +87,25 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
             }
         });
 
+        ActivityResultLauncher<Intent> addProductResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult o) {
+                        if (o.getResultCode() == Activity.RESULT_OK) {
+                            productManagePresenter.getProductList();
+                        }
+                    }
+                }
+        );
+
         b.addOne.setOnClickListener(v -> {
             Intent intent = new Intent(ProductManagementActivity.this, AddProductActivity.class);
             intent.putExtra("MODE", EXTRA_MODE_CREATE);
-            startActivity(intent);
+            addProductResultLauncher.launch(intent);
         });
 
-        b.buttonBack.setOnClickListener(v -> {
-            onBackPressed();
-        });
+        b.buttonBack.setOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -115,7 +115,8 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
 
     @Override
     public void getProductListSuccessfully(List<Product> productList) {
-        ProductRecyclerViewAdapter productRecyclerViewAdapter = new ProductRecyclerViewAdapter(ProductManagementActivity.this, onItemClickListener);
+        ProductRecyclerViewAdapter productRecyclerViewAdapter =
+                new ProductRecyclerViewAdapter(ProductManagementActivity.this, ProductManagementActivity.this);
         productRecyclerViewAdapter.setData(productList);
         b.productList.setAdapter(productRecyclerViewAdapter);
     }
@@ -149,5 +150,13 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
         b.addOneTxt.startAnimation(animFromBottomFab);
         b.addManyTxt.startAnimation(animFromBottomFab);
         isSubMenuOpen = true;
+    }
+
+    @Override
+    public void onItemClick(Product product) {
+        Intent intent = new Intent(ProductManagementActivity.this, AddProductActivity.class);
+        intent.putExtra("MODE", EXTRA_MODE_UPDATE);
+        intent.putExtra(EXTRA_PRODUCT, product);
+        startActivity(intent);
     }
 }
