@@ -16,7 +16,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@color/white"
-            android:src="@drawable/ic_arrow_back" />
+            android:src="@drawable/ic_arrow_back"
+            />
 
         <TextView
             android:id="@+id/headerTitle"
@@ -121,6 +122,7 @@
         android:layout_margin="15dp"
         android:backgroundTint="@color/bold_sky"
         android:text="+ Tạo nhập hàng"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:onClick="navigateToCreateImportActivity"/>
 
 </RelativeLayout>
