@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ProductBrandManagement.ProductBrandActivity">
+    tools:context=".activity.ProductBrandManagement.ProductBrandManagementActivity">
 
     <RelativeLayout
         android:id="@+id/actionbar"
@@ -71,9 +71,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:src="@drawable/ic_add"
-        android:tint="@color/white"
+        android:tint="@color/primaryColor"
         android:visibility="invisible"
-        app:backgroundTint="@color/primaryColor"
+        app:backgroundTint="@color/white"
         app:layout_constraintBottom_toTopOf="@id/fab_expand_menu"
         app:layout_constraintEnd_toEndOf="@id/fab_expand_menu" />
 
@@ -81,7 +81,6 @@
         android:id="@+id/text_add_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/fab_textview_shape"
         android:paddingHorizontal="12dp"
         android:paddingVertical="8dp"

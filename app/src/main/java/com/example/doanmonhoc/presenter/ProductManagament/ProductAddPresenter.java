@@ -67,8 +67,7 @@ public class ProductAddPresenter implements ProductAddContract.Presenter {
         });
     }
 
-    public void createProduct(Product product) {
-
+    public void handleCreateProduct(Product product) {
         KiotApiService.apiService.createProduct(product).enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {

@@ -1,9 +1,9 @@
 package com.example.doanmonhoc.activity.ProductManagement;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -26,26 +26,33 @@ import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
 import com.example.doanmonhoc.presenter.ProductManagament.ProductAddPresenter;
+import com.example.doanmonhoc.utils.ExtraManager;
+import com.example.doanmonhoc.utils.NumberUtils;
+import com.example.doanmonhoc.utils.TextUtils;
+import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
+import com.example.doanmonhoc.utils.validation.ValidationUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AddProductActivity extends AppCompatActivity implements ProductAddContract.View {
+    public static final int RADIO_BUTTON_IN_STOCK = 0;
+    public static final int RADIO_BUTTON_OUT_STOCK = 1;
+    private Map<Integer, Integer> radioButtons;
 
     private int brandClickItemId = -1;
     private int productGroupClickItemId = -1;
-    private ActivityAddProductBinding b;
-    private List<Brand> brandList;
-    private List<ProductGroup> productGroupList;
-    ProductAddPresenter productAddPresenter = new ProductAddPresenter(AddProductActivity.this);
+
+    private ActivityAddProductBinding binding;
+    private ProductAddPresenter productAddPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-
-        b = ActivityAddProductBinding.inflate(getLayoutInflater());
-        setContentView(b.getRoot());
-
+        binding = ActivityAddProductBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -56,25 +63,71 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
 
-        onFocusProductName();
-        onTextChangeProductName();
+        productAddPresenter = new ProductAddPresenter(this);
 
-        onFocusOutPrice();
-        onTextChangeOutPrice();
+        radioButtons = new HashMap<>();
+        radioButtons.put(R.id.button_inStock, RADIO_BUTTON_IN_STOCK);
+        radioButtons.put(R.id.button_outStock, RADIO_BUTTON_OUT_STOCK);
 
-        showValidationProductName();
-        showValidationProductType();
+        onFocusHeader();
+        callValidateProduct();
+        handleIntent(getIntent());
+    }
 
-        Intent intent = getIntent();
-        String intentMode = intent.getStringExtra("MODE");
-        if (intentMode.equals(ProductManagementActivity.EXTRA_MODE_CREATE)) {
-            productAddPresenter.getCurrentLatestProductKey();
-            b.buttonCreate.setOnClickListener(v -> getNewProductInformation());
-        } else if (intentMode.equals(ProductManagementActivity.EXTRA_MODE_UPDATE)) {
-            b.textActionBarHeader.setText("Cập nhật dữ liệu");
-            b.buttonDelete.setVisibility(View.VISIBLE);
-            b.viewDividerButton.setVisibility(View.VISIBLE);
-            productAddPresenter.getExtraProduct(intent);
+    @Override
+    public void createProduct() {
+        String nameText = TextUtils.getString(binding.textProductName);
+        String barcodeText = TextUtils.getString(binding.textProductBarcode);
+        String descriptionText = TextUtils.getString(binding.textProductDescription);
+        String noteText = TextUtils.getString(binding.textProductNote);
+        String outPriceText = TextUtils.getString(binding.textProductOutPrice);
+        String inPriceText = TextUtils.getString(binding.textProductInPrice);
+        String discountText = TextUtils.getString(binding.textProductDiscount);
+
+        float outPrice = NumberUtils.parseFloatOrDefault(outPriceText);
+        float inPrice = NumberUtils.parseFloatOrDefault(inPriceText);
+        float discount = NumberUtils.parseFloatOrDefault(discountText);
+
+        Product product = new Product();
+        product.setProductKey(productAddPresenter.generateLatestProductKey());
+        product.setProductName(nameText);
+        product.setOutPrice(outPrice);
+        product.setProductNote(noteText);
+        product.setDescription(descriptionText);
+        product.setProductBrandId(brandClickItemId);
+        product.setProductGroupId(productGroupClickItemId);
+
+        Log.i("InStock", String.valueOf(binding.buttonInStock.isSelected()));
+        Log.i("OutStock", String.valueOf(binding.buttonOutStock.isSelected()));
+        product.setStatus((byte) 1);
+        if (binding.buttonOutStock.isSelected()) {
+            product.setStatus((byte) 0);
+        } else {
+            product.setStatus((byte) 1);
+        }
+
+        if (inPrice > 0.0f) {
+            product.setInPrice(inPrice);
+        }
+
+        if (discount > 0.0f) {
+            product.setDiscount(discount);
+        }
+
+        if (!(barcodeText.isEmpty())) {
+            product.setProductBarcode(barcodeText);
+        }
+
+        if (!(noteText.isEmpty())) {
+            product.setProductNote(noteText);
+        }
+
+        if (handleValidateProductName() && handleValidateOutPrice() && handleValidateDescription()) {
+            productAddPresenter.handleCreateProduct(product);
+            setResult(Activity.RESULT_OK, new Intent());
+            finish();
+        } else {
+            Toast.makeText(this, getString(R.string.msg_fill_all_requierd_fields), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -94,7 +147,7 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
     public void getBrandAutoCompleteDataSuccessfully(List<Brand> brandList) {
         if (brandList != null) {
             BrandAutoCompleteAdapter adapter = new BrandAutoCompleteAdapter(AddProductActivity.this, R.layout.dropdown_item, brandList);
-            b.autoCompleteBrand.setAdapter(adapter);
+            binding.autoCompleteBrand.setAdapter(adapter);
         } else {
             Toast.makeText(AddProductActivity.this, "Không có dữ liệu nhãn hàng", Toast.LENGTH_SHORT).show();
         }
@@ -109,7 +162,7 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
     public void getProductGroupAutoCompleteDataSuccessfully(List<ProductGroup> productGroupList) {
         if (productGroupList != null) {
             TypeAutoCompleteAdapter adapter = new TypeAutoCompleteAdapter(AddProductActivity.this, R.layout.dropdown_item, productGroupList);
-            b.autoCompleteType.setAdapter(adapter);
+            binding.autoCompleteType.setAdapter(adapter);
         } else {
             Toast.makeText(AddProductActivity.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
         }
@@ -117,7 +170,7 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
 
     @Override
     public void getBrandItemId() {
-        b.autoCompleteBrand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.autoCompleteBrand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, android.view.View view, int position, long id) {
                 Brand selectedBrand = (Brand) parent.getItemAtPosition(position);
@@ -128,7 +181,7 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
 
     @Override
     public void getProductGroupItemId() {
-        b.autoCompleteType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.autoCompleteType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, android.view.View view, int position, long id) {
                 ProductGroup selectedProductGroup = (ProductGroup) parent.getItemAtPosition(position);
@@ -143,55 +196,6 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
     }
 
     @Override
-    public void getNewProductInformation() {
-        String nameText = b.textProductName.getText().toString().trim();
-        String barcodeText = b.textProductBarcode.getText().toString().trim();
-        String descriptionText = b.textProductDescription.getText().toString().trim();
-        String noteText = b.textProductNote.getText().toString().trim();
-        String outPriceText = b.textProductOutPrice.getText().toString().trim();
-        String inPriceText = b.textProductInPrice.getText().toString().trim();
-        String discountText = b.textProductDiscount.getText().toString().trim();
-
-        float outPrice = parseFloatOrDefault(outPriceText);
-        float inPrice = parseFloatOrDefault(inPriceText);
-        float discount = parseFloatOrDefault(discountText);
-
-        Product product = new Product();
-        product.setProductKey(productAddPresenter.generateLatestProductKey());
-//        Log.i("PRODUCT_KEY", product.getProductKey());
-        product.setProductName(nameText);
-        product.setOutPrice(outPrice);
-        product.setProductNote(noteText);
-        product.setDescription(descriptionText);
-        product.setProductBrandId(brandClickItemId);
-        product.setProductGroupId(productGroupClickItemId);
-
-        if (inPrice > 0.0f) {
-            product.setInPrice(inPrice);
-        }
-
-        if (discount > 0.0f) {
-            product.setDiscount(discount);
-        }
-
-        if (!(barcodeText.isEmpty())) {
-            product.setProductBarcode(barcodeText);
-        }
-
-        if (!(noteText.isEmpty())) {
-            product.setProductNote(noteText);
-        }
-
-        if (validateProductName() && validateOutPrice()) {
-            productAddPresenter.createProduct(product);
-            setResult(RESULT_OK);
-            finish();
-        } else {
-            Toast.makeText(this, getString(R.string.msg_fill_all_requierd_fields), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
     public void notifyCreateProductSuccessfully() {
         Toast.makeText(this, "Tạo sản phẩm thành công", Toast.LENGTH_SHORT).show();
     }
@@ -203,227 +207,232 @@ public class AddProductActivity extends AppCompatActivity implements ProductAddC
 
     @Override
     public void getExtraProductSuccessfully(Product receivedExtraProduct) {
-        b.textProductName.setText(receivedExtraProduct.getProductName());
-        b.textProductOutPrice.setText(String.valueOf(receivedExtraProduct.getOutPrice()));
-        b.textProductDescription.setText(receivedExtraProduct.getDescription());
+        binding.textProductName.setText(receivedExtraProduct.getProductName());
+        binding.textProductOutPrice.setText(String.valueOf(receivedExtraProduct.getOutPrice()));
+        binding.textProductDescription.setText(receivedExtraProduct.getDescription());
 
         Float inPrice = receivedExtraProduct.getInPrice();
         if (inPrice > 0.0f) {
-            b.textProductInPrice.setText(String.valueOf(inPrice));
+            binding.textProductInPrice.setText(String.valueOf(inPrice));
         }
 
         Float discount = receivedExtraProduct.getDiscount();
         if (discount > 0.0f) {
-            b.textProductDiscount.setText(String.valueOf(discount));
+            binding.textProductDiscount.setText(String.valueOf(discount));
         }
 
         String barcode = receivedExtraProduct.getProductBarcode();
         if (barcode != null && !barcode.isEmpty()) {
-            b.textProductBarcode.setText(barcode);
+            binding.textProductBarcode.setText(barcode);
         }
 
         String note = receivedExtraProduct.getNote();
         if (note != null && !note.isEmpty()) {
-            b.textProductNote.setText(note);
+            binding.textProductNote.setText(note);
         }
 
     }
 
     @Override
     public void getExtraProductFail() {
-        b.textLayoutAutoCompleteBrand.setError(null);
+        Toast.makeText(this, "Có lỗi", Toast.LENGTH_SHORT).show();
     }
 
-    private float parseFloatOrDefault(String text) {
-        return parseFloatOrDefault(text, 0.0f);
+    private void callValidateProduct() {
+        validateProductName();
+        validateOutPrice();
+        validateProductBrand();
+        validateProductType();
+        validateDescription();
     }
 
-    private float parseFloatOrDefault(String text, Float defaultValue) {
-        try {
-            return Float.parseFloat(text);
-        } catch (NumberFormatException e) {
-            return defaultValue;
+    private void handleIntent(Intent intent) {
+        String intentMode = intent.getStringExtra(ExtraManager.ModeParams.EXTRA_MODE);
+        if (intentMode != null && !intentMode.isEmpty()) {
+            switch (intentMode) {
+                case ExtraManager.ModeParams.EXTRA_MODE_CREATE:
+                    productAddPresenter.getCurrentLatestProductKey();
+                    binding.buttonCreate.setOnClickListener(v -> createProduct());
+                    break;
+
+                case ExtraManager.ModeParams.EXTRA_MODE_EDIT:
+                    // Đổi text cho header
+                    binding.textActionBarHeader.setText("Cập nhật dữ liệu");
+                    // Hiển thị nút xóa sản phẩm
+                    binding.buttonDelete.setVisibility(View.VISIBLE);
+                    binding.viewDividerButton.setVisibility(View.VISIBLE);
+                    // Gọi presenter để lấy dữ liệu từ intent
+                    productAddPresenter.getExtraProduct(intent);
+                    break;
+            }
         }
     }
 
-    private void onFocusDescription() {
-        b.textProductDescription.setOnFocusChangeListener((v, hasFocus) -> {
+    private void onFocusHeader() {
+        TextUtils.onFocusHeader(this, binding.textHeaderProductName, binding.textProductName);
+        TextUtils.onFocusHeader(this, binding.textHeaderOutPrice, binding.textProductOutPrice);
+        TextUtils.onFocusHeader(this, binding.textHeaderInPrice, binding.textProductInPrice);
+        TextUtils.onFocusHeader(this, binding.textHeaderDiscount, binding.textProductDiscount);
+        TextUtils.onFocusHeader(this, binding.textHeaderBarcode, binding.textProductBarcode);
+        TextUtils.onFocusHeader(this, binding.textHeaderDes, binding.textProductDescription);
+        TextUtils.onFocusHeader(this, binding.textHeaderNote, binding.textProductNote);
+    }
+
+    private void validateDescription() {
+        binding.textProductDescription.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                b.textLayoutDescription.setHelperText(validateDescription());
+                handleValidateDescription();
             }
         });
-    }
 
-    private String validateDescription() {
-        if (b.textProductDescription.getText().toString().trim().isEmpty()) {
-            return getString(R.string.msg_description_requirement);
-        } else {
-            return null;
-        }
-    }
-
-    private void onFocusOutPrice() {
-        b.textProductOutPrice.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                validateOutPrice();
-            }
-        });
-    }
-
-    private void onTextChangeOutPrice() {
-        b.textProductOutPrice.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+        binding.textProductDescription.addTextChangedListener(new TextWatcherValidation() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateOutPrice();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+                handleValidateDescription();
             }
         });
     }
 
-    // Kiểm tra outPrice
-    private boolean validateOutPrice() {
-        String textProductOutPrice = b.textProductOutPrice.getText().toString().trim();
-
-        if (textProductOutPrice.isEmpty()) {
-            b.textLayoutOutPrice.setError(getString(R.string.msg_product_out_price_requirement));
-            return false;
-        } else {
-            b.textLayoutOutPrice.setError(null);
-        }
-
-        try {
-            float productOutPrice = Float.parseFloat(textProductOutPrice);
-
-            if (productOutPrice <= 0.0f) {
-                b.textLayoutOutPrice.setError(getString(R.string.msg_invalid_price));
-                return false;
-            } else {
-                b.textLayoutOutPrice.setError(null);
-            }
-        } catch (NumberFormatException e) {
-            b.textLayoutOutPrice.setError(getString(R.string.msg_invalid_price));
+    private boolean handleValidateDescription() {
+        String productDescription = TextUtils.getString(binding.textProductDescription);
+        ValidationUtils.ValidationResult validationResult = ValidationUtils.validateDescription(productDescription);
+        if (!validationResult.isValid()) {
+            binding.textLayoutDescription.setError(validationResult.getMessage());
             return false;
         }
-
-        b.textLayoutOutPrice.setError(null);
+        binding.textLayoutDescription.setError(null);
         return true;
     }
 
-    // Kiểm tra dữ liệu được nhập vào khi không còn foucs
-    private void onFocusProductName() {
-        b.textProductName.setOnFocusChangeListener((v, hasFocus) -> {
+    private void validateOutPrice() {
+        binding.textProductOutPrice.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                validateProductName();
+                handleValidateOutPrice();
             }
         });
-    }
 
-    // Kiểm tra dữ liệu sau khi kết thúc nhập
-    private void onTextChangeProductName() {
-        b.textProductName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+        binding.textProductOutPrice.addTextChangedListener(new TextWatcherValidation() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateProductName();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
+                handleValidateOutPrice();
             }
         });
     }
 
-    private boolean validateProductName() {
-        String productName = b.textProductName.getText().toString().trim();
-        if (productName.isEmpty()) {
-            b.textLayoutProductName.setError(getString(R.string.msg_product_name_requirement));
-            return false;
-        } else if (productName.length() > 64) {
-            b.textLayoutProductName.setError(getString(R.string.msg_product_name_limitation));
+    private boolean handleValidateOutPrice() {
+        String textProductOutPrice = TextUtils.getString(binding.textProductOutPrice);
+        ValidationUtils.ValidationResult validationResult = ValidationUtils.validatePrice(textProductOutPrice);
+
+        if (!validationResult.isValid()) {
+            binding.textLayoutOutPrice.setError(validationResult.getMessage());
             return false;
         } else {
-            b.textLayoutProductName.setError(null);
+            binding.textLayoutOutPrice.setError(null);
             return true;
         }
     }
 
-    private boolean validateProductBrand() {
-        String brandText = b.autoCompleteBrand.getText().toString().trim();
+    private void validateProductName() {
+        // Kiểm tra dữ liệu được nhập vào khi không còn foucs
+        binding.textProductName.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                handleValidateProductName();
+            }
+        });
+
+        // Kiểm tra dữ liệu sau khi kết thúc nhập
+        binding.textProductName.addTextChangedListener(new TextWatcherValidation() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                handleValidateProductName();
+            }
+        });
+    }
+
+    private boolean handleValidateProductName() {
+        String productName = TextUtils.getString(binding.textProductName);
+        ValidationUtils.ValidationResult validationUtils = ValidationUtils.validateName(productName);
+        if (!validationUtils.isValid()) {
+            binding.textLayoutProductName.setError(validationUtils.getMessage());
+            return false;
+        } else {
+            binding.textLayoutProductName.setError(null);
+            return true;
+        }
+    }
+
+    private boolean handleValidateProductBrand() {
+        String brandText = binding.autoCompleteBrand.getText().toString().trim();
         if (!brandText.isEmpty()) {
-            b.textLayoutAutoCompleteBrand.setError(null);
+            binding.textLayoutAutoCompleteBrand.setError(null);
             return true;
         }
-        b.textLayoutAutoCompleteBrand.setError(getString(R.string.msg_product_brand_requirement));
+        binding.textLayoutAutoCompleteBrand.setError(getString(R.string.msg_product_brand_requirement));
         return false;
     }
 
-    private void showValidationProductName() {
-        b.autoCompleteBrand.setOnFocusChangeListener((v, hasFocus) -> {
+    private void validateProductBrand() {
+        binding.autoCompleteBrand.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                validateProductBrand();
+                handleValidateProductBrand();
             }
         });
 
-        b.autoCompleteBrand.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+        binding.autoCompleteBrand.addTextChangedListener(new TextWatcherValidation() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                validateProductBrand();
+                handleValidateProductBrand();
             }
         });
     }
 
-    private boolean validateProductType() {
-        String typeText = b.autoCompleteType.getText().toString().trim();
+    private boolean handleValidateProductType() {
+        String typeText = binding.autoCompleteType.getText().toString().trim();
         if (!typeText.isEmpty()) {
-            b.textLayoutAutoCompleteType.setError(null);
+            binding.textLayoutAutoCompleteType.setError(null);
             return true;
         }
-        b.textLayoutAutoCompleteType.setError(getString(R.string.msg_product_type_requirement));
+        binding.textLayoutAutoCompleteType.setError(getString(R.string.msg_product_type_requirement));
         return false;
     }
 
-    private void showValidationProductType() {
-        b.autoCompleteType.setOnFocusChangeListener((v, hasFocus) -> {
+    private void validateProductType() {
+        binding.autoCompleteType.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
-                validateProductType();
+                handleValidateProductType();
             }
         });
 
-        b.autoCompleteType.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
+        binding.autoCompleteType.addTextChangedListener(new TextWatcherValidation() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                validateProductType();
+                handleValidateProductType();
             }
         });
+    }
+
+    public void onRadioButtonClick(View view) {
+        boolean isSelected = view.isSelected();
+        Integer currentId = radioButtons.get(view.getId());
+        if (currentId != null) {
+            switch (currentId) {
+                case RADIO_BUTTON_IN_STOCK:
+                    if (!isSelected) {
+                        binding.buttonInStock.setSelected(true);
+                        binding.buttonOutStock.setSelected(false);
+                        binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.primaryColor));
+                        binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, R.color.textHeading));
+                    }
+                    break;
+                case RADIO_BUTTON_OUT_STOCK:
+                    if (!isSelected) {
+                        binding.buttonInStock.setSelected(false);
+                        binding.buttonOutStock.setSelected(true);
+                        binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.textHeading));
+                        binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
+                    }
+                    break;
+            }
+        }
     }
 }

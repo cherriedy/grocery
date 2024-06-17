@@ -76,6 +76,12 @@ public interface KiotApiService {
     @GET("/brand")
     Call<List<Brand>> getBrandList();
 
+    @POST("/brand")
+    Call<Brand> createBrand(@Body Brand brand);
+
+    @GET("/brand/latest")
+    Call<Brand> getLatestProductBrand();
+
     // ProductGroup API
     @GET("/type")
     Call<List<ProductGroup>> getProductGroupList();
@@ -96,5 +102,3 @@ public interface KiotApiService {
     @GET("/goodsReceivedNote")
     Call<List<GoodsReceivedNote>> getGoodsReceivedNoteList();
 }
-
-
