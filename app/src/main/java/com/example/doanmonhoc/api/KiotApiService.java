@@ -2,6 +2,8 @@ package com.example.doanmonhoc.api;
 
 import com.example.doanmonhoc.model.Account;
 import com.example.doanmonhoc.model.Brand;
+import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
+import com.example.doanmonhoc.model.GoodsReceivedNote;
 import com.example.doanmonhoc.model.LoginResponse;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
@@ -30,26 +32,26 @@ public interface KiotApiService {
     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
-            .readTimeout(30, TimeUnit.SECONDS)
-            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .addInterceptor(httpLoggingInterceptor)
             .build();
 
-    // http://cherrapi.onlinewebshop.net/
     final String BASE_URL = "http://cherrapi.onlinewebshop.net";
 
-    // Create Gson instance with GsonBuilder()
     Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd")   // Set the datetime format
+            .setDateFormat("yyyy-MM-dd")
             .create();
 
-    KiotApiService apiService = new Retrofit.Builder()
+    Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
-            .build()
-            .create(KiotApiService.class);
+            .build();
+
+    KiotApiService apiService = retrofit.create(KiotApiService.class);
+
 
     // Product API
     @GET("/product")
@@ -86,6 +88,13 @@ public interface KiotApiService {
 
     @PUT("staff/{id}")
     Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
+
+    @GET("/detailedGoodsReceivedNote")
+    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList();
+
+
+    @GET("/goodsReceivedNote")
+    Call<List<GoodsReceivedNote>> getGoodsReceivedNoteList();
 }
 
 
