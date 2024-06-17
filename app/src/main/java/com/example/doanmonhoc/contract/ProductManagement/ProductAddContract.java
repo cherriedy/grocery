@@ -16,7 +16,7 @@ public interface ProductAddContract {
 
         String generateLatestProductKey();
 
-        void createProduct(Product product);
+        void handleCreateProduct(Product product);
 
         void getExtraProduct(Intent intent);
     }
@@ -34,7 +34,7 @@ public interface ProductAddContract {
 
         void getProductGroupItemId();
 
-        void getNewProductInformation();
+        void createProduct();
 
         void notifyCreateProductSuccessfully();
 

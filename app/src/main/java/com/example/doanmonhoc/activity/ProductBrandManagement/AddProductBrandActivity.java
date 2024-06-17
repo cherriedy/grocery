@@ -20,7 +20,7 @@ import com.example.doanmonhoc.databinding.ActivityAddProductBrandBinding;
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.presenter.ProductBrandManagement.AddProductBrandPresenter;
 import com.example.doanmonhoc.utils.TextUtils;
-import com.example.doanmonhoc.utils.TextWatcherValidation;
+import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
 
 public class AddProductBrandActivity extends AppCompatActivity implements AddProductBrandContract.View {
     private ActivityAddProductBrandBinding binding;
@@ -46,8 +46,8 @@ public class AddProductBrandActivity extends AppCompatActivity implements AddPro
         resultIntent = new Intent();
         addProductBrandPresenter = new AddProductBrandPresenter(AddProductBrandActivity.this);
 
-        TextUtils.onFocusTextHeading(this, binding.textHeadingProductBrandDes, binding.textProductBrandDes);
-        TextUtils.onFocusTextHeading(this, binding.textHeadingProductBrandName, binding.textProductBrandName);
+        TextUtils.onFocusHeader(this, binding.textHeadingProductBrandDes, binding.textProductBrandDes);
+        TextUtils.onFocusHeader(this, binding.textHeadingProductBrandName, binding.textProductBrandName);
 
         validateBrandName();
         binding.actionBack.setOnClickListener(v -> onBackPressed());

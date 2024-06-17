@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -29,6 +30,7 @@ import com.example.doanmonhoc.contract.ProductManagement.ProductManageContract;
 import com.example.doanmonhoc.databinding.ActivityProductManagementBinding;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.presenter.ProductManagament.ProductManagePresenter;
+import com.example.doanmonhoc.utils.ExtraManager;
 
 import java.util.List;
 
@@ -36,9 +38,8 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
         ProductRecyclerViewAdapter.OnItemClickListener {
 
     public static final String EXTRA_PRODUCT = "EXTRA_PRODUCT";
-    public static final String EXTRA_MODE_CREATE = "EXTRA_NODE_CREATE";
-    public static final String EXTRA_MODE_UPDATE = "EXTRA_MODE_UPDATE";
-    private ActivityProductManagementBinding b;
+
+    private ActivityProductManagementBinding binding;
     private boolean isSubMenuOpen;
     private Animation animFromBottomFab;
     private Animation animToBottomFab;
@@ -50,10 +51,8 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-
-        b = ActivityProductManagementBinding.inflate(getLayoutInflater());              // Thiết lập ViewBinding
-        setContentView(b.getRoot());                                                    // Gán layout cho activity
-
+        binding = ActivityProductManagementBinding.inflate(getLayoutInflater());              // Thiết lập ViewBinding
+        setContentView(binding.getRoot());                                                    // Gán layout cho activity
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -71,15 +70,15 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
         LinearLayoutManager linearLayoutManager =
                 new LinearLayoutManager(ProductManagementActivity.this, RecyclerView.VERTICAL, false);
         // Thiết lập LayoutManager
-        b.productList.setLayoutManager(linearLayoutManager);
+        binding.productList.setLayoutManager(linearLayoutManager);
         //
-        b.productList.setNestedScrollingEnabled(true);
+        binding.productList.setNestedScrollingEnabled(true);
         // Gọi callback tới presenter, lấy dữ liệu từ api
         productManagePresenter.getProductList();
 
         initializeAnimation();
 
-        b.addButton.setOnClickListener(v -> {
+        binding.addButton.setOnClickListener(v -> {
             if (!isSubMenuOpen) {
                 openMenu();
             } else {
@@ -99,13 +98,13 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
                 }
         );
 
-        b.addOne.setOnClickListener(v -> {
-            Intent intent = new Intent(ProductManagementActivity.this, AddProductActivity.class);
-            intent.putExtra("MODE", EXTRA_MODE_CREATE);
+        binding.addOne.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddProductActivity.class);
+            intent.putExtra(ExtraManager.ModeParams.EXTRA_MODE, ExtraManager.ModeParams.EXTRA_MODE_CREATE);
             addProductResultLauncher.launch(intent);
         });
 
-        b.buttonBack.setOnClickListener(v -> onBackPressed());
+        binding.buttonBack.setOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -115,10 +114,11 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
 
     @Override
     public void getProductListSuccessfully(List<Product> productList) {
+        binding.progressBar.setVisibility(View.INVISIBLE);
         ProductRecyclerViewAdapter productRecyclerViewAdapter =
-                new ProductRecyclerViewAdapter(ProductManagementActivity.this, ProductManagementActivity.this);
+                new ProductRecyclerViewAdapter(this, this);
         productRecyclerViewAdapter.setData(productList);
-        b.productList.setAdapter(productRecyclerViewAdapter);
+        binding.productList.setAdapter(productRecyclerViewAdapter);
     }
 
     @Override
@@ -135,27 +135,27 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     }
 
     private void closeMenu() {
-        b.addButton.startAnimation(animRotateAntiClockWise);
-        b.addOne.startAnimation(animToBottomFab);
-        b.addMany.startAnimation(animToBottomFab);
-        b.addOneTxt.startAnimation(animToBottomFab);
-        b.addManyTxt.startAnimation(animToBottomFab);
+        binding.addButton.startAnimation(animRotateAntiClockWise);
+        binding.addOne.startAnimation(animToBottomFab);
+        binding.addMany.startAnimation(animToBottomFab);
+        binding.addOneTxt.startAnimation(animToBottomFab);
+        binding.addManyTxt.startAnimation(animToBottomFab);
         isSubMenuOpen = false;
     }
 
     private void openMenu() {
-        b.addButton.startAnimation(animRotateClockWise);
-        b.addOne.startAnimation(animFromBottomFab);
-        b.addMany.startAnimation(animFromBottomFab);
-        b.addOneTxt.startAnimation(animFromBottomFab);
-        b.addManyTxt.startAnimation(animFromBottomFab);
+        binding.addButton.startAnimation(animRotateClockWise);
+        binding.addOne.startAnimation(animFromBottomFab);
+        binding.addMany.startAnimation(animFromBottomFab);
+        binding.addOneTxt.startAnimation(animFromBottomFab);
+        binding.addManyTxt.startAnimation(animFromBottomFab);
         isSubMenuOpen = true;
     }
 
     @Override
     public void onItemClick(Product product) {
-        Intent intent = new Intent(ProductManagementActivity.this, AddProductActivity.class);
-        intent.putExtra("MODE", EXTRA_MODE_UPDATE);
+        Intent intent = new Intent(this, AddProductActivity.class);
+        intent.putExtra(ExtraManager.ModeParams.EXTRA_MODE, ExtraManager.ModeParams.EXTRA_MODE_EDIT);
         intent.putExtra(EXTRA_PRODUCT, product);
         startActivity(intent);
     }

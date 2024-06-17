@@ -18,12 +18,12 @@ public class TextUtils {
         return tv.getText().toString().trim();
     }
 
-    public static void onFocusTextHeading(Context context, TextView tv, TextInputEditText et) {
-        et.setOnFocusChangeListener((v, hasFocus) -> {
+    public static void onFocusHeader(Context context, TextView header, TextInputEditText textField) {
+        textField.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
-                tv.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
+                header.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
             } else {
-                tv.setTextColor(ContextCompat.getColor(context, R.color.textHeading));
+                header.setTextColor(ContextCompat.getColor(context, R.color.textHeading));
             }
         });
     }

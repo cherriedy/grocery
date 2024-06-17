@@ -108,6 +108,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/text_header_product_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -145,6 +146,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/text_header_out_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
@@ -160,7 +162,7 @@
                             app:endIconMode="clear_text"
                             app:hintEnabled="false">
 
-                            <EditText
+                            <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/text_product_out_price"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -180,6 +182,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/text_header_in_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="4dp"
@@ -212,6 +215,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/text_header_discount"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -266,6 +270,7 @@
                         android:textStyle="bold" />
 
                     <RadioGroup
+                        android:id="@+id/radio_group_stock"
                         android:layout_width="150dp"
                         android:layout_height="38dp"
                         android:layout_alignParentEnd="true"
@@ -276,12 +281,13 @@
                             android:id="@+id/button_inStock"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginEnd="4dp"
                             android:layout_weight="1"
                             android:background="@drawable/radio_button_left_selector"
                             android:button="@android:color/transparent"
                             android:checked="true"
                             android:gravity="center"
-                            android:onClick="onRadioButtonClicked"
+                            android:onClick="onRadioButtonClick"
                             android:text="@string/action_inStock"
                             android:textColor="@color/primaryColor"
                             android:textSize="12dp"
@@ -292,13 +298,13 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:background="@drawable/radio_button_left_unchecked"
+                            android:background="@drawable/radio_button_right_selector"
                             android:button="@android:color/transparent"
                             android:checked="false"
                             android:gravity="center"
-                            android:onClick="onRadioButtonClicked"
+                            android:onClick="onRadioButtonClick"
                             android:text="@string/action_outStock"
-                            android:textColor="#6e7b8b"
+                            android:textColor="@color/textHeading"
                             android:textSize="12dp"
                             android:textStyle="bold" />
 
@@ -419,6 +425,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/text_header_barcode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -444,6 +451,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/text_header_des"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"
@@ -479,6 +487,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/text_header_note"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="4dp"

@@ -10,5 +10,5 @@
         android:right="4dp"
         android:top="4dp" />
 
-    <solid android:color="#ebeef3" />
+    <solid android:color="@color/backgroundColor" />
 </shape>
