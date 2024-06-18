@@ -19,6 +19,10 @@ public interface ProductAddContract {
         void handleCreateProduct(Product product);
 
         void getExtraProduct(Intent intent);
+
+        void handleUpdateProduct(Product product);
+
+        void handleDeleteProduct(Product product);
     }
 
     interface View {
@@ -36,12 +40,20 @@ public interface ProductAddContract {
 
         void createProduct();
 
-        void notifyCreateProductSuccessfully();
+        void createProductSuccessfully();
 
-        void notifyCreateProductFail();
+        void createProductFail();
 
-        void getExtraProductSuccessfully(Product extrasProduct);
+        void getExtraProductSuccessfully(Product product);
 
         void getExtraProductFail();
+
+        void deleteProductSuccessfully();
+
+        void deleteProductFail();
+
+        void updateProductSuccessfully();
+
+        void updateProductFail();
     }
 }

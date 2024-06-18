@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.activity.ProductBrandManagement;
+package com.example.doanmonhoc.activity.BrandManagement;
 
 import android.app.Activity;
 import android.content.Intent;

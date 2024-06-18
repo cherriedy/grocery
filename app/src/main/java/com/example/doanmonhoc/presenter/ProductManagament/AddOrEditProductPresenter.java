@@ -19,13 +19,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductAddPresenter implements ProductAddContract.Presenter {
+    public static final String TAG = "CREATE_PRODUCT";
+
+    private final ProductAddContract.View productAddViewContract;
 
     private List<Brand> brandList;
     private List<ProductGroup> productGroupList;
-    private ActivityAddProductBinding b;
-    private final ProductAddContract.View productAddViewContract;
     private String currentLatestProductKey;
-    public static String CREATE_TAG = "CREATE_PRODUCT";
+    private Product receivedExtraProduct;
 
     public ProductAddPresenter(ProductAddContract.View productAddViewContract) {
         this.productAddViewContract = productAddViewContract;
@@ -73,12 +74,14 @@ public class ProductAddPresenter implements ProductAddContract.Presenter {
             public void onResponse(Call<Product> call, Response<Product> response) {
                 if (response.isSuccessful()) {
                     productAddViewContract.notifyCreateProductSuccessfully();
+                } else {
+                    productAddViewContract.notifyCreateProductFail();
                 }
             }
 
             @Override
             public void onFailure(Call<Product> call, Throwable throwable) {
-                Log.e(CREATE_TAG, throwable.getMessage());
+                Log.e(TAG, throwable.getMessage());
                 productAddViewContract.notifyCreateProductFail();
             }
         });
@@ -87,12 +90,50 @@ public class ProductAddPresenter implements ProductAddContract.Presenter {
     @Override
     public void getExtraProduct(Intent intent) {
         if (intent != null) {
-            Product receivedExtraProduct = (Product) intent.getSerializableExtra(ProductManagementActivity.EXTRA_PRODUCT);
+            receivedExtraProduct = (Product) intent.getSerializableExtra(ProductManagementActivity.EXTRA_PRODUCT);
             if (receivedExtraProduct != null) {
                 productAddViewContract.getExtraProductSuccessfully(receivedExtraProduct);
             }
         }
         productAddViewContract.getExtraProductFail();
+    }
+
+    @Override
+    public void handleUpdateProduct(Product product) {
+        KiotApiService.apiService.updateProduct(receivedExtraProduct.getId(), product).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                if (response.isSuccessful()) {
+                    productAddViewContract.notifyUpdateProductSuccessfully();
+                } else {
+                    productAddViewContract.notifyUpdateProductFail();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable throwable) {
+                Log.e("UpdateProduct", throwable.getMessage());
+                productAddViewContract.notifyUpdateProductFail();
+            }
+        });
+    }
+
+    @Override
+    public void deleteProduct(Product product) {
+        KiotApiService.apiService.deleteProduct(product.getId()).enqueue(new Callback<Product>() {
+            @Override
+            public void onResponse(Call<Product> call, Response<Product> response) {
+                if (response.isSuccessful()) {
+                    productAddViewContract.notifyDeleteProductSuccessfully();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Product> call, Throwable throwable) {
+                Log.e("DeleteProduct", throwable.getMessage());
+                productAddViewContract.notifyDeleteProductFail();
+            }
+        });
     }
 
     public String generateLatestProductKey() {
@@ -125,9 +166,10 @@ public class ProductAddPresenter implements ProductAddContract.Presenter {
 
     private int parseProductKey(String latestProductKey) {
 //        if (latestProductKey.startsWith(Product.PREFIX)) {
-            String keyText = latestProductKey.substring(Product.PREFIX.length());
-            return Integer.parseInt(keyText);
+        String keyText = latestProductKey.substring(Product.PREFIX.length());
+        return Integer.parseInt(keyText);
 //        }
 //        return -1;
     }
+
 }

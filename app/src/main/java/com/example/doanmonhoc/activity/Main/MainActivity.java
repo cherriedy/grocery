@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.activity.Main;
+package com.example.doanmonhoc.activity.MainActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

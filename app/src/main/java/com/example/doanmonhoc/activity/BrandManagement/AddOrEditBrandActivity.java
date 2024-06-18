@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.activity.ProductBrandManagement;
+package com.example.doanmonhoc.activity.BrandManagement;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,10 +22,9 @@ import com.example.doanmonhoc.presenter.ProductBrandManagement.AddProductBrandPr
 import com.example.doanmonhoc.utils.TextUtils;
 import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
 
-public class AddProductBrandActivity extends AppCompatActivity implements AddProductBrandContract.View {
+public class AddBrandActivity extends AppCompatActivity implements AddProductBrandContract.View {
     private ActivityAddProductBrandBinding binding;
     private AddProductBrandPresenter addProductBrandPresenter;
-    private Intent resultIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +42,7 @@ public class AddProductBrandActivity extends AppCompatActivity implements AddPro
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.primaryColor));
 
-        resultIntent = new Intent();
-        addProductBrandPresenter = new AddProductBrandPresenter(AddProductBrandActivity.this);
+        addProductBrandPresenter = new AddProductBrandPresenter(AddBrandActivity.this);
 
         TextUtils.onFocusHeader(this, binding.textHeadingProductBrandDes, binding.textProductBrandDes);
         TextUtils.onFocusHeader(this, binding.textHeadingProductBrandName, binding.textProductBrandName);
@@ -77,7 +75,7 @@ public class AddProductBrandActivity extends AppCompatActivity implements AddPro
     @Override
     public void createProductBrandSuccessfully() {
         Toast.makeText(this, "Tạo nhãn hàng thành công", Toast.LENGTH_SHORT).show();
-        setResult(Activity.RESULT_OK, resultIntent);
+        setResult(Activity.RESULT_OK, new Intent());
         finish();
     }
 
