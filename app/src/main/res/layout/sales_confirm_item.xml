@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
+    android:id="@+id/cardView"
     android:orientation="horizontal"
     android:background="@drawable/radius_4_goc"
     android:backgroundTint="@color/white"
@@ -10,6 +11,7 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:id="@+id/imageView"
         android:src="@drawable/ic_launcher_background"
         app:shapeAppearanceOverlay="@style/roundedImageStyle" />
 
@@ -18,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp">
         <TextView
-            android:id="@+id/item_name"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Bàn chải"
@@ -28,6 +30,7 @@
         <TableRow
             android:layout_marginTop="7sp">
             <TextView
+                android:id="@+id/tvPrice"
                 android:text="15.000"
                 android:textColor="@color/primaryColor"
                 android:textSize="16sp"
@@ -56,6 +59,7 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
+                        android:id="@id/btnMinus"
                         android:layout_width="32dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="start"
@@ -63,6 +67,7 @@
                         android:src="@drawable/ic_minus"/>
 
                     <TextView
+                        android:id="@+id/tvQuantity"
                         android:layout_width="35dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
@@ -70,6 +75,7 @@
                         android:text="2" />
 
                     <ImageButton
+                        android:id="@+id/btnPlus"
                         android:layout_width="32dp"
                         android:layout_height="match_parent"
                         android:background="@color/white"

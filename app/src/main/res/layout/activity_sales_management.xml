@@ -11,7 +11,7 @@
         android:background="#FFFFFF">
 
         <ImageButton
-            android:id="@+id/backButton"
+            android:id="@+id/btnBack"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@color/white"
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="17dp"
-            android:text="Đơn hàng"
+            android:text="Hóa Đơn"
             android:textSize="20sp"
             android:textStyle="bold" />
         <EditText
@@ -35,7 +35,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginTop="25dp"
             android:layout_marginBottom="20dp"
-            android:hint="Tìm kiếm mặt hàng"
+            android:hint="Tìm kiếm mã hóa đơn"
             android:padding="12dp"
             android:drawableStart="@drawable/ic_search"
             android:background="@drawable/edit_text_timkiem" />
@@ -44,75 +44,62 @@
 
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/radiogroup"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/layout_tren">
-        <RadioGroup
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:layout_gravity="center"
-            android:background="@drawable/radio_group_rounded"
-            android:orientation="horizontal">
+<!--    <androidx.cardview.widget.CardView-->
+<!--        android:id="@+id/radiogroup"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_below="@+id/layout_tren">-->
+<!--        <RadioGroup-->
+<!--            android:id="@+id/radioGroup"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_margin="15dp"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:background="@drawable/radio_group_rounded"-->
+<!--            android:orientation="horizontal">-->
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/all"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:background="@drawable/radio_button_left_selector"
-                android:button="@android:color/transparent"
-                android:checked="true"
-                android:gravity="center"
-                android:onClick="onRadioButtonClicked"
-                android:text="Tất cả"
-                android:textColor="@color/primaryColor"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+<!--            <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                android:id="@+id/radioButtonAll"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:background="@drawable/radio_button_left_selector"-->
+<!--                android:button="@android:color/transparent"-->
+<!--                android:checked="true"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Tất cả"-->
+<!--                android:textColor="@color/primaryColor"-->
+<!--                android:textSize="12dp"-->
+<!--                android:textStyle="bold" />-->
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/toDay"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:background="@drawable/radio_button_left_unchecked"
-                android:button="@android:color/transparent"
-                android:checked="false"
-                android:gravity="center"
-                android:onClick="onRadioButtonClicked"
-                android:text="Hôm nay"
-                android:textColor="#6e7b8b"
-                android:textSize="12dp"
-                android:textStyle="bold" />
+<!--            <com.google.android.material.radiobutton.MaterialRadioButton-->
+<!--                android:id="@+id/radioButtonToday"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="35dp"-->
+<!--                android:background="@drawable/radio_button_left_unchecked"-->
+<!--                android:button="@android:color/transparent"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Hôm nay"-->
+<!--                android:textColor="#6e7b8b"-->
+<!--                android:textSize="12dp"-->
+<!--                android:textStyle="bold" />-->
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/thisMonth"
-                android:layout_width="100dp"
-                android:layout_height="35dp"
-                android:background="@drawable/radio_button_left_unchecked"
-                android:button="@android:color/transparent"
-                android:checked="false"
-                android:gravity="center"
-                android:onClick="onRadioButtonClicked"
-                android:text="Tháng này"
-                android:textColor="#6e7b8b"
-                android:textSize="12dp"
-                android:textStyle="bold" />
 
-        </RadioGroup>
-    </androidx.cardview.widget.CardView>
+
+<!--        </RadioGroup>-->
+<!--    </androidx.cardview.widget.CardView>-->
 
 
     <ListView
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:background="@color/white"
-        android:layout_below="@+id/radiogroup"/>
+        android:layout_below="@+id/layout_tren"/>
 
     <Button
-        android:id="@+id/create_order_button"
+        android:id="@+id/btnAddInvoice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

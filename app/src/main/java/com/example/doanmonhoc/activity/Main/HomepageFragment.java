@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.ProductBrandManagement.ProductBrandActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
+import com.example.doanmonhoc.activity.SaleManagement.SaleCreateActivity;
+import com.example.doanmonhoc.activity.SaleManagement.SaleManagementActivity;
 import com.example.doanmonhoc.adapter.ShortcutGridViewAdapter;
 import com.example.doanmonhoc.databinding.FragmentHomepageBinding;
 
@@ -64,7 +66,8 @@ public class HomepageFragment extends Fragment implements ShortcutGridViewAdapte
         } else if (position == ShortcutGridViewAdapter.SHORTCUT_INVENTORY) {
             Toast.makeText(requireContext(), "INVENTORY", Toast.LENGTH_SHORT).show();
         } else if (position == ShortcutGridViewAdapter.SHORTCUT_ORDER) {
-            Toast.makeText(requireContext(), "ORDER", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(requireContext(), "ORDER", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getContext(), SaleManagementActivity.class));
         } else if (position == ShortcutGridViewAdapter.SHORTCUT_REPORT) {
             Toast.makeText(requireContext(), "REPORT", Toast.LENGTH_SHORT).show();
         } else if (position == ShortcutGridViewAdapter.SHORTCUT_STAFF) {
