@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddProductActivity extends AppCompatActivity implements AddOrEditProductContract.View {
+public class AddOrEditProductActivity extends AppCompatActivity implements AddOrEditProductContract.View {
     private static final String TAG = "AddProductActivity";
     public static final int RADIO_BUTTON_IN_STOCK = 0;
     public static final int RADIO_BUTTON_OUT_STOCK = 1;
@@ -202,7 +202,7 @@ public class AddProductActivity extends AppCompatActivity implements AddOrEditPr
     @Override
     public void getBrandAutoCompleteDataSuccessfully(List<Brand> brandList) {
         if (brandList != null) {
-            BrandAutoCompleteAdapter adapter = new BrandAutoCompleteAdapter(AddProductActivity.this, R.layout.dropdown_item, brandList);
+            BrandAutoCompleteAdapter adapter = new BrandAutoCompleteAdapter(AddOrEditProductActivity.this, R.layout.dropdown_item, brandList);
 //            binding.autoCompleteBrand.setAdapter(adapter);
             // TEST SPINNER
             Log.d(TAG, "getBrandAutoCompleteDataSuccessfully: " + brandList.isEmpty());
@@ -210,22 +210,22 @@ public class AddProductActivity extends AppCompatActivity implements AddOrEditPr
             Log.d(TAG, "getBrandAutoCompleteDataSuccessfully: " + brandSpinnerAdapter.getData());
             binding.spinnerBrand.setAdapter(brandSpinnerAdapter);
         } else {
-            Toast.makeText(AddProductActivity.this, "Không có dữ liệu nhãn hàng", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddOrEditProductActivity.this, "Không có dữ liệu nhãn hàng", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void getBrandAutoCompleteDataFail() {
-        Toast.makeText(AddProductActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AddOrEditProductActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void getProductGroupAutoCompleteDataSuccessfully(List<ProductGroup> productGroupList) {
         if (productGroupList != null) {
-            TypeAutoCompleteAdapter adapter = new TypeAutoCompleteAdapter(AddProductActivity.this, R.layout.dropdown_item, productGroupList);
+            TypeAutoCompleteAdapter adapter = new TypeAutoCompleteAdapter(AddOrEditProductActivity.this, R.layout.dropdown_item, productGroupList);
             binding.autoCompleteType.setAdapter(adapter);
         } else {
-            Toast.makeText(AddProductActivity.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddOrEditProductActivity.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -253,7 +253,7 @@ public class AddProductActivity extends AppCompatActivity implements AddOrEditPr
 
     @Override
     public void getProductGroupAutoCompleteDataFail() {
-        Toast.makeText(AddProductActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AddOrEditProductActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -317,6 +317,12 @@ public class AddProductActivity extends AppCompatActivity implements AddOrEditPr
     }
 
     @Override
+    public void deleteProduct() {
+        loadingDialog.show();
+        presenter.handleDeleteProduct(receivedExtraProduct);
+    }
+
+    @Override
     public void getExtraProductFail() {
         Toast.makeText(this, "Có lỗi", Toast.LENGTH_SHORT).show();
     }
@@ -367,10 +373,7 @@ public class AddProductActivity extends AppCompatActivity implements AddOrEditPr
                     // Gán onClickListener cho buttonFinish
                     binding.buttonFinish.setOnClickListener(v -> updateProduct());
                     // Gán onClickListener cho buttonDelete
-                    binding.buttonDelete.setOnClickListener(v -> {
-                        loadingDialog.show();
-                        presenter.handleDeleteProduct(receivedExtraProduct);
-                    });
+                    binding.buttonDelete.setOnClickListener(v -> deleteProduct());
                     // Gọi presenter để lấy dữ liệu từ intent
                     presenter.getExtraProduct(intent);
                     break;
@@ -476,14 +479,12 @@ public class AddProductActivity extends AppCompatActivity implements AddOrEditPr
     }
 
     private void validateProductName() {
-        // Kiểm tra dữ liệu được nhập vào khi không còn foucs
         binding.textProductName.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 handleValidateProductName();
             }
         });
 
-        // Kiểm tra dữ liệu sau khi kết thúc nhập
         binding.textProductName.addTextChangedListener(new TextWatcherValidation() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {

@@ -6,7 +6,7 @@
     android:theme="@style/Base.Theme.DoAnMonHoc"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.SplashActivity">
+    tools:context=".activity.Auth.SplashActivity">
 
     <ImageView
         android:id="@+id/imageView2"

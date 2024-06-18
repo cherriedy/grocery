@@ -12,13 +12,13 @@ import com.example.doanmonhoc.model.Brand;
 
 import java.util.List;
 
-public class ProductBrandSpinnerAdapter extends BaseAdapter {
+public class BrandSpinnerAdapter extends BaseAdapter {
     private static final String TAG = "BrandSpinnerAdapter";
 
     private final Context context;
     private List<Brand> brandList;
 
-    public ProductBrandSpinnerAdapter(Context context) {
+    public BrandSpinnerAdapter(Context context) {
         this.context = context;
     }
 
@@ -66,6 +66,10 @@ public class ProductBrandSpinnerAdapter extends BaseAdapter {
     public void setData(List<Brand> brandList) {
         this.brandList = brandList;
         notifyDataSetChanged();
+    }
+
+    public List<Brand> getData() {
+        return brandList;
     }
 
     private static class BrandItemViewHolder {

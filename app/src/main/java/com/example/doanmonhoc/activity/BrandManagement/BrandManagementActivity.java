@@ -3,6 +3,8 @@ package com.example.doanmonhoc.activity.BrandManagement;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -10,8 +12,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,24 +23,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.adapter.ProductBrandRecyclerViewAdapter;
-import com.example.doanmonhoc.contract.ProductBrandManagement.ProductBrandManageContract;
+import com.example.doanmonhoc.contract.BrandManagement.ProductBrandManageContract;
 import com.example.doanmonhoc.databinding.ActivityProductBrandBinding;
 import com.example.doanmonhoc.model.Brand;
-import com.example.doanmonhoc.presenter.ProductBrandManagement.ProductBrandManagePresenter;
-import com.example.doanmonhoc.utils.ExtraManager;
+import com.example.doanmonhoc.presenter.BrandManagement.BrandManagePresenter;
+import com.example.doanmonhoc.utils.IntentManager;
 
 import java.util.List;
 
-public class ProductBrandManagementActivity extends AppCompatActivity implements ProductBrandManageContract.View, ProductBrandRecyclerViewAdapter.OnItemClickListener {
+public class BrandManagementActivity extends AppCompatActivity implements ProductBrandManageContract.View, ProductBrandRecyclerViewAdapter.OnItemClickListener {
+    private static final String TAG = "BrandManagementActivity";
 
+    private ActivityProductBrandBinding binding;
     private Animation animFromBottomFab;
     private Animation animToBottomFab;
     private Animation animRotateClockWise;
     private Animation animRotateAntiClockWise;
     private boolean isSubMenuOpen;
     private ProductBrandRecyclerViewAdapter productBrandRecyclerViewAdapter;
-    private ActivityProductBrandBinding binding;
-    private ProductBrandManagePresenter productBrandManagePresenter = new ProductBrandManagePresenter(ProductBrandManagementActivity.this);
+    private BrandManagePresenter brandManagePresenter;
+    private ActivityResultLauncher<Intent> getActivityResultOk;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,56 +55,42 @@ public class ProductBrandManagementActivity extends AppCompatActivity implements
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(ProductBrandManagementActivity.this, R.color.primaryColor));
-
-        productBrandRecyclerViewAdapter = new ProductBrandRecyclerViewAdapter(ProductBrandManagementActivity.this);
-
+        window.setStatusBarColor(ContextCompat.getColor(BrandManagementActivity.this, R.color.primaryColor));
+        // Animation Handle
         initializeAnimation();
+        // onClickListener Handle
+        onExpandMenuClick();
+        onAddOneClick();
+        // Generate Objects
+        brandManagePresenter = new BrandManagePresenter(this);
+        productBrandRecyclerViewAdapter = new ProductBrandRecyclerViewAdapter(this);
 
-        binding.fabExpandMenu.setOnClickListener(v -> {
-            if (!isSubMenuOpen) {
-                openMenu();
-            } else {
-                closeMenu();
-            }
-        });
+        productBrandRecyclerViewAdapter.setOnItemClickListener(this);
+        binding.listProductBrand.setLayoutManager(
+                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        );
+        brandManagePresenter.getProductBrandList();
 
-        ActivityResultLauncher<Intent> addProductBrandResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult o) {
-                        if (o.getResultCode() == Activity.RESULT_OK) {
-                            productBrandManagePresenter.getProductBrandList();
-                        }
+        getActivityResultOk = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), o -> {
+                    if (o.getResultCode() == Activity.RESULT_OK) {
+                        productBrandRecyclerViewAdapter.setData(null);
+                        binding.progressBar.setVisibility(View.VISIBLE);
+                        brandManagePresenter.getProductBrandList();
                     }
                 }
         );
 
-        binding.fabAddOne.setOnClickListener(v -> {
-            Intent intent = new Intent(ProductBrandManagementActivity.this, AddProductBrandActivity.class);
-            intent.putExtra(ExtraManager.ModeParams.EXTRA_MODE, ExtraManager.ModeParams.EXTRA_MODE_CREATE);
-            addProductBrandResultLauncher.launch(intent);
-        });
-
         binding.buttonBack.setOnClickListener(v -> onBackPressed());
-
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(ProductBrandManagementActivity.this, LinearLayoutManager.VERTICAL, false);
-        binding.listProductBrand.setLayoutManager(linearLayoutManager);
-        productBrandManagePresenter.getProductBrandList();
     }
-
 
     @Override
     public void getProductBrandListSuccessfully(List<Brand> brandList) {
-        if (brandList != null) {
-            productBrandRecyclerViewAdapter.setData(brandList);
-            productBrandRecyclerViewAdapter.setOnItemClickListener(ProductBrandManagementActivity.this);
-            binding.listProductBrand.setAdapter(productBrandRecyclerViewAdapter);
-        }
+        binding.progressBar.setVisibility(View.INVISIBLE);
+        productBrandRecyclerViewAdapter.setData(brandList);
+        binding.listProductBrand.setAdapter(productBrandRecyclerViewAdapter);
     }
 
     @Override
@@ -112,7 +100,28 @@ public class ProductBrandManagementActivity extends AppCompatActivity implements
 
     @Override
     public void itemClickListener(Brand brand) {
-        Toast.makeText(ProductBrandManagementActivity.this, "WORKING", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "itemClickListener: " + brand.toString());
+        Intent intent = new Intent(this, AddOrEditBrandActivity.class);
+        intent.putExtra(IntentManager.ModeParams.EXTRA_MODE, IntentManager.ModeParams.EXTRA_MODE_EDIT);
+        intent.putExtra(IntentManager.ExtraParams.EXTRA_BRAND, brand);
+        getActivityResultOk.launch(intent);
+    }
+
+    private void initializeAnimation() {
+        animFromBottomFab = AnimationUtils.loadAnimation(BrandManagementActivity.this, R.anim.from_bottom_fab);
+        animToBottomFab = AnimationUtils.loadAnimation(BrandManagementActivity.this, R.anim.to_bottom_fab);
+        animRotateClockWise = AnimationUtils.loadAnimation(BrandManagementActivity.this, R.anim.rotate_clock_wise);
+        animRotateAntiClockWise = AnimationUtils.loadAnimation(BrandManagementActivity.this, R.anim.rotate_anti_clock_wise);
+    }
+
+    private void onExpandMenuClick() {
+        binding.fabExpandMenu.setOnClickListener(v -> {
+            if (!isSubMenuOpen) {
+                openMenu();
+            } else {
+                closeMenu();
+            }
+        });
     }
 
     private void openMenu() {
@@ -129,11 +138,11 @@ public class ProductBrandManagementActivity extends AppCompatActivity implements
         isSubMenuOpen = false;
     }
 
-    private void initializeAnimation() {
-        animFromBottomFab = AnimationUtils.loadAnimation(ProductBrandManagementActivity.this, R.anim.from_bottom_fab);
-        animToBottomFab = AnimationUtils.loadAnimation(ProductBrandManagementActivity.this, R.anim.to_bottom_fab);
-        animRotateClockWise = AnimationUtils.loadAnimation(ProductBrandManagementActivity.this, R.anim.rotate_clock_wise);
-        animRotateAntiClockWise = AnimationUtils.loadAnimation(ProductBrandManagementActivity.this, R.anim.rotate_anti_clock_wise);
+    private void onAddOneClick() {
+        binding.fabAddOne.setOnClickListener(v -> {
+            Intent intent = new Intent(this, AddOrEditBrandActivity.class);
+            intent.putExtra(IntentManager.ModeParams.EXTRA_MODE, IntentManager.ModeParams.EXTRA_MODE_CREATE);
+            getActivityResultOk.launch(intent);
+        });
     }
-
 }

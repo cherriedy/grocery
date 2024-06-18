@@ -4,7 +4,7 @@ import android.content.Intent;
 
 import com.example.doanmonhoc.model.Brand;
 
-public class AddProductBrandContract {
+public class AddOrEditBrandContract {
     public interface View {
         void createBrand();
 

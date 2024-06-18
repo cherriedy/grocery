@@ -1,6 +1,8 @@
 package com.example.doanmonhoc.model;
 
-public class Brand {
+import java.io.Serializable;
+
+public class Brand implements Serializable {
     public static final String PREFIX = "BR";
 
     private int id;
@@ -42,5 +44,14 @@ public class Brand {
 
     public void setBrandName(String brandName) {
         this.brandName = brandName;
+    }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "id=" + id +
+                ", brandKey='" + brandKey + '\'' +
+                ", brandName='" + brandName + '\'' +
+                '}';
     }
 }

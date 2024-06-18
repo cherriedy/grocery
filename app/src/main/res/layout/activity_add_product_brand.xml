@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:orientation="vertical"
-    tools:context=".activity.ProductBrandManagement.AddProductBrandActivity">
+    tools:context=".activity.BrandManagement.AddOrEditBrandActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -28,6 +28,7 @@
             app:tint="@color/white" />
 
         <TextView
+            android:id="@+id/text_action_bar_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -126,13 +127,36 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:background="@color/white"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="16dp">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/action_finish"
+            android:id="@+id/button_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:text="Xóa"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:backgroundTint="@android:color/transparent"
+            app:cornerRadius="5dp"
+            app:strokeColor="@android:color/holo_red_dark"
+            app:strokeWidth="1dp" />
+
+        <View
+            android:id="@+id/view_divider_button"
+            android:layout_width="12dp"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_finish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:padding="16dp"
             android:text="Hoàn tất"
             android:textSize="18sp"

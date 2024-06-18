@@ -8,7 +8,7 @@ import com.example.doanmonhoc.model.ProductGroup;
 
 import java.util.List;
 
-public interface ProductAddContract {
+public interface AddOrEditProductContract {
     interface Presenter {
         void getBrandList();
 
@@ -46,11 +46,15 @@ public interface ProductAddContract {
 
         void getExtraProductSuccessfully(Product product);
 
+        void deleteProduct();
+
         void getExtraProductFail();
 
         void deleteProductSuccessfully();
 
         void deleteProductFail();
+
+        void updateProduct();
 
         void updateProductSuccessfully();
 

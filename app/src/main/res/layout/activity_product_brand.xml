@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.ProductBrandManagement.ProductBrandManagementActivity">
+    tools:context=".activity.BrandManagement.BrandManagementActivity">
 
     <RelativeLayout
         android:id="@+id/actionbar"
@@ -37,6 +37,18 @@
             android:textColor="@color/white"
             android:textStyle="bold" />
     </RelativeLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/primaryColor"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
