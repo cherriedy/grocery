@@ -13,8 +13,8 @@ import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.Main.MainActivity;
 import com.example.doanmonhoc.activity.MainActivityForStaff;
 import com.example.doanmonhoc.api.KiotApiService;
-import com.example.doanmonhoc.model.Account;
 import com.example.doanmonhoc.model.LoginResponse;
+import com.example.doanmonhoc.model.Staff;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,8 +44,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String username, String password) {
-        Account account = new Account(username, password);
-        KiotApiService.apiService.loginUser(account).enqueue(new Callback<LoginResponse>() {
+        Staff staff = new Staff(username, password);
+        KiotApiService.apiService.loginUser(staff).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.isSuccessful() ) {
@@ -55,12 +55,14 @@ public class LoginActivity extends AppCompatActivity {
                         String message = loginResponse.getMessage();
                         long Roleid = loginResponse.getRoleid();
                         long id = loginResponse.getId();
+                        String staffName = loginResponse.getStaffName();
 
                         // Lưu vào SharedPreferences
                         SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putLong("id", id);
                         editor.putLong("Roleid", Roleid);
+                        editor.putString("staffName", staffName);
                         editor.apply();
 
                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();

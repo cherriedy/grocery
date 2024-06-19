@@ -1,6 +1,5 @@
 package com.example.doanmonhoc.api;
 
-import com.example.doanmonhoc.model.Account;
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
@@ -90,7 +89,7 @@ public interface KiotApiService {
     Call<List<ProductGroup>> getProductGroupList();
 
     @POST("login")
-    Call<LoginResponse> loginUser(@Body Account account);
+    Call<LoginResponse> loginUser(@Body Staff staff);
 
     @GET("staff/{id}")
     Call<Staff> getStaffById(@Path("id") long id);

@@ -29,18 +29,18 @@ import retrofit2.Response;
 import java.util.Locale;
 
 public class AccountDetailActivity extends AppCompatActivity {
-    private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone;
+    private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername, txtPassword;
     private Gson gson;
     private ShapeableImageView staffImage;
 
     // Khởi tạo ActivityResultLauncher
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-        new ActivityResultContracts.StartActivityForResult(),
-        result -> {
-            if (result.getResultCode() == Activity.RESULT_OK) {
-                loadAccountDetail();
-            }
-        });
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    loadAccountDetail();
+                }
+            });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +58,8 @@ public class AccountDetailActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPhone = findViewById(R.id.txtPhone);
         staffImage = findViewById(R.id.staffImage);
+        txtUsername = findViewById(R.id.txtUsername);
+        txtPassword = findViewById(R.id.txtPassword);
 
         gson = new Gson();
 
@@ -91,6 +93,8 @@ public class AccountDetailActivity extends AppCompatActivity {
                     txtAddress.setText(staff.getAddress());
                     txtEmail.setText(staff.getStaffEmail());
                     txtPhone.setText(staff.getStaffPhone());
+                    txtUsername.setText(staff.getUsername());
+                    txtPassword.setText(staff.getPassword());
 
                     if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
                         int resID = getResources().getIdentifier(staff.getStaffImage(), "drawable", getPackageName());
@@ -118,6 +122,8 @@ public class AccountDetailActivity extends AppCompatActivity {
         staff.setStaffEmail(txtEmail.getText().toString());
         staff.setStaffPhone(txtPhone.getText().toString());
         staff.setAddress(txtAddress.getText().toString());
+        staff.setUsername(txtUsername.getText().toString());
+        staff.setPassword(txtPassword.getText().toString());
 
         // set Dob
         try {
