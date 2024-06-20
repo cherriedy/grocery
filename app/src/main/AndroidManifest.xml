@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -29,7 +28,11 @@
             android:name=".activity.SaleManagement.SaleManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ProductBrandManagement.ProductBrandActivity"
+            android:name=".activity.ProductBrandManagement.AddProductBrandActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".activity.ProductBrandManagement.ProductBrandManagementActivity"
             android:exported="false"
             android:theme="@style/Theme.DoAnMonHoc" />
         <activity
@@ -60,8 +63,21 @@
             android:name=".activity.StaffManagement.AddStaffActivity"
             android:exported="true" />
         <activity
-            android:name=".activity.SplashActivity"
-            android:exported="true">
+            android:name=".activity.CreateImportProduct.CreateImportActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activity.CreateImportProduct.BillImportActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activity.CreateImportProduct.DetailImportActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CreateImportProduct.ManagementImportActivity"
+            android:exported="false"/>
+            <activity
+                android:name=".activity.SplashActivity"
+                android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -20,7 +20,8 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@color/white"
-            android:src="@drawable/ic_arrow_back" />
+            android:src="@drawable/ic_arrow_back"
+            android:onClick="navigatetoDetailsActivity"/>
 
         <TextView
             android:id="@+id/headerTitle"
@@ -301,7 +302,8 @@
             android:layout_marginBottom="35dp"
             android:background="@drawable/radius_4_goc"
             android:text="In phiếu"
-            android:theme="@style/Base.Theme.DoAnMonHoc" />
+            android:theme="@style/Base.Theme.DoAnMonHoc"
+            android:onClick="navigateToManagementImportActivity"/>
     </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,6 +80,7 @@ public class EditAccountActivity extends AppCompatActivity {
         }
 
 
+
         txtDob.setOnClickListener(v -> {
             // Lấy ngày hiện tại để làm mặc định cho DatePicker
             final Calendar calendar = Calendar.getInstance();

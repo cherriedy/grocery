@@ -13,11 +13,20 @@
         android:layout_height="wrap_content"
         android:padding="8dp">
 
+        <!--        <androidx.constraintlayout.utils.widget.ImageFilterView-->
+        <!--            android:id="@+id/image_product_brand_avatar"-->
+        <!--            android:layout_width="45dp"-->
+        <!--            android:layout_height="45dp"-->
+        <!--            android:layout_centerVertical="true"-->
+        <!--            app:roundPercent="1"-->
+        <!--            app:srcCompat="@drawable/cat" />-->
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_product_brand_avatar"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_centerVertical="true"
+            android:scaleType="centerCrop"
             app:shapeAppearanceOverlay="@style/CircleBorder"
             app:srcCompat="@drawable/cat" />
 

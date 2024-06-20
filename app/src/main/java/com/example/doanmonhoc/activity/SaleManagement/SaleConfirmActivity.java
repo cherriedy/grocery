@@ -3,6 +3,7 @@ package com.example.doanmonhoc.activity.SaleManagement;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -114,10 +115,15 @@ public class SaleConfirmActivity extends AppCompatActivity {
             public void onResponse(Call<Invoice> call, Response<Invoice> response) {
                 Invoice addedInvoice = response.body();
                 if (addedInvoice != null) {
-                    long invoiceId = addedInvoice.getId();
                     Intent intent = new Intent(SaleConfirmActivity.this, SaleDetailedInvoiceActivity.class);
-                    intent.putExtra("invoiceId", invoiceId);
+                    intent.putExtra("invoiceId", addedInvoice.getId());
+                    intent.putExtra("invoiceKey", addedInvoice.getInvoiceKey());
+                    intent.putExtra("staffId", addedInvoice.getStaffid());
+                    intent.putExtra("createAt", addedInvoice.getCreatedAt().getTime());
+                    intent.putExtra("totalAmount", addedInvoice.getTotalAmount());
+                    intent.putExtra("note", addedInvoice.getNote());
                     startActivity(intent);
+                    setResult(RESULT_OK);
                     finish();
                 } else {
                         Toast.makeText(SaleConfirmActivity.this, "Không tìm thấy sản phẩm nào!", Toast.LENGTH_SHORT).show();
@@ -127,6 +133,7 @@ public class SaleConfirmActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Invoice> call, Throwable t) {
                 Toast.makeText(SaleConfirmActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+                Log.e("API_ERROR", "Loi error ko load dc", t);
             }
         });
     }

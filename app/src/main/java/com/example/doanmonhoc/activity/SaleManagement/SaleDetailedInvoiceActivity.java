@@ -23,6 +23,7 @@ import com.example.doanmonhoc.model.Staff;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -64,6 +65,8 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
         long createdAtMillis = intent.getLongExtra("createAt", -1);
         // Reconstruct Timestamp from long
         Timestamp createdAt = new Timestamp(createdAtMillis);
+
+
         double totalAmount = intent.getDoubleExtra("totalAmount", 0);
         String note = intent.getStringExtra("note");
 
@@ -71,6 +74,7 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
         tvinvoiceKey.setText(invoiceKey);
         getStaffNameById(staffId);
         createAt.setText(createdAt.toString());
+
         totalPrice.setText(String.valueOf(totalAmount));
         tvNote.setText(note);
 

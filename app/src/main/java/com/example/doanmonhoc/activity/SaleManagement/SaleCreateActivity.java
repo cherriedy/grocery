@@ -1,7 +1,11 @@
 package com.example.doanmonhoc.activity.SaleManagement;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -9,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.graphics.Insets;
@@ -20,6 +26,7 @@ import com.example.doanmonhoc.adapter.SaleCreateAdapter;
 import com.example.doanmonhoc.adapter.SaleManagementAdapter;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.CartItem;
+import com.example.doanmonhoc.model.Invoice;
 import com.example.doanmonhoc.model.Product;
 
 import java.util.ArrayList;
@@ -36,6 +43,18 @@ public class SaleCreateActivity extends AppCompatActivity {
     private CardView layoutBtnThanhToan, btnTiepTuc;
     private List<CartItem> cartItems ;
     private ImageButton btnBack;
+    private EditText etSearch;
+    private List<Product> productList = new ArrayList<>();
+    private List<Product> filteredProductList = new ArrayList<>();
+
+    // Khởi tạo ActivityResultLauncher
+    private final ActivityResultLauncher<Intent> activityResultFinish = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK) {
+                    finish();
+                }
+            });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +64,24 @@ public class SaleCreateActivity extends AppCompatActivity {
         layoutBtnThanhToan = findViewById(R.id.layoutBtnThanhToan);
         tvTotalQuantity = findViewById(R.id.tvTotalQuantityInCart);
         tvTotalAmount = findViewById(R.id.tvTotalPriceInCart);
+        etSearch = findViewById(R.id.etSearch);
 
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Do nothing
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterProducts(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Do nothing
+            }
+        });
 
         loadProductList();
 
@@ -53,19 +89,13 @@ public class SaleCreateActivity extends AppCompatActivity {
 
         btnTiepTuc = findViewById(R.id.btnTiepTuc);
         btnTiepTuc.setOnClickListener(v -> {
-            if (cartItems != null) {
-                Intent intent = new Intent(this, SaleConfirmActivity.class);
-                intent.putExtra("cartItems", new ArrayList<>(cartItems));
-                startActivity(intent);
-            } else {
-                Toast.makeText(this, "Giỏ hàng rỗng!", Toast.LENGTH_SHORT).show();
-            }
+            Intent intent = new Intent(this, SaleConfirmActivity.class);
+            intent.putExtra("cartItems", new ArrayList<>(cartItems));
+            activityResultFinish.launch(intent);
         });
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
-
-
     }
 
     private void loadProductList() {
@@ -75,7 +105,11 @@ public class SaleCreateActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     List<Product> list = response.body();
                     if (list != null && !list.isEmpty()) {
-                        adapter = new SaleCreateAdapter(SaleCreateActivity.this, list, layoutBtnThanhToan, tvTotalQuantity, tvTotalAmount, cartItems);
+                        productList.clear();
+                        productList.addAll(list);
+                        filteredProductList.clear();
+                        filteredProductList.addAll(list);
+                        adapter = new SaleCreateAdapter(SaleCreateActivity.this, filteredProductList, layoutBtnThanhToan, tvTotalQuantity, tvTotalAmount, cartItems);
                         gridView.setAdapter(adapter);
                     } else {
                         Toast.makeText(SaleCreateActivity.this, "Không tìm thấy hóa đơn nào!", Toast.LENGTH_SHORT).show();
@@ -90,5 +124,21 @@ public class SaleCreateActivity extends AppCompatActivity {
                 Toast.makeText(SaleCreateActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void filterProducts(String keyword) {
+        filteredProductList.clear();
+        if (keyword.isEmpty()) {
+            filteredProductList.addAll(productList);
+        } else {
+            for (Product product : productList) {
+                if (product.getProductName().toLowerCase().contains(keyword.toLowerCase())) {
+                    filteredProductList.add(product);
+                }
+            }
+        }
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
     }
 }

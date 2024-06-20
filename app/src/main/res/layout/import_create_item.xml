@@ -8,27 +8,29 @@
     android:backgroundTint="@color/white"
     android:padding="16dp">
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/myShapeableImageView"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/ic_launcher_background"
         app:shapeAppearanceOverlay="@style/roundedImageStyle" />
+
 
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp">
         <TextView
-            android:id="@+id/item_name"
+            android:id="@+id/item_productname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bàn chải"
             android:textSize="17sp"
             android:textStyle="bold" />
 
         <TableRow
             android:layout_marginTop="7sp">
             <TextView
-                android:text="SP003"
+                android:id="@+id/item_grnKey"
+
                 android:textSize="17sp"
                 android:textColor="@color/lightgray"
                 android:layout_marginEnd="10dp"/>
@@ -38,7 +40,7 @@
                 android:textColor="@color/lightgray"
                 android:layout_marginEnd="5dp"/>
             <TextView
-                android:text="50"
+                android:id="@+id/item_quantity"
                 android:textColor="@color/lightgray"
                 android:textSize="17sp"/>
             <View

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.SaleManagement.ProductClickListener;
 import com.example.doanmonhoc.model.CartItem;
 import com.example.doanmonhoc.model.Product;
 
@@ -22,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 
 public class SaleCreateAdapter extends BaseAdapter {
-    private Product product;
     private Context context;
     private List<Product> list;
     private List<CartItem> cartItems;
@@ -30,7 +30,6 @@ public class SaleCreateAdapter extends BaseAdapter {
     private double totalAmount;
     private TextView tvTotalQuantity, tvTotalAmount;
     private CardView layoutBtnThanhToan;
-
 
     public SaleCreateAdapter(Context context, List<Product> list, CardView layoutBtnThanhToan, TextView tvTotalQuantity, TextView tvTotalAmount, List<CartItem> cartItems) {
         this.context = context;
@@ -55,16 +54,19 @@ public class SaleCreateAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return list.get(position).getId();
     }
-    public static class ViewHolder{
+
+    public static class ViewHolder {
         TextView tvQuantity, tvName, tvPrice;
         ImageButton btnPlus, btnMinus;
         ImageView imageView;
         CardView thanhTangGiamSoLuong;
+        int currentPosition; // Lưu vị trí hiện tại của item
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        if(convertView == null){
+        if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.sales_create_item, parent, false);
 
             holder = new ViewHolder();
@@ -76,57 +78,70 @@ public class SaleCreateAdapter extends BaseAdapter {
             holder.imageView = convertView.findViewById(R.id.imageView);
             holder.thanhTangGiamSoLuong = convertView.findViewById(R.id.thanhTangGiamSoLuong);
 
-            convertView.setOnClickListener(v -> {
-                // Nếu thanhTangGiamSoLuong đã hiển thị
-                if (holder.thanhTangGiamSoLuong.getVisibility() == View.VISIBLE) {
-                    int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-                    holder.tvQuantity.setText(String.valueOf(currentQuantity + 1));
-                    updateCart(position, currentQuantity + 1);
-                } else {
-                    holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
-                    holder.tvQuantity.setText("1");
-                    updateCart(position, 1);
-                }
-            });
-
-            holder.btnPlus.setOnClickListener(v -> {
-                int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-                holder.tvQuantity.setText(String.valueOf(currentQuantity + 1));
-                updateCart(position, currentQuantity + 1);
-            });
-
-            holder.btnMinus.setOnClickListener(v -> {
-                int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-                if (currentQuantity > 0) {
-                    holder.tvQuantity.setText(String.valueOf(currentQuantity - 1));
-                    updateCart(position, currentQuantity - 1);
-                    if (currentQuantity - 1 == 0) {
-                        holder.thanhTangGiamSoLuong.setVisibility(View.INVISIBLE);
-                    }
-                }
-            });
-
             convertView.setTag(holder);
-        } else{
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        product = list.get(position);
+        Product product = list.get(position);
+        holder.currentPosition = position; // Lưu vị trí hiện tại của item
         String imageName = product.getAvatarPath();
-        // Lấy ID của tài nguyên drawable từ tên ảnh
         int resID = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
         holder.imageView.setImageResource(resID);
 
         holder.tvName.setText(product.getProductName());
-        // Áp dụng giảm giá
         float discountedPrice = product.getOutPrice() * (1 - product.getDiscount());
         holder.tvPrice.setText(String.valueOf(discountedPrice));
 
+        // Cập nhật trạng thái của thanhTangGiamSoLuong và số lượng
+        updateQuantityView(holder, product);
+
+        convertView.setOnClickListener(v -> {
+            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+            if (currentQuantity == 0) {
+                holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
+                holder.tvQuantity.setText("1");
+                updateCart(position, 1);
+            } else {
+                holder.tvQuantity.setText(String.valueOf(currentQuantity + 1));
+                updateCart(position, currentQuantity + 1);
+            }
+        });
+
+        holder.btnPlus.setOnClickListener(v -> {
+            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+            holder.tvQuantity.setText(String.valueOf(currentQuantity + 1));
+            updateCart(position, currentQuantity + 1);
+        });
+
+        holder.btnMinus.setOnClickListener(v -> {
+            int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
+            if (currentQuantity > 0) {
+                holder.tvQuantity.setText(String.valueOf(currentQuantity - 1));
+                updateCart(position, currentQuantity - 1);
+                if (currentQuantity - 1 == 0) {
+                    holder.thanhTangGiamSoLuong.setVisibility(View.INVISIBLE);
+                }
+            }
+        });
+
         return convertView;
     }
+
+    private void updateQuantityView(ViewHolder holder, Product product) {
+        for (CartItem item : cartItems) {
+            if (item.getProduct().getId() == product.getId()) {
+                holder.tvQuantity.setText(String.valueOf(item.getQuantity()));
+                holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
+        holder.tvQuantity.setText("0");
+        holder.thanhTangGiamSoLuong.setVisibility(View.INVISIBLE);
+    }
+
     private void updateCart(int position, int quantity) {
         Product product = list.get(position);
-        // Áp dụng giảm giá
         float discountedPrice = product.getOutPrice() * (1 - product.getDiscount());
 
         boolean found = false;
@@ -135,7 +150,7 @@ public class SaleCreateAdapter extends BaseAdapter {
             CartItem item = iterator.next();
             if (item.getProduct().getId() == product.getId()) {
                 if (quantity == 0) {
-                    iterator.remove();  // Remove item from cartItems
+                    iterator.remove();
                 } else {
                     item.setQuantity(quantity);
                     item.setPrice(quantity * discountedPrice);
@@ -149,6 +164,7 @@ public class SaleCreateAdapter extends BaseAdapter {
             cartItems.add(newItem);
         }
         updateTotalUI();
+        notifyDataSetChanged(); // Cập nhật lại giao diện
     }
 
     private void updateTotalUI() {
@@ -162,11 +178,8 @@ public class SaleCreateAdapter extends BaseAdapter {
             layoutBtnThanhToan.setVisibility(View.VISIBLE);
             tvTotalQuantity.setText(String.valueOf(totalQuantity));
             tvTotalAmount.setText(String.valueOf(totalAmount));
-        }else if (totalQuantity == 0) {
+        } else {
             layoutBtnThanhToan.setVisibility(View.INVISIBLE);
         }
     }
-
 }
-
-

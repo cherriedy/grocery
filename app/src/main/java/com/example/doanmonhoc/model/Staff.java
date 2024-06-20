@@ -12,8 +12,6 @@ public class Staff {
     private String staffEmail;
     private String address;
     private String staffImage;
-
-
     // Constructors
     public Staff() {
     }
