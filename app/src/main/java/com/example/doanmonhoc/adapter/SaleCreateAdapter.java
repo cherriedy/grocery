@@ -14,7 +14,6 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.activity.SaleManagement.ProductClickListener;
 import com.example.doanmonhoc.model.CartItem;
 import com.example.doanmonhoc.model.Product;
 

@@ -11,6 +11,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -35,7 +36,8 @@ import retrofit2.Response;
 
 public class EditAccountActivity extends AppCompatActivity {
 
-    private EditText txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone;
+    private EditText txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtpassword;
+    private TextView txtusername;
     private Button btnBack, btnSave;
     private Staff staff;
     private Gson gson;
@@ -61,6 +63,8 @@ public class EditAccountActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPhone = findViewById(R.id.txtPhone);
         staffImage = findViewById(R.id.staffImage);
+        txtusername = findViewById(R.id.txtusername);
+        txtpassword = findViewById(R.id.txtPassword);
 
         // setText
         txtName.setText(staff.getStaffName());
@@ -73,6 +77,9 @@ public class EditAccountActivity extends AppCompatActivity {
         txtAddress.setText(staff.getAddress());
         txtEmail.setText(staff.getStaffEmail());
         txtPhone.setText(staff.getStaffPhone());
+        txtusername.setText(staff.getUsername());
+        txtpassword.setText(staff.getPassword());
+
         if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
             int resID = getResources().getIdentifier(staff.getStaffImage(), "drawable", getPackageName());
             staffImage.setImageResource(resID);
@@ -128,6 +135,7 @@ public class EditAccountActivity extends AppCompatActivity {
         String newAddress = txtAddress.getText().toString();
         String newEmail = txtEmail.getText().toString();
         String newPhone = txtPhone.getText().toString();
+        String newPassword = txtpassword.getText().toString();
         RadioGroup radioGroupGender = findViewById(R.id.radioGroupGender);
         int selectedRadioButtonId = radioGroupGender.getCheckedRadioButtonId();
 
@@ -149,6 +157,7 @@ public class EditAccountActivity extends AppCompatActivity {
         staff.setStaffEmail(newEmail);
         staff.setAddress(newAddress);
         staff.setStaffPhone(newPhone);
+        staff.setPassword(newPassword);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
             Date date = sdf.parse(newDob);

@@ -1,6 +1,5 @@
 package com.example.doanmonhoc.api;
 
-import com.example.doanmonhoc.model.Account;
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.model.DetailedInvoice;
 import com.example.doanmonhoc.model.Invoice;
@@ -69,10 +68,10 @@ public interface KiotApiService {
     Call<Product> createProduct(@Body Product product);
 
     @PATCH("/product/{id}")
-    Call<Product> updateProduct(@Path("id") int productID, @Body Product newProduct);
+    Call<Product> updateProduct(@Path("id") long productID, @Body Product newProduct);
 
     @DELETE("/product/{id}")
-    Call<Product> deleteProduct(@Path("id") int productID);
+    Call<Product> deleteProduct(@Path("id") long productID);
 
     // BrandOfProduct API
     @GET("/brand")
@@ -84,12 +83,15 @@ public interface KiotApiService {
     @GET("/brand/latest")
     Call<Brand> getLatestProductBrand();
 
+    @DELETE("/brand/{id}")
+    Call<Brand> deleteBrand(@Path("id") int id);
+
     // ProductGroup API
     @GET("/type")
     Call<List<ProductGroup>> getProductGroupList();
 
     @POST("login")
-    Call<LoginResponse> loginUser(@Body Account account);
+    Call<LoginResponse> loginUser(@Body Staff staff);
 
     @GET("staff/{id}")
     Call<Staff> getStaffById(@Path("id") long id);

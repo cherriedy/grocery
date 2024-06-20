@@ -9,13 +9,20 @@ import androidx.core.content.ContextCompat;
 import com.example.doanmonhoc.R;
 import com.google.android.material.textfield.TextInputEditText;
 
-public class TextUtils {
+public final class TextUtils {
+    public static final String TAG = "TextUtils";
+
+    public static boolean isValidString(String text) {
+        return text != null && !text.isEmpty();
+    }
+
     public static String getString(TextView tv) {
-        if (tv == null || tv.getText() == null) {
-            Log.e("GetString", "TextView hoặc nội dung là null");
+        String text = tv.getText().toString().trim();
+        if (tv == null || !isValidString(text)) {
+            Log.e(TAG, "TextView hoặc nội dung là null");
             return "";
         }
-        return tv.getText().toString().trim();
+        return text;
     }
 
     public static void onFocusHeader(Context context, TextView header, TextInputEditText textField) {

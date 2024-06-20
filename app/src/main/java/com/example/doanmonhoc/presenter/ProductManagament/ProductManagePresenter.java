@@ -1,8 +1,6 @@
 package com.example.doanmonhoc.presenter.ProductManagament;
 
-import android.content.Intent;
-
-import androidx.activity.result.ActivityResultLauncher;
+import android.util.Log;
 
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.contract.ProductManagement.ProductManageContract;
@@ -16,37 +14,29 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ProductManagePresenter implements ProductManageContract.Presenter {
+    private final static String TAG = "ProductManagePresenter";
+    private final ProductManageContract.View view;
     private List<Product> productList;
-    private ActivityResultLauncher<Intent> startDetailedProductActivityIntent;
-    private final ProductManageContract.View productManageViewContract;
 
-    public ProductManagePresenter(ProductManageContract.View productManageViewContract) {
-        this.productManageViewContract = productManageViewContract;
+    public ProductManagePresenter(ProductManageContract.View view) {
+        this.view = view;
         productList = new ArrayList<>();
     }
 
+    @Override
     public void getProductList() {
         KiotApiService.apiService.getProductList().enqueue(new Callback<List<Product>>() {
             @Override
             public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                 productList = response.body();
-                productManageViewContract.getProductListSuccessfully(productList);
+                view.getProductListSuccessfully(productList);
             }
 
             @Override
             public void onFailure(Call<List<Product>> call, Throwable throwable) {
-                productManageViewContract.getProductListFail(throwable);
+                Log.e(TAG, "getProductList - onFailure: " + "Lỗi truy vấn api");
+                view.getProductListFail();
             }
         });
     }
-
-//    public void handleOnItemClick(Context context, Product product) {
-//        ProductRecyclerViewAdapter.OnItemClickListener listener = new ProductRecyclerViewAdapter.OnItemClickListener() {
-//            @Override
-//            public void onItemClick() {
-//                Intent intent = new Intent(context, AddProductActivity.class);
-//                intent.putExtra(EXTRA_PRODUCT, (Serializable) product);
-//            }
-//        };
-//    }
 }

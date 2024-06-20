@@ -28,11 +28,11 @@
             android:name=".activity.SaleManagement.SaleManagementActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ProductBrandManagement.AddProductBrandActivity"
+            android:name=".activity.BrandManagement.AddOrEditBrandActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.ProductBrandManagement.ProductBrandManagementActivity"
+            android:name=".activity.BrandManagement.BrandManagementActivity"
             android:exported="false"
             android:theme="@style/Theme.DoAnMonHoc" />
         <activity
@@ -51,8 +51,9 @@
             android:name=".activity.Main.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.ProductManagement.AddProductActivity"
-            android:exported="false" />
+            android:name=".activity.ProductManagement.AddOrEditProductActivity"
+            android:exported="false"
+            />
         <activity
             android:name=".activity.ProductManagement.ProductManagementActivity"
             android:exported="false" />
@@ -75,9 +76,8 @@
             android:name=".activity.CreateImportProduct.ManagementImportActivity"
             android:exported="false"/>
             <activity
-                android:name=".activity.SplashActivity"
+                android:name=".activity.Auth.SplashActivity"
                 android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

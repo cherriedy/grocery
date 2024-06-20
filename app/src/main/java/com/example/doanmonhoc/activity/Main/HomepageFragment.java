@@ -14,7 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.activity.ProductBrandManagement.ProductBrandManagementActivity;
+import com.example.doanmonhoc.activity.BrandManagement.BrandManagementActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 
 import com.example.doanmonhoc.activity.SaleManagement.SaleCreateActivity;
@@ -106,7 +106,7 @@ public class HomepageFragment extends Fragment {
         @Override
         public void onItemClick(int position) {
             if (position == BottomSheetShortcutAdapter.SHORTCUT_PRODUCT_BRAND) {
-                startActivity(new Intent(getContext(), ProductBrandManagementActivity.class));
+                startActivity(new Intent(getContext(), BrandManagementActivity.class));
             } else if (position == BottomSheetShortcutAdapter.SHORTCUT_PRODUCT_TYPE) {
                 Toast.makeText(getContext(), "Home Fragment Product Type", Toast.LENGTH_SHORT).show();
             }

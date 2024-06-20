@@ -12,21 +12,19 @@ public class Staff {
     private String staffEmail;
     private String address;
     private String staffImage;
+    private String username;
+    private String password;
+
+
+    public Staff(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     // Constructors
     public Staff() {
     }
 
-    public Staff(long id, String staffKey, String staffName, Date staffDob, Byte staffGender, String staffPhone, String staffEmail, String address, String staffImage) {
-        this.id = id;
-        this.staffKey = staffKey;
-        this.staffName = staffName;
-        this.staffDob = staffDob;
-        this.staffGender = staffGender;
-        this.staffPhone = staffPhone;
-        this.staffEmail = staffEmail;
-        this.address = address;
-        this.staffImage = staffImage;
-    }
 
     // Getters and Setters
     public long getId() {
@@ -100,4 +98,19 @@ public class Staff {
     public void setStaffImage(String staffImage) {
         this.staffImage = staffImage;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;}
 }

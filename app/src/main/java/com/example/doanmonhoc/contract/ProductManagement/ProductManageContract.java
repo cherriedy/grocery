@@ -8,7 +8,8 @@ public interface ProductManageContract {
 
     interface View {
         void getProductListSuccessfully(List<Product> productList);
-        void getProductListFail(Throwable throwable);
+
+        void getProductListFail();
     }
 
     interface Presenter {

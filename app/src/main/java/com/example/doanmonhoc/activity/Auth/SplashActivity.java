@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.activity;
+package com.example.doanmonhoc.activity.Auth;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.activity.Auth.LoginActivity;
 import com.example.doanmonhoc.activity.Main.MainActivity;
+import com.example.doanmonhoc.activity.MainActivityForStaff;
 
 public class SplashActivity extends AppCompatActivity {
     @Override

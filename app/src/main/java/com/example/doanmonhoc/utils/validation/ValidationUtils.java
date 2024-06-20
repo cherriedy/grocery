@@ -3,6 +3,7 @@ package com.example.doanmonhoc.utils.validation;
 import android.util.Log;
 
 import com.example.doanmonhoc.utils.NumberUtils;
+import com.example.doanmonhoc.utils.TextUtils;
 
 public class ValidationUtils {
     public static final int MAX_NAME_LENGTH = 64;
@@ -27,7 +28,7 @@ public class ValidationUtils {
     }
 
     public static ValidationResult validateName(String name) {
-        if (!isValidString(name)) {
+        if (!TextUtils.isValidString(name)) {
             return new ValidationResult(false, "Không để trống tên");
         } else if (name.length() > MAX_NAME_LENGTH) {
             return new ValidationResult(false, "Độ dài không quá " + MAX_NAME_LENGTH + " kí tự");
@@ -36,7 +37,7 @@ public class ValidationUtils {
     }
 
     public static ValidationResult validateDescription(String description) {
-        if (!isValidString(description)) {
+        if (!TextUtils.isValidString(description)) {
             return new ValidationResult(false, "Không để trống mô tả");
         } else if (description.length() > MAX_DESCRIPTION_LENGTH) {
             return new ValidationResult(false, "Độ dài không quá " + MAX_DESCRIPTION_LENGTH + " kí tự");
@@ -46,7 +47,7 @@ public class ValidationUtils {
 
     public static ValidationResult validatePrice(String priceText) {
         Log.i("Price", String.valueOf(priceText));
-        if (!isValidString(priceText)) {
+        if (!TextUtils.isValidString(priceText)) {
             return new ValidationResult(false, "Không để trống giá");
         } else {
             float price = NumberUtils.parseFloatOrDefault(priceText);
@@ -58,7 +59,4 @@ public class ValidationUtils {
         return new ValidationResult(true, null);
     }
 
-    private static boolean isValidString(String text) {
-        return text != null && !text.isEmpty();
-    }
 }

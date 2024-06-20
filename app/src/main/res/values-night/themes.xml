@@ -1,7 +1,53 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
-    <style name="Base.Theme.DoAnMonHoc" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.DoAnMonHoc" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowBackground">@color/backgroundColor</item>
+        <item name="helperTextTextAppearance">@style/helperTextStyle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.DoAnMonHoc" parent="Base.Theme.DoAnMonHoc">
+        <item name="colorPrimary">@color/white</item>
+    </style>
+
+    <style name="roundedImageStyle" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">5dp</item>
+    </style>
+
+    <style name="circleImageView">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <!--    Custom theme for FloatingActionButton-->
+    <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton">
+        <item name="shapeAppearanceOverlay">@style/fabStyle1</item>
+    </style>
+
+    <style name="fabStyle1" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="strokeColor">@color/primaryColor</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <!--    Custome style cho helper text-->
+    <style name="helperTextStyle">
+        <item name="android:layout_margin">0dp</item>
+    </style>
+
+    <style name="CircleBorder">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
+    <style name="RoundedBorderProductListItem">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">8%</item>
     </style>
 </resources>

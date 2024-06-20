@@ -1,9 +1,9 @@
-package com.example.doanmonhoc.presenter.ProductBrandManagement;
+package com.example.doanmonhoc.presenter.BrandManagement;
 
 import android.util.Log;
 
 import com.example.doanmonhoc.api.KiotApiService;
-import com.example.doanmonhoc.contract.ProductBrandManagement.ProductBrandManageContract;
+import com.example.doanmonhoc.contract.BrandManagement.ProductBrandManageContract;
 import com.example.doanmonhoc.model.Brand;
 
 import java.util.List;
@@ -12,12 +12,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ProductBrandManagePresenter implements ProductBrandManageContract.Presenter {
+public class BrandManagePresenter implements ProductBrandManageContract.Presenter {
     private static String TAG = "ProductBrandManagePresenter";
     private final ProductBrandManageContract.View productBrandManageViewContract;
     private List<Brand> brandList;
 
-    public ProductBrandManagePresenter(ProductBrandManageContract.View productBrandManageViewContract) {
+    public BrandManagePresenter(ProductBrandManageContract.View productBrandManageViewContract) {
         this.productBrandManageViewContract = productBrandManageViewContract;
     }
 
