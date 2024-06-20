@@ -10,5 +10,6 @@ public final class IntentManager {
     public static final class ExtraParams {
         public static final String EXTRA_PRODUCT = "EXTRA_PRODUCT";
         public static final String EXTRA_BRAND = "EXTRA_BRAND";
+        public static final String EXTRA_GROUP = "EXTRA_GROUP";
     }
 }
