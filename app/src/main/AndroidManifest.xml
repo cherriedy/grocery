@@ -90,11 +90,11 @@
             android:exported="false" />
 
             <activity
-                android:name=".activity.Auth.SplashActivity"
+                android:name=".activity.CreateImportProduct.ManagementImportActivity"
                 android:exported="false"
                 />
                 <activity
-                    android:name=".activity.CreateImportProduct.ManagementImportActivity"
+                    android:name=".activity.Auth.SplashActivity"
                     android:exported="true"
                     >
             <intent-filter>

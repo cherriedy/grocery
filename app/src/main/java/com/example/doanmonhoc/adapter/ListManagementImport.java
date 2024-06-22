@@ -24,10 +24,9 @@ public class ListManagementImport extends BaseAdapter {
     private List<GoodsReceivedNote> goodsReceivedNoteList;
     private List<DetailedGoodsReceivedNote> detailedGoodsReceivedNoteList;
 
-    public ListManagementImport(Context context, List<GoodsReceivedNote> goodsReceivedNoteList, List<DetailedGoodsReceivedNote> detailedGoodsReceivedNoteList) {
+    public ListManagementImport(Context context, List<GoodsReceivedNote> goodsReceivedNoteList) {
         this.context = context;
         this.goodsReceivedNoteList = goodsReceivedNoteList;
-        this.detailedGoodsReceivedNoteList = detailedGoodsReceivedNoteList;
 
     }
 
@@ -60,8 +59,8 @@ public class ListManagementImport extends BaseAdapter {
             holder = new ListManagementImport.LogoViewHolder();
 
             holder.tvId = convertView.findViewById(R.id.tvId);
-         //   holder.tvDateTime = convertView.findViewById(R.id.item_quantity);
-            holder.tvPrice = convertView.findViewById(R.id.item_grnKey);
+            holder.tvDateTime = convertView.findViewById(R.id.tvDate);
+            holder.tvPrice = convertView.findViewById(R.id.totalPrice);
             convertView.setTag(holder);
         } else {
             holder = (ListManagementImport.LogoViewHolder) convertView.getTag();
@@ -73,9 +72,9 @@ public class ListManagementImport extends BaseAdapter {
         Timestamp timestamp = goodsReceivedNote.getCreatedAt();
         // Convert Timestamp to String
         String timestampString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(timestamp);
-
         holder.tvDateTime.setText(timestampString);
-        holder.tvPrice.setText(goodsReceivedNote.getId());
+
+//        holder.tvPrice.setText(goodsReceivedNote.getId());
 
 
         return convertView;

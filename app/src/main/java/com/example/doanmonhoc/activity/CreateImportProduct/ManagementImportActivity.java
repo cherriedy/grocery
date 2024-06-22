@@ -12,10 +12,13 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.SaleManagement.SaleManagementActivity;
 import com.example.doanmonhoc.adapter.ListManagementImport;
+import com.example.doanmonhoc.adapter.SaleManagementAdapter;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
+import com.example.doanmonhoc.model.Invoice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,38 +33,30 @@ public class ManagementImportActivity extends AppCompatActivity {
 
     private ListView listView;
     private ListManagementImport adapter;
-    private List<DetailedGoodsReceivedNote> detailList = new ArrayList<>();
-    private List<GoodsReceivedNote> grnList = new ArrayList<>();
+//    private List<DetailedGoodsReceivedNote> detailList = new ArrayList<>();
+    private List<GoodsReceivedNote> goodsReceivedNotes = new ArrayList<>();
 
-   @SuppressLint("MissingInflatedId")
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_import_management);
 
         listView = findViewById(R.id.lv_Mangement);
-        adapter = new ListManagementImport(this, grnList, detailList);
-        listView.setAdapter(adapter);
 
         fetchDataFromApi();
     }
 
     private void fetchDataFromApi() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://cherrapi.onlinewebshop.net")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-        KiotApiService apiService = retrofit.create(KiotApiService.class);
-        apiService.getGoodsReceivedNoteList().enqueue(new Callback<List<GoodsReceivedNote>>() {
+        KiotApiService.apiService.getGoodsReceivedNoteList().enqueue(new Callback<List<GoodsReceivedNote>>() {
             @Override
             public void onResponse(Call<List<GoodsReceivedNote>> call, Response<List<GoodsReceivedNote>> response) {
                 if (response.isSuccessful()) {
-                    List<GoodsReceivedNote> goodsReceivedNotes = response.body();
+                    List<GoodsReceivedNote> list = response.body();
                     goodsReceivedNotes.clear();
-                    goodsReceivedNotes.addAll(goodsReceivedNotes);
-                    adapter.notifyDataSetChanged();
+                    goodsReceivedNotes.addAll(list);
+                    adapter = new ListManagementImport(ManagementImportActivity.this, goodsReceivedNotes);
+                    listView.setAdapter(adapter);
                 } else {
                     Log.e("API Error", "Server returned error: " + response.errorBody());
                 }
