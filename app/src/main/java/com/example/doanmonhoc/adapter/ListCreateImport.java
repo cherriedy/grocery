@@ -67,16 +67,16 @@ public class ListCreateImport extends BaseAdapter {
             holder = (LogoViewHolder) convertView.getTag();
         }
 
-        if (position < detailList.size()) {
-            DetailedGoodsReceivedNote detail = detailList.get(position);
-            holder.quantityTextView.setText(String.valueOf(detail.getQuantity()));
-        }
+
+        holder.quantityTextView.setText(String.valueOf(productList.get(position).getActualQuantity()));
+
+
 
         //    holder.imgProductTextView.setText(productList.get(position).getAvatarPath());
             holder.productNameTextView.setText(productList.get(position).getProductName());
 
 
-      //  holder.imgProductTextView.setTextDirection(productList.get(position).getAvatarPath());
+     // holder.imgProductTextView.setTextDirection(Integer.parseInt(productList.get(position).getAvatarPath()));
 
         return convertView;
     }

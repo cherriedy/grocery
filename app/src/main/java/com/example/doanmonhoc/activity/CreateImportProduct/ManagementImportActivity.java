@@ -33,7 +33,7 @@ public class ManagementImportActivity extends AppCompatActivity {
     private List<DetailedGoodsReceivedNote> detailList = new ArrayList<>();
     private List<GoodsReceivedNote> grnList = new ArrayList<>();
 
-   @SuppressLint("MissingInflatedId")
+
    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
