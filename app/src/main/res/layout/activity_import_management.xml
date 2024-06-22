@@ -107,11 +107,11 @@
 
 
     <ListView
+        android:id="@+id/lv_Mangement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:background="@color/white"
-        android:layout_below="@+id/radiogroup"/>
+        android:background="@color/white" />
 
     <Button
         android:id="@+id/create_order_button"

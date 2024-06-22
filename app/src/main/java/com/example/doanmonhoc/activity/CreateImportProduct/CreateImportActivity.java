@@ -6,13 +6,12 @@
     import android.os.Bundle;
     import android.util.Log;
     import android.view.View;
-    import android.widget.AdapterView;
     import android.widget.ListView;
 
     import androidx.appcompat.app.AppCompatActivity;
 
     import com.example.doanmonhoc.R;
-    import com.example.doanmonhoc.adapter.ListProductImport;
+    import com.example.doanmonhoc.adapter.ListCreateImport;
     import com.example.doanmonhoc.api.KiotApiService;
     import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
     import com.example.doanmonhoc.model.GoodsReceivedNote;
@@ -30,7 +29,7 @@
     public class CreateImportActivity extends AppCompatActivity {
 
         private ListView listView;
-        private ListProductImport adapter;
+        private ListCreateImport adapter;
         private List<DetailedGoodsReceivedNote> detailList = new ArrayList<>();
         private List<Product> productList = new ArrayList<>();
         private List<GoodsReceivedNote> grnList = new ArrayList<>();
@@ -41,7 +40,7 @@
             setContentView(R.layout.activity_import_create);
 
             listView = findViewById(R.id.list_view);
-            adapter = new ListProductImport(this, detailList, productList, grnList);
+            adapter = new ListCreateImport(this, detailList, productList, grnList);
             listView.setAdapter(adapter);
 
             fetchDataFromApi();
