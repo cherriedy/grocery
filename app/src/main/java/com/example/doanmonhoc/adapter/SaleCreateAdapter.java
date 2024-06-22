@@ -10,6 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
@@ -98,19 +99,31 @@ public class SaleCreateAdapter extends BaseAdapter {
         convertView.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
             if (currentQuantity == 0) {
-                holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
-                holder.tvQuantity.setText("1");
-                updateCart(position, 1);
+                if (checkProductStock(product.getId(), 1)) {
+                    holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
+                    holder.tvQuantity.setText("1");
+                    updateCart(position, 1);
+                } else {
+                    Toast.makeText(context, "Số lượng tồn kho không đủ", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                holder.tvQuantity.setText(String.valueOf(currentQuantity + 1));
-                updateCart(position, currentQuantity + 1);
+                if (checkProductStock(product.getId(), currentQuantity + 1)) {
+                    holder.tvQuantity.setText(String.valueOf(currentQuantity + 1));
+                    updateCart(position, currentQuantity + 1);
+                } else {
+                    Toast.makeText(context, "Số lượng tồn kho không đủ", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         holder.btnPlus.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.tvQuantity.getText().toString());
-            holder.tvQuantity.setText(String.valueOf(currentQuantity + 1));
-            updateCart(position, currentQuantity + 1);
+            if (checkProductStock(product.getId(), currentQuantity + 1)) {
+                holder.tvQuantity.setText(String.valueOf(currentQuantity + 1));
+                updateCart(position, currentQuantity + 1);
+            } else {
+                Toast.makeText(context, "Số lượng tồn kho không đủ", Toast.LENGTH_SHORT).show();
+            }
         });
 
         holder.btnMinus.setOnClickListener(v -> {
@@ -137,6 +150,15 @@ public class SaleCreateAdapter extends BaseAdapter {
         }
         holder.tvQuantity.setText("0");
         holder.thanhTangGiamSoLuong.setVisibility(View.INVISIBLE);
+    }
+    private boolean checkProductStock(long productId, int requiredQuantity) {
+        // Logic để kiểm tra số lượng tồn kho
+        for (Product product : list) {
+            if (product.getId() == productId) {
+                return product.getInventoryQuantity() >= requiredQuantity;
+            }
+        }
+        return false;
     }
 
     private void updateCart(int position, int quantity) {
