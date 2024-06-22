@@ -75,10 +75,7 @@
             android:name=".activity.CreateImportProduct.DetailImportActivity"
             android:exported="false"
             />
-        <activity
-            android:name=".activity.CreateImportProduct.ManagementImportActivity"
-            android:exported="false"
-           />
+
         <activity
             android:name=".activity.SaleManagement.SaleConfirmActivity"
             android:exported="false" />
@@ -91,10 +88,15 @@
         <activity
             android:name=".activity.SaleManagement.SaleManagementActivity"
             android:exported="false" />
+
             <activity
                 android:name=".activity.Auth.SplashActivity"
-                android:exported="true"
-                >
+                android:exported="false"
+                />
+                <activity
+                    android:name=".activity.CreateImportProduct.ManagementImportActivity"
+                    android:exported="true"
+                    >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

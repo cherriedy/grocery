@@ -2,14 +2,14 @@ package com.example.doanmonhoc.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
+
 
 public class GoodsReceivedNote implements Serializable {
     private Integer id;
     private String grnKey;
     private String Staffid;
     private Timestamp createdAt;
-    private Date updatedAt;
+    private Timestamp updatedAt;
     private String note;
 
     public Integer getId() {
@@ -44,11 +44,11 @@ public class GoodsReceivedNote implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 

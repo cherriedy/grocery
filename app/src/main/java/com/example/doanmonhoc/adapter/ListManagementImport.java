@@ -6,22 +6,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
+import com.example.doanmonhoc.model.Invoice;
 
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ListManagementImport extends BaseAdapter {
 
     private Context context;
     private List<GoodsReceivedNote> goodsReceivedNoteList;
     private List<DetailedGoodsReceivedNote> detailedGoodsReceivedNoteList;
-    public ListManagementImport(Context context,List<GoodsReceivedNote> goodsReceivedNoteList, List<DetailedGoodsReceivedNote> detailedGoodsReceivedNoteList) {
+
+    public ListManagementImport(Context context, List<GoodsReceivedNote> goodsReceivedNoteList, List<DetailedGoodsReceivedNote> detailedGoodsReceivedNoteList) {
         this.context = context;
-       this.goodsReceivedNoteList = goodsReceivedNoteList;
-       this.detailedGoodsReceivedNoteList = detailedGoodsReceivedNoteList;
+        this.goodsReceivedNoteList = goodsReceivedNoteList;
+        this.detailedGoodsReceivedNoteList = detailedGoodsReceivedNoteList;
 
     }
 
@@ -39,9 +45,11 @@ public class ListManagementImport extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+
     static class LogoViewHolder {
         TextView tvId, tvDateTime, tvPrice;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ListManagementImport.LogoViewHolder holder;
@@ -52,19 +60,22 @@ public class ListManagementImport extends BaseAdapter {
             holder = new ListManagementImport.LogoViewHolder();
 
             holder.tvId = convertView.findViewById(R.id.tvId);
-            holder.tvDateTime = convertView.findViewById(R.id.item_quantity);
+         //   holder.tvDateTime = convertView.findViewById(R.id.item_quantity);
             holder.tvPrice = convertView.findViewById(R.id.item_grnKey);
             convertView.setTag(holder);
         } else {
             holder = (ListManagementImport.LogoViewHolder) convertView.getTag();
         }
-            holder.tvId.setText(goodsReceivedNoteList.get(position).getGrnKey());
 
+        GoodsReceivedNote goodsReceivedNote = goodsReceivedNoteList.get(position);
+        holder.tvId.setText(goodsReceivedNote.getGrnKey());
 
-           // holder.tvDateTime.setText((CharSequence) goodsReceivedNoteList.get(position).getCreatedAt());
+        Timestamp timestamp = goodsReceivedNote.getCreatedAt();
+        // Convert Timestamp to String
+        String timestampString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(timestamp);
 
-
-            holder.tvPrice.setText(goodsReceivedNoteList.get(position).getId());
+        holder.tvDateTime.setText(timestampString);
+        holder.tvPrice.setText(goodsReceivedNote.getId());
 
 
         return convertView;
