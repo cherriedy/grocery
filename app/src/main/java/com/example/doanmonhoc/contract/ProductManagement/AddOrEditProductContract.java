@@ -8,7 +8,7 @@ import com.example.doanmonhoc.model.ProductGroup;
 
 import java.util.List;
 
-public interface ProductAddContract {
+public interface AddOrEditProductContract {
     interface Presenter {
         void getBrandList();
 
@@ -19,6 +19,10 @@ public interface ProductAddContract {
         void handleCreateProduct(Product product);
 
         void getExtraProduct(Intent intent);
+
+        void handleUpdateProduct(Product product);
+
+        void handleDeleteProduct(Product product);
     }
 
     interface View {
@@ -36,12 +40,24 @@ public interface ProductAddContract {
 
         void createProduct();
 
-        void notifyCreateProductSuccessfully();
+        void createProductSuccessfully();
 
-        void notifyCreateProductFail();
+        void createProductFail();
 
-        void getExtraProductSuccessfully(Product extrasProduct);
+        void getExtraProductSuccessfully(Product product);
+
+        void deleteProduct();
 
         void getExtraProductFail();
+
+        void deleteProductSuccessfully();
+
+        void deleteProductFail();
+
+        void updateProduct();
+
+        void updateProductSuccessfully();
+
+        void updateProductFail();
     }
 }

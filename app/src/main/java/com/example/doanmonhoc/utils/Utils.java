@@ -16,9 +16,9 @@ public class Utils {
     }
 
     public static String formatKey(int numberKey, String prefix) {
-        if (prefix == null || prefix.isEmpty()) {
-            return "";
+        if (TextUtils.isValidString(prefix)) {
+            return String.format(prefix + "%03d", numberKey);
         }
-        return String.format(prefix + "%03d", numberKey);
+        return "";
     }
 }

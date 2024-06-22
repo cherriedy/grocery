@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/Base.Theme.DoAnMonHoc"
-    tools:context=".activity.ProductManagement.AddProductActivity">
+    tools:context=".activity.ProductManagement.AddOrEditProductActivity">
 
     <RelativeLayout
         android:id="@+id/action_bar"
@@ -339,7 +339,6 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
-
             </LinearLayout>
 
             <LinearLayout
@@ -349,6 +348,12 @@
                 android:background="@color/white"
                 android:orientation="vertical"
                 android:padding="16dp">
+
+                <!--                <TextView-->
+                <!--                    android:id="@+id/text_product_id"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:visibility="gone"/>-->
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -372,20 +377,28 @@
                         android:textSize="14dp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/text_layout_auto_complete_brand"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                        android:id="@+id/text_layout_auto_complete_brand"-->
+                    <!--                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        app:hintEnabled="false">-->
+
+                    <!--                        <com.google.android.material.textfield.MaterialAutoCompleteTextView-->
+                    <!--                            android:id="@+id/auto_complete_brand"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="match_parent"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:hint="@string/choose_brand_hint" />-->
+                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
+
+                    <Spinner
+                        android:id="@+id/spinner_brand"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:hintEnabled="false">
+                        android:background="@drawable/background_spinner"
+                        android:spinnerMode="dropdown" />
 
-                        <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                            android:id="@+id/auto_complete_brand"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:hint="@string/choose_brand_hint" />
-                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -549,7 +562,7 @@
             android:visibility="gone" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_create"
+            android:id="@+id/button_finish"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

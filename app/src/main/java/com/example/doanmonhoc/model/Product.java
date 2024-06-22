@@ -1,20 +1,13 @@
 package com.example.doanmonhoc.model;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
 
-import com.example.doanmonhoc.api.KiotApiService;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class Product implements Serializable {
-
-    public static String PREFIX = "PDR";
-//    private static Product latestRow = new Product();
+    public static final String PREFIX = "PRD";
 
     private long id;
     private String productKey;
@@ -38,20 +31,6 @@ public class Product implements Serializable {
 
     public Product() {
     }
-
-//    public static String generateProductKey() {
-//        int latestNumber = -1, newNumber = -1;
-////        String latestProductKey = getLatestProductKey();
-////        Log.i("LATEST_PRODUCT_KEY", latestProductKey);
-//        String latestProductKey = latestRow.getProductKey();
-//
-//        if (latestProductKey != null && !latestProductKey.isEmpty()) {
-//            latestNumber = extractNumber(latestProductKey);
-//            newNumber = latestNumber + 1;
-//            Log.i("LATEST_NUMBER", String.valueOf(latestNumber));
-//        }
-//        return formatProductKey(newNumber);
-//    }
 
     public long getId() {
         return id;
@@ -177,34 +156,27 @@ public class Product implements Serializable {
         this.productBrandId = productBrandId;
     }
 
-//    private static int extractNumber(String latestProductKey) {
-//        if (latestProductKey.startsWith(PREFIX)) {
-//            String numberPart = latestProductKey.substring(PREFIX.length());
-//            return Integer.parseInt(numberPart);
-//        }
-//        return 0;
-//    }
-//
-//    private static String formatProductKey(int newNumber) {
-//        return String.format(PREFIX + "%03d", newNumber);
-//    }
-//
-//    private static void getLatestProductKey() {
-//        KiotApiService.apiService.getLatestProduct().enqueue(new Callback<Product>() {
-//            @Override
-//            public void onResponse(Call<Product> call, Response<Product> response) {
-//                if (response.isSuccessful()) {
-//                    latestRow = response.body();
-//                    Log.i("PRODUCT_KEY", latestRow.getProductKey());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Product> call, Throwable throwable) {
-//
-//            }
-//        });
-//    }
+    @NonNull
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", productKey='" + productKey + '\'' +
+                ", productBarcode='" + productBarcode + '\'' +
+                ", productName='" + productName + '\'' +
+                ", inPrice=" + inPrice +
+                ", outPrice=" + outPrice +
+                ", avatarPath='" + avatarPath + '\'' +
+                ", inventoryQuantity=" + inventoryQuantity +
+                ", actualQuantity=" + actualQuantity +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", discount=" + discount +
+                ", note='" + note + '\'' +
+                ", productGroupId=" + productGroupId +
+                ", productBrandId=" + productBrandId +
+                '}';
+    }
 }
 
 

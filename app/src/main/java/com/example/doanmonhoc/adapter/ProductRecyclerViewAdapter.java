@@ -2,6 +2,7 @@ package com.example.doanmonhoc.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,15 +10,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.model.Product;
 
 import java.util.List;
 
-public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductListViewHolder> {
-
+public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductItemViewHolder> {
     public interface OnItemClickListener {
         void onItemClick(Product product);
     }
@@ -40,25 +39,31 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
 
     @NonNull
     @Override
-    public ProductListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ProductItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // Tạo đối tượng View từ product_card_item layout, cho các item của list
         View view = LayoutInflater.from(context).inflate(R.layout.product_card_item, parent, false);
         // Trả về viewholder
-        return new ProductListViewHolder(view, onItemClickListener);
+        return new ProductItemViewHolder(view, onItemClickListener);
     }
 
     @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ProductListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ProductItemViewHolder holder, int position) {
         // Lấy đối tượng product tương ứng với vị trí dòng (row) hiện tại trong list
         Product product = productList.get(position);
         if (product == null) {
             return;
         }
 
+        if (position == productList.size() - 1) {
+            RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) holder.itemView.getLayoutParams();
+            params.bottomMargin = 250; // last item bottom margin
+            holder.itemView.setLayoutParams(params);
+        }
+
         // Gán dữ liệu các view trong layout
         holder.productName.setText(product.getProductName());
-        holder.productPrice.setText(String.valueOf(product.getOutPrice()));
+        holder.productPrice.setText(String.valueOf(product.getOutPrice() + " đ"));
 
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
@@ -76,12 +81,12 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         return 0;
     }
 
-    public static class ProductListViewHolder extends ViewHolder {
+    public static class ProductItemViewHolder extends RecyclerView.ViewHolder {
         //        private final ImageView productAvatar;
         private final TextView productName;
         private final TextView productPrice;
 
-        public ProductListViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
+        public ProductItemViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
 //            productAvatar = itemView.findViewById(R.id.product_avatar);
             productName = itemView.findViewById(R.id.product_name);

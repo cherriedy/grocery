@@ -1,6 +1,4 @@
-package com.example.doanmonhoc.contract.ProductBrandManagement;
-
-import android.content.Context;
+package com.example.doanmonhoc.contract.BrandManagement;
 
 import com.example.doanmonhoc.model.Brand;
 

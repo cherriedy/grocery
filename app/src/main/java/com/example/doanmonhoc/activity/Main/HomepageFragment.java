@@ -14,9 +14,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.activity.ProductBrandManagement.ProductBrandManagementActivity;
+import com.example.doanmonhoc.activity.BrandManagement.BrandManagementActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
+
+import com.example.doanmonhoc.activity.SaleManagement.SaleCreateActivity;
+import com.example.doanmonhoc.activity.SaleManagement.SaleManagementActivity;
+
 import com.example.doanmonhoc.adapter.BottomSheetShortcutAdapter;
+
 import com.example.doanmonhoc.adapter.ShortcutGridViewAdapter;
 import com.example.doanmonhoc.databinding.FragmentHomepageBinding;
 import com.example.doanmonhoc.model.Shortcut;
@@ -59,6 +64,7 @@ public class HomepageFragment extends Fragment {
         b.gridViewShortcut.setAdapter(shortcutGridViewAdapter);
     }
 
+
     private class ShortcutOnItemClick implements ShortcutGridViewAdapter.OnItemClickListener {
         @Override
         public void onItemClick(int position) {
@@ -67,7 +73,7 @@ public class HomepageFragment extends Fragment {
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_INVENTORY) {
                 Toast.makeText(requireContext(), "INVENTORY", Toast.LENGTH_SHORT).show();
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_ORDER) {
-                Toast.makeText(requireContext(), "ORDER", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), SaleManagementActivity.class));
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_REPORT) {
                 Toast.makeText(requireContext(), "REPORT", Toast.LENGTH_SHORT).show();
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_STAFF) {
@@ -100,10 +106,11 @@ public class HomepageFragment extends Fragment {
         @Override
         public void onItemClick(int position) {
             if (position == BottomSheetShortcutAdapter.SHORTCUT_PRODUCT_BRAND) {
-                startActivity(new Intent(getContext(), ProductBrandManagementActivity.class));
+                startActivity(new Intent(getContext(), BrandManagementActivity.class));
             } else if (position == BottomSheetShortcutAdapter.SHORTCUT_PRODUCT_TYPE) {
                 Toast.makeText(getContext(), "Home Fragment Product Type", Toast.LENGTH_SHORT).show();
             }
+
         }
     }
 }
