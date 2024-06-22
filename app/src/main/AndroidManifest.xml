@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    >
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -14,19 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DoAnMonHoc"
         android:usesCleartextTraffic="true"
-        tools:targetApi="31">
-        <activity
-            android:name=".activity.SaleManagement.SaleConfirmActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SaleManagement.SaleCreateActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SaleManagement.SaleDetailedInvoiceActivity"
-            android:exported="false" />
-        <activity
-            android:name=".activity.SaleManagement.SaleManagementActivity"
-            android:exported="false" />
+        tools:targetApi="31"
+        >
         <activity
             android:name=".activity.BrandManagement.AddOrEditBrandActivity"
             android:exported="false"
@@ -34,50 +24,65 @@
         <activity
             android:name=".activity.BrandManagement.BrandManagementActivity"
             android:exported="false"
-            android:theme="@style/Theme.DoAnMonHoc" />
+            android:theme="@style/Theme.DoAnMonHoc"
+            />
         <activity
             android:name=".activity.AccountManagement.EditAccountActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.AccountManagement.AccountDetailActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.StaffManagement.StaffManagementActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.MainActivityForStaff"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.Main.MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.ProductManagement.AddOrEditProductActivity"
             android:exported="false"
             />
         <activity
             android:name=".activity.ProductManagement.ProductManagementActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.Auth.LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.StaffManagement.AddStaffActivity"
-            android:exported="true" />
+            android:exported="true"
+            />
+
         <activity
             android:name=".activity.CreateImportProduct.CreateImportActivity"
-            android:exported="false"/>
+            android:exported="false"
+            />
         <activity
             android:name=".activity.CreateImportProduct.BillImportActivity"
-            android:exported="false"/>
+            android:exported="false"
+            />
         <activity
             android:name=".activity.CreateImportProduct.DetailImportActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.CreateImportProduct.ManagementImportActivity"
-            android:exported="false"/>
+            android:exported="false"
+           />
             <activity
                 android:name=".activity.Auth.SplashActivity"
-                android:exported="true">
+                android:exported="true"
+                >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
