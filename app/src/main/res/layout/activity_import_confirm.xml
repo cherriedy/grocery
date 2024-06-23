@@ -37,21 +37,23 @@
 
 
     <!-- Product Item -->
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="@color/white"/>
 
 
     <!--Button thêm sản phấm-->
+    <ListView
+        android:id="@+id/lv_select"
+        android:layout_width="match_parent"
+        android:layout_height="290dp"
+        android:background="@color/white" />
+
     <Button
+        android:id="@+id/btn_add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Thêm sản phẩm"
+        android:textSize="16dp"
         android:layout_marginBottom="15dp"
-        android:textColor="@color/bold_sky"
-        android:theme="@style/Theme.DoAnMonHoc"
-        android:background="@drawable/fab_textview_shape" />
+        android:textColor="#FFFFFF" />
 
 
     <androidx.cardview.widget.CardView
@@ -63,6 +65,7 @@
             android:orientation="vertical">
             <TableRow>
                 <TextView
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
@@ -73,6 +76,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1" />
                 <TextView
+                    android:id="@+id/tv_totalquantity"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_width="wrap_content"
@@ -92,6 +96,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1" />
                 <TextView
+                    android:id="@+id/tv_totalPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
@@ -162,6 +167,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/radius_4_goc"
             android:text="Nhập hàng"
+            android:textSize="16dp"
             android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"

@@ -10,7 +10,6 @@ import android.widget.TextView;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
-import com.example.doanmonhoc.model.Invoice;
 
 
 import java.sql.Timestamp;
@@ -18,18 +17,17 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-public class ListManagementImport extends BaseAdapter {
+public class ListManagementImportAdapter extends BaseAdapter {
 
     private Context context;
     private List<GoodsReceivedNote> goodsReceivedNoteList;
     private List<DetailedGoodsReceivedNote> detailedGoodsReceivedNoteList;
 
-    public ListManagementImport(Context context, List<GoodsReceivedNote> goodsReceivedNoteList) {
+    public ListManagementImportAdapter(Context context, List<GoodsReceivedNote> goodsReceivedNoteList) {
         this.context = context;
         this.goodsReceivedNoteList = goodsReceivedNoteList;
 
     }
-
     @Override
     public int getCount() {
         return goodsReceivedNoteList != null ? goodsReceivedNoteList.size() : 0;
@@ -48,23 +46,24 @@ public class ListManagementImport extends BaseAdapter {
     static class LogoViewHolder {
         TextView tvId, tvDateTime, tvPrice;
     }
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ListManagementImport.LogoViewHolder holder;
+        ListManagementImportAdapter.LogoViewHolder holder;
 
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
             convertView = inflater.inflate(R.layout.import_management_item, parent, false);
-            holder = new ListManagementImport.LogoViewHolder();
+            holder = new ListManagementImportAdapter.LogoViewHolder();
 
             holder.tvId = convertView.findViewById(R.id.tvId);
             holder.tvDateTime = convertView.findViewById(R.id.tvDate);
             holder.tvPrice = convertView.findViewById(R.id.totalPrice);
             convertView.setTag(holder);
         } else {
-            holder = (ListManagementImport.LogoViewHolder) convertView.getTag();
+            holder = (ListManagementImportAdapter.LogoViewHolder) convertView.getTag();
         }
+
+
 
         GoodsReceivedNote goodsReceivedNote = goodsReceivedNoteList.get(position);
         holder.tvId.setText(goodsReceivedNote.getGrnKey());
@@ -75,7 +74,6 @@ public class ListManagementImport extends BaseAdapter {
         holder.tvDateTime.setText(timestampString);
 
 //        holder.tvPrice.setText(goodsReceivedNote.getId());
-
 
         return convertView;
     }
