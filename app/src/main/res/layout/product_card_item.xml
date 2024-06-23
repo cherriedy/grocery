@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="12dp"
-    android:layout_marginVertical="5dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginTop="8dp"
     android:backgroundTint="@color/white"
     app:cardCornerRadius="8dp"
     app:strokeColor="@color/card_gray_border"
@@ -13,44 +13,65 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="10dp">
+        android:padding="8dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/product_avatar"
+            android:id="@+id/image_avatar"
             android:layout_width="@dimen/product_avatar_on_list"
             android:layout_height="@dimen/product_avatar_on_list"
+            android:layout_centerVertical="true"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/maggi" />
 
         <LinearLayout
-            android:id="@+id/product_meta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_toEndOf="@id/product_avatar"
+            android:layout_toEndOf="@id/image_avatar"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/product_id"
+                android:id="@+id/text_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
-
-            <TextView
-                android:id="@+id/product_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
                 android:text="Mì Hảo Hảo"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.Material3.TitleSmall" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="Có thể bán: "
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                    android:textColor="@color/text_title" />
+
+                <TextView
+                    android:id="@+id/text_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="1024"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelSmall"
+                    android:textColor="@color/text_title" />
+
+            </LinearLayout>
+
 
             <TextView
-                android:id="@+id/product_price"
+                android:id="@+id/text_price"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="14.000 đ"
                 android:textColor="@color/primaryColor"
                 android:textSize="14sp"

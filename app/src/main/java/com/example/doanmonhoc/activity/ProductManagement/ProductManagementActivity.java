@@ -78,7 +78,7 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
         mProductAdapter = new ProductRecyclerViewAdapter(this, this);
 
         // Thiết lập LayoutManager
-        binding.productList.setLayoutManager(
+        binding.listProduct.setLayoutManager(
                 new LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         );
 
@@ -95,7 +95,7 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     public void getProductListSuccessfully(List<Product> productList) {
         binding.progressBar.setVisibility(View.INVISIBLE);
         mProductAdapter.setData(productList);
-        binding.productList.setAdapter(mProductAdapter);
+        binding.listProduct.setAdapter(mProductAdapter);
     }
 
     @Override
@@ -122,14 +122,14 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     private void closeMenu() {
         binding.fabExpandMenu.startAnimation(mAnimRotateAntiClockWise);
         binding.fabAddOne.startAnimation(mAnimToBottomFab);
-        binding.addOneTxt.startAnimation(mAnimToBottomFab);
+        binding.textFabAddOne.startAnimation(mAnimToBottomFab);
         isSubMenuOpen = false;
     }
 
     private void openMenu() {
         binding.fabExpandMenu.startAnimation(mAnimRotateClockWise);
         binding.fabAddOne.startAnimation(mAnimFromBottomFab);
-        binding.addOneTxt.startAnimation(mAnimFromBottomFab);
+        binding.textFabAddOne.startAnimation(mAnimFromBottomFab);
         isSubMenuOpen = true;
     }
 

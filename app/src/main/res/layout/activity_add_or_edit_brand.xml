@@ -11,17 +11,15 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_weight="0"
         android:background="@color/primaryColor"
-        android:minHeight="?attr/actionBarSize"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp">
+        android:paddingHorizontal="@dimen/padding_appbar" >
 
-        <ImageButton
+        <ImageView
             android:id="@+id/action_back"
-            android:layout_width="@dimen/toolbar_icon"
-            android:layout_height="@dimen/toolbar_icon"
+            android:layout_width="@dimen/appbar_icon"
+            android:layout_height="@dimen/appbar_icon"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_back"
@@ -72,7 +70,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="Tên nhãn hàng *"
                     android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
-                    android:textColor="@color/textHeading"
+                    android:textColor="@color/text_title"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -101,7 +99,7 @@
                     android:layout_marginBottom="4dp"
                     android:text="Mô tả nhãn hàng"
                     android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
-                    android:textColor="@color/textHeading"
+                    android:textColor="@color/text_title"
                     android:textStyle="bold" />
 
                 <com.google.android.material.textfield.TextInputLayout

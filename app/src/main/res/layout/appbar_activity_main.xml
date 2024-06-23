@@ -30,6 +30,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hồ Đình Huy"
@@ -38,6 +39,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/text_role"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Hồ Đình Huy"

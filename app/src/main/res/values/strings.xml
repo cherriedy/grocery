@@ -95,4 +95,6 @@
     <string name="product_group_des_hint">Nhóm sản phẩm...</string>
     <string name="product_group_name_hint">Bánh</string>
     <string name="msg_error_retrived_data">Xảy ra lỗi dữ liệu</string>
+    <string name="title_product_quantity">Tồn kho</string>
+    <string name="product_quantity_hint">100</string>
 </resources>

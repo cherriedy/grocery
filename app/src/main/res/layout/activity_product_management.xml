@@ -13,17 +13,15 @@
         android:layout_height="48dp"
         android:background="@color/white"
         android:backgroundTint="@color/primaryColor"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp"
+        android:paddingHorizontal="@dimen/padding_appbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <ImageView
             android:id="@+id/action_back"
-            android:layout_width="@dimen/toolbar_icon"
-            android:layout_height="@dimen/toolbar_icon"
+            android:layout_width="@dimen/appbar_icon"
+            android:layout_height="@dimen/appbar_icon"
             android:layout_centerVertical="true"
             android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
@@ -37,13 +35,14 @@
             android:layout_centerInParent="true"
             android:layout_toEndOf="@id/action_back"
             android:text="Quản lý"
+            android:textStyle="bold"
             android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
             android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/button_search"
-            android:layout_width="@dimen/toolbar_icon"
-            android:layout_height="@dimen/toolbar_icon"
+            android:layout_width="@dimen/appbar_icon"
+            android:layout_height="@dimen/appbar_icon"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:backgroundTint="@color/white"
@@ -53,7 +52,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/content_layout"
+        android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,8 +70,10 @@
             android:visibility="visible" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/product_list"
+            android:id="@+id/list_product"
             android:layout_width="match_parent"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_height="wrap_content"
             tools:listitem="@layout/product_card_item" />
 
@@ -103,10 +104,10 @@
         app:layout_constraintEnd_toEndOf="@id/fab_expand_menu" />
 
     <TextView
-        android:id="@+id/add_one_txt"
+        android:id="@+id/text_fab_add_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/fab_textview_shape"
+        android:background="@drawable/shape_fab_textview"
         android:elevation="8dp"
         android:paddingHorizontal="12dp"
         android:paddingVertical="8dp"

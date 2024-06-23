@@ -43,7 +43,7 @@ public class ProductBrandRecyclerViewAdapter extends RecyclerView.Adapter<Produc
     @NonNull
     @Override
     public ProductBrandViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.product_brand_list_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.product_brand_or_group_list_item, parent, false);
         return new ProductBrandViewHolder(view);
     }
 

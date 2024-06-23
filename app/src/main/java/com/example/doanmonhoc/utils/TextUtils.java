@@ -30,7 +30,7 @@ public final class TextUtils {
             if (hasFocus) {
                 header.setTextColor(ContextCompat.getColor(context, R.color.primaryColor));
             } else {
-                header.setTextColor(ContextCompat.getColor(context, R.color.textHeading));
+                header.setTextColor(ContextCompat.getColor(context, R.color.text_title));
             }
         });
     }

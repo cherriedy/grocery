@@ -19,6 +19,7 @@ navigationFragment = "2.7.7"
 navigationUi = "2.7.7"
 lottie = "6.4.1"
 motiontoast = "1.4"
+lottieVersion = "6.0.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -40,6 +41,7 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
 motiontoast = { group = "com.github.Spikeysanju", name = "MotionToast", version.ref = "motiontoast" }
+android-lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottieVersion" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

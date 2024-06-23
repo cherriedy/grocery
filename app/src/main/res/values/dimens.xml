@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="toolbar_icon">18dp</dimen>
-    <dimen name="toolbar_text">20dp</dimen>
-    <dimen name="toolbar_marginStart">8dp</dimen>
-    <dimen name="product_avatar_on_list">60dp</dimen>
+    <dimen name="appbar_icon">18dp</dimen>
+    <dimen name="appbar_text">20dp</dimen>
+    <dimen name="appbar_marginStart">8dp</dimen>
+    <dimen name="product_avatar_on_list">62dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_multi_line_height">120dp</dimen>
+    <dimen name="padding_appbar">24dp</dimen>
 </resources>

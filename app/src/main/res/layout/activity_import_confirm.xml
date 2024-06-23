@@ -51,7 +51,7 @@
         android:layout_marginBottom="15dp"
         android:textColor="@color/bold_sky"
         android:theme="@style/Theme.DoAnMonHoc"
-        android:background="@drawable/fab_textview_shape" />
+        android:background="@drawable/shape_fab_textview" />
 
 
     <androidx.cardview.widget.CardView

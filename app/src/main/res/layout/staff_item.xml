@@ -7,7 +7,7 @@
     android:layout_marginVertical="10dp"
     android:backgroundTint="@color/white"
     app:cardCornerRadius="12dp"
-    app:strokeColor="@color/textHeading"
+    app:strokeColor="@color/text_title"
     app:strokeWidth="1dp">
 
     <RelativeLayout

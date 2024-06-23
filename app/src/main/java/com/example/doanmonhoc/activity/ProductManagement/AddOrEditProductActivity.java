@@ -39,19 +39,19 @@ import java.util.List;
 import java.util.Map;
 
 public class AddOrEditProductActivity extends AppCompatActivity implements AddOrEditProductContract.View {
-    private static final String TAG = "AddProductActivity";
     public static final int RADIO_BUTTON_IN_STOCK = 0;
     public static final int RADIO_BUTTON_OUT_STOCK = 1;
+    private static final String TAG = "AddProductActivity";
 
+    private ActivityAddProductBinding binding;
     private String intentMode;
     private int brandClickItemId = 1;
     private int productGroupClickItemId = 1;
-    private ActivityAddProductBinding binding;
-    private AddOrEditProductPresenter presenter;
-    private LoadingDialog loadingDialog;
-    private Map<Integer, Integer> radioButtons;
-    private Product receivedExtraProduct;
-    private BrandSpinnerAdapter brandSpinnerAdapter;
+    private AddOrEditProductPresenter mPresenter;
+    private LoadingDialog mLoadingDialog;
+    private Map<Integer, Integer> mRadioButton;
+    private Product mExtraProduct;
+    private BrandSpinnerAdapter mBrandAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,25 +68,27 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.primaryColor));
 
-        radioButtons = new HashMap<>();
-        loadingDialog = new LoadingDialog(this);
-        brandSpinnerAdapter = new BrandSpinnerAdapter(this);
-        presenter = new AddOrEditProductPresenter(this);
-
-        radioButtons.put(R.id.button_inStock, RADIO_BUTTON_IN_STOCK);
-        radioButtons.put(R.id.button_outStock, RADIO_BUTTON_OUT_STOCK);
-
-        handleIntent(getIntent());
         onFocusHeader();
         callValidateProduct();
+        binding.actionBack.setOnClickListener(v -> onBackPressed());
+
+        mRadioButton = new HashMap<>();
+        mLoadingDialog = new LoadingDialog(this);
+        mBrandAdapter = new BrandSpinnerAdapter(this);
+        mPresenter = new AddOrEditProductPresenter(this);
+
+        mRadioButton.put(R.id.button_inStock, RADIO_BUTTON_IN_STOCK);
+        mRadioButton.put(R.id.button_outStock, RADIO_BUTTON_OUT_STOCK);
+
+        handleIntent(getIntent());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         // Lấy dữ liệu từ database hiển thị lên AutoComplete
-        presenter.getBrandList();
-        presenter.getProductGroupList();
+        mPresenter.getBrandList();
+        mPresenter.getProductGroupList();
         // Lấy id của item trong AutoComplete theo database
         getBrandItemId();
         getProductGroupItemId();
@@ -138,8 +140,8 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         }
 
         if (handleValidateProductName() && handleValidateOutPrice() && handleValidateDescription()) {
-            loadingDialog.show();
-            presenter.handleUpdateProduct(product);
+            mLoadingDialog.show();
+            mPresenter.handleUpdateProduct(product);
         } else {
             Toast.makeText(this, getString(R.string.msg_fill_all_requierd_fields), Toast.LENGTH_SHORT).show();
         }
@@ -154,19 +156,22 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         String outPriceText = TextUtils.getString(binding.textProductOutPrice);
         String inPriceText = TextUtils.getString(binding.textProductInPrice);
         String discountText = TextUtils.getString(binding.textProductDiscount);
+        String quantityText = TextUtils.getString(binding.textProductQuantity);
 
         float outPrice = NumberUtils.parseFloatOrDefault(outPriceText);
         float inPrice = NumberUtils.parseFloatOrDefault(inPriceText);
         float discount = NumberUtils.parseFloatOrDefault(discountText);
+        int quantity = NumberUtils.parseIntegerOrDefault(quantityText);
 
         Product product = new Product();
-        product.setProductKey(presenter.generateLatestProductKey());
+        product.setProductKey(mPresenter.generateLatestProductKey());
         product.setProductName(nameText);
         product.setOutPrice(outPrice);
         product.setProductNote(noteText);
         product.setDescription(descriptionText);
         product.setProductBrandId(brandClickItemId);
         product.setProductGroupId(productGroupClickItemId);
+        product.setActualQuantity(quantity);
 
         product.setStatus((byte) 1);
         if (binding.buttonOutStock.isSelected()) {
@@ -192,8 +197,8 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         }
 
         if (handleValidateProductName() && handleValidateOutPrice() && handleValidateDescription()) {
-            loadingDialog.show();
-            presenter.handleCreateProduct(product);
+            mLoadingDialog.show();
+            mPresenter.handleCreateProduct(product);
         } else {
             Toast.makeText(this, getString(R.string.msg_fill_all_requierd_fields), Toast.LENGTH_SHORT).show();
         }
@@ -206,9 +211,9 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 //            binding.autoCompleteBrand.setAdapter(adapter);
             // TEST SPINNER
             Log.d(TAG, "getBrandAutoCompleteDataSuccessfully: " + brandList.isEmpty());
-            brandSpinnerAdapter.setData(brandList);
-            Log.d(TAG, "getBrandAutoCompleteDataSuccessfully: " + brandSpinnerAdapter.getData());
-            binding.spinnerBrand.setAdapter(brandSpinnerAdapter);
+            mBrandAdapter.setData(brandList);
+            Log.d(TAG, "getBrandAutoCompleteDataSuccessfully: " + mBrandAdapter.getData());
+            binding.spinnerBrand.setAdapter(mBrandAdapter);
         } else {
             Toast.makeText(AddOrEditProductActivity.this, "Không có dữ liệu nhãn hàng", Toast.LENGTH_SHORT).show();
         }
@@ -258,7 +263,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @Override
     public void createProductSuccessfully() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Tạo sản phẩm thành công", Toast.LENGTH_SHORT).show();
         setResult(Activity.RESULT_OK, new Intent());
         finish();
@@ -266,16 +271,17 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @Override
     public void createProductFail() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Tạo sản phẩm thất bại", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void getExtraProductSuccessfully(Product product) {
-        this.receivedExtraProduct = product;
+        this.mExtraProduct = product;
         binding.textProductName.setText(product.getProductName());
         binding.textProductOutPrice.setText(String.valueOf(product.getOutPrice()));
         binding.textProductDescription.setText(product.getDescription());
+        binding.textProductQuantity.setText(String.valueOf(product.getActualQuantity()));
 
         setSelectionBrand(product.getProductBrandId());
 
@@ -283,13 +289,13 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
             binding.buttonInStock.setSelected(true);
             binding.buttonOutStock.setSelected(false);
             binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.primaryColor));
-            binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, R.color.textHeading));
+            binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, R.color.text_title));
             binding.buttonInStock.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.radio_button_left_checked));
             binding.buttonOutStock.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.radio_button_right_unchecked));
         } else {
             binding.buttonInStock.setSelected(false);
             binding.buttonOutStock.setSelected(true);
-            binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.textHeading));
+            binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.text_title));
             binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
             binding.buttonInStock.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.radio_button_left_unchecked));
             binding.buttonOutStock.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.radio_button_right_checked));
@@ -318,8 +324,8 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @Override
     public void deleteProduct() {
-        loadingDialog.show();
-        presenter.handleDeleteProduct(receivedExtraProduct);
+        mLoadingDialog.show();
+        mPresenter.handleDeleteProduct(mExtraProduct);
     }
 
     @Override
@@ -341,7 +347,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @Override
     public void updateProductSuccessfully() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
         setResult(Activity.RESULT_OK, new Intent());
         finish();
@@ -349,7 +355,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @Override
     public void updateProductFail() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
     }
 
@@ -358,7 +364,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         if (TextUtils.isValidString(intentMode)) {
             switch (intentMode) {
                 case IntentManager.ModeParams.EXTRA_MODE_CREATE:
-                    presenter.getCurrentLatestProductKey();
+                    mPresenter.getCurrentLatestProductKey();
                     // Gán onClickListener cho buttonFinish
                     binding.buttonFinish.setOnClickListener(v -> createProduct());
                     break;
@@ -370,12 +376,14 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
                     binding.buttonDelete.setVisibility(View.VISIBLE);
                     // Hiển thị divider giữa các button
                     binding.viewDividerButton.setVisibility(View.VISIBLE);
+                    // Vô hiệu cập nhật số lương -> Cập nhật trong chức năng kiểm kho
+                    binding.textProductQuantity.setEnabled(false);
                     // Gán onClickListener cho buttonFinish
                     binding.buttonFinish.setOnClickListener(v -> updateProduct());
                     // Gán onClickListener cho buttonDelete
                     binding.buttonDelete.setOnClickListener(v -> deleteProduct());
                     // Gọi presenter để lấy dữ liệu từ intent
-                    presenter.getExtraProduct(intent);
+                    mPresenter.getExtraProduct(intent);
                     break;
             }
         }
@@ -383,7 +391,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     public void onRadioButtonClick(View view) {
         boolean isSelected = view.isSelected();
-        Integer currentId = radioButtons.get(view.getId());
+        Integer currentId = mRadioButton.get(view.getId());
         if (currentId != null) {
             switch (currentId) {
                 case RADIO_BUTTON_IN_STOCK:
@@ -391,14 +399,14 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
                         binding.buttonInStock.setSelected(true);
                         binding.buttonOutStock.setSelected(false);
                         binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.primaryColor));
-                        binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, R.color.textHeading));
+                        binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, R.color.text_title));
                     }
                     break;
                 case RADIO_BUTTON_OUT_STOCK:
                     if (!isSelected) {
                         binding.buttonInStock.setSelected(false);
                         binding.buttonOutStock.setSelected(true);
-                        binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.textHeading));
+                        binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.text_title));
                         binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
                     }
                     break;
@@ -422,6 +430,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         TextUtils.onFocusHeader(this, binding.textHeaderBarcode, binding.textProductBarcode);
         TextUtils.onFocusHeader(this, binding.textHeaderDes, binding.textProductDescription);
         TextUtils.onFocusHeader(this, binding.textHeaderNote, binding.textProductNote);
+        TextUtils.onFocusHeader(this, binding.textHeaderQuantity, binding.textProductQuantity);
     }
 
     private void validateDescription() {

@@ -21,10 +21,12 @@
         android:id="@+id/grid_view_shortcut"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:numColumns="3"
-        android:verticalSpacing="8dp"
-        android:horizontalSpacing="8dp"
         android:layout_marginHorizontal="16dp"
+        android:gravity="center"
+        android:horizontalSpacing="8dp"
+        android:numColumns="3"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="8dp"
         tools:listitem="@layout/shortcut_grid_view_item" />
+
 </LinearLayout>

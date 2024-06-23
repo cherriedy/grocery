@@ -2,7 +2,6 @@ package com.example.doanmonhoc.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,14 +16,9 @@ import com.example.doanmonhoc.model.Product;
 import java.util.List;
 
 public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecyclerViewAdapter.ProductItemViewHolder> {
-    public interface OnItemClickListener {
-        void onItemClick(Product product);
-    }
-
     private final Context context;
-    private List<Product> productList;              // Lưu data để binding
     private final OnItemClickListener onItemClickListener;
-
+    private List<Product> productList;              // Lưu data để binding
     public ProductRecyclerViewAdapter(Context context, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.onItemClickListener = onItemClickListener;
@@ -64,6 +58,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         // Gán dữ liệu các view trong layout
         holder.productName.setText(product.getProductName());
         holder.productPrice.setText(String.valueOf(product.getOutPrice() + " đ"));
+        holder.productQuantity.setText(String.valueOf(product.getActualQuantity()));
 
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
@@ -81,16 +76,22 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         return 0;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(Product product);
+    }
+
     public static class ProductItemViewHolder extends RecyclerView.ViewHolder {
         //        private final ImageView productAvatar;
         private final TextView productName;
         private final TextView productPrice;
+        private final TextView productQuantity;
 
         public ProductItemViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
 //            productAvatar = itemView.findViewById(R.id.product_avatar);
-            productName = itemView.findViewById(R.id.product_name);
-            productPrice = itemView.findViewById(R.id.product_price);
+            productName = itemView.findViewById(R.id.text_name);
+            productPrice = itemView.findViewById(R.id.text_price);
+            productQuantity = itemView.findViewById(R.id.text_quantity);
         }
     }
 }

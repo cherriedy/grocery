@@ -159,14 +159,14 @@ public class GroupManagementActivity extends AppCompatActivity implements GroupM
         isMenuOpen = true;
         binding.fabExpandMenu.startAnimation(mAnimRotateAntiClockWise);
         binding.fabAddOne.startAnimation(mAnimToBottomFab);
-        binding.textAddOne.startAnimation(mAnimToBottomFab);
+        binding.textFabAddOne.startAnimation(mAnimToBottomFab);
     }
 
     private void closeMenu() {
         isMenuOpen = false;
         binding.fabExpandMenu.startAnimation(mAnimRotateClockWise);
         binding.fabAddOne.startAnimation(mAnimFromBottomFab);
-        binding.textAddOne.startAnimation(mAnimFromBottomFab);
+        binding.textFabAddOne.startAnimation(mAnimFromBottomFab);
     }
 
     private void onAddOneClick() {
