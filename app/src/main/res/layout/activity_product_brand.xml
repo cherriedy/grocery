@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/button_back"
+            android:id="@+id/action_back"
             android:layout_width="@dimen/toolbar_icon"
             android:layout_height="@dimen/toolbar_icon"
             android:layout_centerVertical="true"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@id/button_back"
+            android:layout_toEndOf="@id/action_back"
             android:text="Quản lý hãng"
             android:textAppearance="@style/TextAppearance.Material3.ActionBar.Subtitle"
             android:textColor="@color/white"

@@ -83,37 +83,31 @@
             android:name=".activity.CreateImportProduct.DetailImportActivity"
             android:exported="false"
             />
-
         <activity
-
             android:name=".activity.CreateImportProduct.ManagementImportActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.Auth.SplashActivity"
-            android:exported="true"
-            />
-            <activity
             android:name=".activity.SaleManagement.SaleConfirmActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.SaleManagement.SaleCreateActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.SaleManagement.SaleDetailedInvoiceActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.SaleManagement.SaleManagementActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
 
-            <activity
-                android:name=".activity.CreateImportProduct.ManagementImportActivity"
-                android:exported="false"
-                />
-                <activity
-                    android:name=".activity.Auth.SplashActivity"
-                    android:exported="true"
-                    >
+        <activity
+            android:name=".activity.Auth.SplashActivity"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

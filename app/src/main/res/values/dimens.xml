@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="toolbar_icon">15dp</dimen>
+    <dimen name="toolbar_icon">18dp</dimen>
     <dimen name="toolbar_text">20dp</dimen>
     <dimen name="toolbar_marginStart">8dp</dimen>
     <dimen name="product_avatar_on_list">60dp</dimen>

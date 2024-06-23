@@ -36,12 +36,12 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
 
     private ActivityProductManagementBinding binding;
     private boolean isSubMenuOpen;
-    private Animation animFromBottomFab;
-    private Animation animToBottomFab;
-    private Animation animRotateClockWise;
-    private Animation animRotateAntiClockWise;
-    private ProductManagePresenter productManagePresenter;
-    private ProductRecyclerViewAdapter productRecyclerViewAdapter;
+    private Animation mAnimFromBottomFab;
+    private Animation mAnimToBottomFab;
+    private Animation mAnimRotateClockWise;
+    private Animation mAnimRotateAntiClockWise;
+    private ProductManagePresenter mPresenter;
+    private ProductRecyclerViewAdapter mProductAdapter;
     private ActivityResultLauncher<Intent> getActivityResultOk;
 
     @Override
@@ -57,23 +57,25 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
         });
         Window window = getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.primaryColor));
 
-        // Thiết lập animation cho fab
         initializeAnimation();
+        onExpandMenuClick();
+        onAddOneClick();
+        binding.actionBack.setOnClickListener(v -> onBackPressed());
 
         getActivityResultOk = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), o -> {
                     if (o.getResultCode() == Activity.RESULT_OK) {
-                        productRecyclerViewAdapter.setData(null);
+                        mProductAdapter.setData(null);
                         binding.progressBar.setVisibility(View.VISIBLE);
-                        productManagePresenter.getProductList();
+                        mPresenter.getProductList();
                     }
                 }
         );
 
-        productManagePresenter = new ProductManagePresenter(this);
-        productRecyclerViewAdapter = new ProductRecyclerViewAdapter(this, this);
+        mPresenter = new ProductManagePresenter(this);
+        mProductAdapter = new ProductRecyclerViewAdapter(this, this);
 
         // Thiết lập LayoutManager
         binding.productList.setLayoutManager(
@@ -81,11 +83,7 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
         );
 
         // Gọi callback tới presenter, lấy dữ liệu từ api
-        productManagePresenter.getProductList();
-
-        onExpandMenuClick();
-        onAddOneClick();
-        binding.buttonBack.setOnClickListener(v -> onBackPressed());
+        mPresenter.getProductList();
     }
 
     @Override
@@ -96,8 +94,8 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     @Override
     public void getProductListSuccessfully(List<Product> productList) {
         binding.progressBar.setVisibility(View.INVISIBLE);
-        productRecyclerViewAdapter.setData(productList);
-        binding.productList.setAdapter(productRecyclerViewAdapter);
+        mProductAdapter.setData(productList);
+        binding.productList.setAdapter(mProductAdapter);
     }
 
     @Override
@@ -115,23 +113,23 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     }
 
     private void initializeAnimation() {
-        animFromBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.from_bottom_fab);
-        animToBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.to_bottom_fab);
-        animRotateClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_clock_wise);
-        animRotateAntiClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_anti_clock_wise);
+        mAnimFromBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.from_bottom_fab);
+        mAnimToBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.to_bottom_fab);
+        mAnimRotateClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_clock_wise);
+        mAnimRotateAntiClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_anti_clock_wise);
     }
 
     private void closeMenu() {
-        binding.fabExpandMenu.startAnimation(animRotateAntiClockWise);
-        binding.fabAddOne.startAnimation(animToBottomFab);
-        binding.addOneTxt.startAnimation(animToBottomFab);
+        binding.fabExpandMenu.startAnimation(mAnimRotateAntiClockWise);
+        binding.fabAddOne.startAnimation(mAnimToBottomFab);
+        binding.addOneTxt.startAnimation(mAnimToBottomFab);
         isSubMenuOpen = false;
     }
 
     private void openMenu() {
-        binding.fabExpandMenu.startAnimation(animRotateClockWise);
-        binding.fabAddOne.startAnimation(animFromBottomFab);
-        binding.addOneTxt.startAnimation(animFromBottomFab);
+        binding.fabExpandMenu.startAnimation(mAnimRotateClockWise);
+        binding.fabAddOne.startAnimation(mAnimFromBottomFab);
+        binding.addOneTxt.startAnimation(mAnimFromBottomFab);
         isSubMenuOpen = true;
     }
 

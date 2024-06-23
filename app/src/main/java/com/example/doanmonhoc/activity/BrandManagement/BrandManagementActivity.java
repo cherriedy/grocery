@@ -83,7 +83,7 @@ public class BrandManagementActivity extends AppCompatActivity implements Produc
                 }
         );
 
-        binding.buttonBack.setOnClickListener(v -> onBackPressed());
+        binding.actionBack.setOnClickListener(v -> onBackPressed());
     }
 
     @Override

@@ -10,36 +10,37 @@
     <RelativeLayout
         android:id="@+id/action_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:background="@color/white"
-        android:paddingHorizontal="24dp"
-        android:paddingVertical="16dp"
+        android:backgroundTint="@color/primaryColor"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <ImageButton
-            android:id="@+id/button_back"
-
+        <ImageView
+            android:id="@+id/action_back"
             android:layout_width="@dimen/toolbar_icon"
             android:layout_height="@dimen/toolbar_icon"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
             android:background="@android:color/transparent"
             android:src="@drawable/ic_arrow_back"
-            app:tint="@color/textHeading" />
+            app:tint="@color/white" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_toEndOf="@id/button_back"
+            android:layout_toEndOf="@id/action_back"
             android:text="Quản lý"
-            android:textSize="@dimen/toolbar_text"
-            android:textStyle="bold" />
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+            android:textColor="@color/white" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/button_search"
             android:layout_width="@dimen/toolbar_icon"
             android:layout_height="@dimen/toolbar_icon"
@@ -47,7 +48,7 @@
             android:layout_centerVertical="true"
             android:backgroundTint="@color/white"
             android:src="@drawable/ic_search"
-            app:tint="@color/black" />
+            app:tint="@color/white" />
 
     </RelativeLayout>
 
