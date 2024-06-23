@@ -16,8 +16,14 @@ import androidx.fragment.app.Fragment;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.BrandManagement.BrandManagementActivity;
 import com.example.doanmonhoc.activity.GroupManagement.GroupManagementActivity;
+import com.example.doanmonhoc.activity.CreateImportProduct.ManagementImportActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
+
+import com.example.doanmonhoc.activity.SaleManagement.SaleCreateActivity;
+import com.example.doanmonhoc.activity.SaleManagement.SaleManagementActivity;
+
 import com.example.doanmonhoc.adapter.BottomSheetShortcutAdapter;
+
 import com.example.doanmonhoc.adapter.ShortcutGridViewAdapter;
 import com.example.doanmonhoc.databinding.FragmentHomepageBinding;
 import com.example.doanmonhoc.model.Shortcut;
@@ -49,7 +55,7 @@ public class HomepageFragment extends Fragment {
                 new Shortcut("Sản phẩm", R.drawable.ic_product, R.color.primaryColor),
                 new Shortcut("Thống kê", R.drawable.ic_chart, R.color.primaryColor),
                 new Shortcut("Đơn hàng", R.drawable.ic_note, R.color.primaryColor),
-                new Shortcut("Kiểm kho", R.drawable.ic_supplier, R.color.primaryColor),
+                new Shortcut("Nhập hàng", R.drawable.ic_supplier, R.color.primaryColor),
                 new Shortcut("Nhân viên", R.drawable.ic_customer, R.color.primaryColor),
                 new Shortcut("Thêm", R.drawable.ic_circle_ellipsis, R.color.primaryColor)
         );
@@ -60,15 +66,16 @@ public class HomepageFragment extends Fragment {
         binding.gridViewShortcut.setAdapter(shortcutGridViewAdapter);
     }
 
+
     private class ShortcutOnItemClick implements ShortcutGridViewAdapter.OnItemClickListener {
         @Override
         public void onItemClick(int position) {
             if (position == ShortcutGridViewAdapter.SHORTCUT_PRODUCT) {
                 startActivity(new Intent(getContext(), ProductManagementActivity.class));
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_INVENTORY) {
-                Toast.makeText(requireContext(), "INVENTORY", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), ManagementImportActivity.class));
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_ORDER) {
-                Toast.makeText(requireContext(), "ORDER", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), SaleManagementActivity.class));
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_REPORT) {
                 Toast.makeText(requireContext(), "REPORT", Toast.LENGTH_SHORT).show();
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_STAFF) {
@@ -105,6 +112,7 @@ public class HomepageFragment extends Fragment {
             } else if (position == BottomSheetShortcutAdapter.SHORTCUT_PRODUCT_TYPE) {
                 startActivity(new Intent(getContext(), GroupManagementActivity.class));
             }
+
         }
     }
 }

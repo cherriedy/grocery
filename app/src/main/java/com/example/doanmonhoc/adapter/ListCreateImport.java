@@ -5,24 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.CreateImportProduct.ManagementImportActivity;
 import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
 import com.example.doanmonhoc.model.Product;
 
 import java.util.List;
 
-public class ListProductImport extends BaseAdapter {
+public class ListCreateImport extends BaseAdapter {
 
     private Context context;
     private List<DetailedGoodsReceivedNote> detailList;
     private List<Product> productList;
     private List<GoodsReceivedNote> grnList;
 
-    public ListProductImport(Context context, List<DetailedGoodsReceivedNote> detaillist,
-                             List<Product> productlist, List<GoodsReceivedNote> grnlist) {
+    public ListCreateImport(Context context, List<DetailedGoodsReceivedNote> detaillist,
+                            List<Product> productlist, List<GoodsReceivedNote> grnlist) {
         this.context = context;
         this.detailList = detaillist;
         this.productList = productlist;
@@ -43,8 +45,10 @@ public class ListProductImport extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-    private static class LogoViewHolder {
-        TextView  imgProductTextView, quantityTextView,productNameTextView, grnKeyTextView;
+    static class LogoViewHolder {
+
+        ImageView imgProductTextView;
+                TextView quantityTextView,productNameTextView, grnKeyTextView;
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -57,25 +61,22 @@ public class ListProductImport extends BaseAdapter {
          //   holder.imgProductTextView = convertView.findViewById(R.id.myShapeableImageView);
             holder.productNameTextView = convertView.findViewById(R.id.item_productname);
             holder.quantityTextView = convertView.findViewById(R.id.item_quantity);
-            holder.grnKeyTextView = convertView.findViewById(R.id.item_grnKey);
+            holder.imgProductTextView = convertView.findViewById(R.id.myShapeableImageView);
             convertView.setTag(holder);
         } else {
             holder = (LogoViewHolder) convertView.getTag();
         }
 
-        if (position < detailList.size()) {
-            DetailedGoodsReceivedNote detail = detailList.get(position);
-            holder.quantityTextView.setText(String.valueOf(detail.getQuantity()));
-        }
+
+        holder.quantityTextView.setText(String.valueOf(productList.get(position).getActualQuantity()));
+
+
 
         //    holder.imgProductTextView.setText(productList.get(position).getAvatarPath());
             holder.productNameTextView.setText(productList.get(position).getProductName());
 
 
-        if (position < grnList.size()) {
-            GoodsReceivedNote grn = grnList.get(position);
-            holder.grnKeyTextView.setText(grn.getGrnKey());
-        }
+     // holder.imgProductTextView.setTextDirection(Integer.parseInt(productList.get(position).getAvatarPath()));
 
         return convertView;
     }

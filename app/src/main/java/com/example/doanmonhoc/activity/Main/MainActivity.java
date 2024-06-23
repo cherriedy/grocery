@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.AccountManagement.AccountDetailActivity;
 import com.example.doanmonhoc.activity.Auth.LoginActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 import com.example.doanmonhoc.databinding.ActivityMainBinding;
@@ -27,6 +29,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding b;
+    private TextView txtName;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -34,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         b = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(b.getRoot());
+
+//        txtName = findViewById(R.id.txtAccountName);
+//        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+//        String staffName = sharedPreferences.getString("staffName", null);
+//        txtName.setText(staffName);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -136,9 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 Integer currentItemId = navigationItem.get(item.getItemId());
                 switch (currentItemId) {
                     case 0:
-                    default:
-                        Toast.makeText(this, "Toast drawer product management", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(MainActivity.this, ProductManagementActivity.class));
+                        startActivity(new Intent(MainActivity.this, AccountDetailActivity.class));
                         break;
                     case 1:
                         logout();
@@ -193,6 +199,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = getSharedPreferences("myPrefs", MODE_PRIVATE).edit();
         editor.remove("id");
         editor.remove("Roleid");
+        editor.remove("staffName");
         editor.apply();
 
         Toast.makeText(this, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();

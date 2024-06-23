@@ -1,7 +1,8 @@
 package com.example.doanmonhoc.api;
 
-import com.example.doanmonhoc.model.Account;
 import com.example.doanmonhoc.model.Brand;
+import com.example.doanmonhoc.model.DetailedInvoice;
+import com.example.doanmonhoc.model.Invoice;
 import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
 import com.example.doanmonhoc.model.LoginResponse;
@@ -56,7 +57,7 @@ public interface KiotApiService {
     Call<List<Product>> getProductList();
 
     @GET("/product/{id}")
-    Call<Product> getDetailedProduct(@Path("id") int productID);
+    Call<Product> getDetailedProduct(@Path("id") long productID);
 
     @GET("/product/latest")
     Call<Product> getLatestProduct();
@@ -104,7 +105,7 @@ public interface KiotApiService {
 
     // Login
     @POST("login")
-    Call<LoginResponse> loginUser(@Body Account account);
+    Call<LoginResponse> loginUser(@Body Staff staff);
 
     @GET("staff/{id}")
     Call<Staff> getStaffById(@Path("id") long id);
@@ -112,10 +113,19 @@ public interface KiotApiService {
     @PUT("staff/{id}")
     Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
 
+    @GET("invoice")
+    Call<List<Invoice>> getAllInvoice();
+
+    @GET("invoiceDetail/{id}")
+    Call<List<DetailedInvoice>> getDetailedInvoiceById(@Path("id") long id);
+
+    @POST("invoice")
+    Call<Invoice> addInvoice(@Body Invoice invoice);
+
     @GET("/detailedGoodsReceivedNote")
     Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList();
 
-
     @GET("/goodsReceivedNote")
     Call<List<GoodsReceivedNote>> getGoodsReceivedNoteList();
+
 }
