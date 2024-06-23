@@ -86,7 +86,13 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
     <string name="product_brand_name_hint">Masan</string>
     <string name="product_brand_des_hint">Thương hiệu nổi tiếng...</string>
     <string name="msg_text_product_brand_requirement">Không để trống tên nhãn hàng</string>
+    <string name="title_product_group_name">Tên nhóm sản phẩm *</string>
+    <string name="title_product_group_des">Mô tả nhóm sản phẩm</string>
+    <string name="product_group_des_hint">Nhóm sản phẩm...</string>
+    <string name="product_group_name_hint">Bánh</string>
+    <string name="msg_error_retrived_data">Xảy ra lỗi dữ liệu</string>
 </resources>

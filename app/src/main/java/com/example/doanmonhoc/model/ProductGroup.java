@@ -1,6 +1,8 @@
 package com.example.doanmonhoc.model;
 
-public class ProductGroup {
+import java.io.Serializable;
+
+public class ProductGroup implements Serializable {
     public static final String PREFIX = "PG";
 
     private int id;

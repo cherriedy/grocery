@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     >
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,6 +18,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31"
         >
+        <activity
+            android:name=".activity.GroupManagement.AddOrEditGroupActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".activity.GroupManagement.GroupManagementActivity"
+            android:exported="false"
+            />
         <activity
             android:name=".activity.BrandManagement.AddOrEditBrandActivity"
             android:exported="false"
@@ -62,7 +71,6 @@
             android:name=".activity.StaffManagement.AddStaffActivity"
             android:exported="true"
             />
-
         <activity
             android:name=".activity.CreateImportProduct.CreateImportActivity"
             android:exported="false"
@@ -77,6 +85,15 @@
             />
 
         <activity
+
+            android:name=".activity.CreateImportProduct.ManagementImportActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".activity.Auth.SplashActivity"
+            android:exported="true"
+            />
+            <activity
             android:name=".activity.SaleManagement.SaleConfirmActivity"
             android:exported="false" />
         <activity

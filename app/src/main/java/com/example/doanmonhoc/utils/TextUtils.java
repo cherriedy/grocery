@@ -13,7 +13,7 @@ public final class TextUtils {
     public static final String TAG = "TextUtils";
 
     public static boolean isValidString(String text) {
-        return text != null && !text.isEmpty();
+        return text != null && !text.trim().isEmpty();
     }
 
     public static String getString(TextView tv) {
