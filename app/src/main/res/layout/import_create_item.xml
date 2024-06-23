@@ -7,6 +7,7 @@
     android:background="@drawable/radius_4_goc"
     android:backgroundTint="@color/white"
     android:padding="16dp">
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/myShapeableImageView"
         android:layout_width="70dp"
@@ -14,11 +15,11 @@
         android:src="@drawable/ic_launcher_background"
         app:shapeAppearanceOverlay="@style/roundedImageStyle" />
 
-
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp">
+
         <TextView
             android:id="@+id/item_productname"
             android:layout_width="wrap_content"
@@ -28,71 +29,55 @@
 
         <TableRow
             android:layout_marginTop="7sp">
+
             <TextView
                 android:id="@+id/item_grnKey"
+                android:layout_width="59dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/lightgray"
+                android:textSize="17sp" />
 
-                android:textSize="17sp"
-                android:textColor="@color/lightgray"
-                android:layout_marginEnd="10dp"/>
-            <TextView
-                android:text="|  Còn:"
-                android:textSize="17sp"
-                android:textColor="@color/lightgray"
-                android:layout_marginEnd="5dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/item_productKey"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#615F5F"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="|  Còn:"
+                    android:textColor="#6C6C6C"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/item_quantity"
-                android:textColor="@color/lightgray"
-                android:textSize="17sp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#787676"
+                android:textSize="17sp" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
             <ImageButton
+                android:id="@+id/btn_add"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/radius_4_goc"
                 android:backgroundTint="@color/primaryColor"
-                android:src="@drawable/ic_add"/>
-
-
-<!--            <androidx.cardview.widget.CardView-->
-<!--                android:layout_width="100dp"-->
-<!--                android:layout_height="25dp"-->
-<!--                app:cardCornerRadius="5dp"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/imageView"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.466"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:layout_constraintVertical_bias="0.355" >-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent">-->
-
-<!--                    <ImageButton-->
-<!--                        android:layout_width="32dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:layout_gravity="start"-->
-<!--                        android:background="@color/white"-->
-<!--                        android:src="@drawable/ic_minus"/>-->
-
-<!--                    <TextView-->
-<!--                        android:layout_width="35dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:gravity="center"-->
-<!--                        android:textSize="17dp"-->
-<!--                        android:text="2" />-->
-
-<!--                    <ImageButton-->
-<!--                        android:layout_width="32dp"-->
-<!--                        android:layout_height="match_parent"-->
-<!--                        android:background="@color/white"-->
-<!--                        app:tint="@color/black"-->
-<!--                        android:src="@drawable/ic_add" />-->
-<!--                </LinearLayout>-->
-<!--            </androidx.cardview.widget.CardView>-->
+                android:src="@drawable/ic_add" />
         </TableRow>
     </TableLayout>
 </LinearLayout>
-

@@ -72,7 +72,7 @@
             android:exported="true"
             />
         <activity
-            android:name=".activity.CreateImportProduct.CreateImportActivity"
+            android:name=".activity.CreateImportProduct.GoodsImportActivity"
             android:exported="false"
             />
         <activity
@@ -80,7 +80,7 @@
             android:exported="false"
             />
         <activity
-            android:name=".activity.CreateImportProduct.DetailImportActivity"
+            android:name=".activity.CreateImportProduct.ConfirmImportActivity"
             android:exported="false"
             />
         <activity

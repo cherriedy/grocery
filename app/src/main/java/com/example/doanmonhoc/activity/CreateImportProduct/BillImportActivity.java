@@ -20,7 +20,7 @@ public class BillImportActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void navigatetoDetailsActivity(View view) {
-        Intent intent = new Intent(this, DetailImportActivity.class);
+        Intent intent = new Intent(this, ConfirmImportActivity.class);
         startActivity(intent);
     }
     }

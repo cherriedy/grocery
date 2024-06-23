@@ -11,7 +11,7 @@
     import androidx.appcompat.app.AppCompatActivity;
 
     import com.example.doanmonhoc.R;
-    import com.example.doanmonhoc.adapter.ListCreateImport;
+    import com.example.doanmonhoc.adapter.ListFoodsImportAdapter;
     import com.example.doanmonhoc.api.KiotApiService;
     import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
     import com.example.doanmonhoc.model.GoodsReceivedNote;
@@ -26,13 +26,12 @@
     import retrofit2.Retrofit;
     import retrofit2.converter.gson.GsonConverterFactory;
 
-    public class CreateImportActivity extends AppCompatActivity {
+    public class GoodsImportActivity extends AppCompatActivity {
 
         private ListView listView;
-        private ListCreateImport adapter;
-        private List<DetailedGoodsReceivedNote> detailList = new ArrayList<>();
+        private ListFoodsImportAdapter adapter;
         private List<Product> productList = new ArrayList<>();
-        private List<GoodsReceivedNote> grnList = new ArrayList<>();
+        private ArrayList<Product> selectedProducts = new ArrayList<>();
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -40,21 +39,23 @@
             setContentView(R.layout.activity_import_create);
 
             listView = findViewById(R.id.list_view);
-            adapter = new ListCreateImport(this, detailList, productList, grnList);
+            adapter = new ListFoodsImportAdapter(this, productList, selectedProducts);
             listView.setAdapter(adapter);
+
+            // Kiểm tra Intent xem có danh sách sản phẩm đã chọn từ ConfirmImportActivity không
+            if (getIntent().hasExtra("selectedProducts")) {
+                ArrayList<Product> newSelectedProducts = (ArrayList<Product>) getIntent().getSerializableExtra("selectedProducts");
+                selectedProducts.clear();
+                selectedProducts.addAll(newSelectedProducts);
+                adapter.notifyDataSetChanged();
+            }
 
             fetchDataFromApi();
         }
 
         private void fetchDataFromApi() {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://cherrapi.onlinewebshop.net")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .client(okHttpClient)
-                    .build();
 
-            KiotApiService apiService = retrofit.create(KiotApiService.class);
-            apiService.getProductList().enqueue(new Callback<List<Product>>() {
+            KiotApiService.apiService.getProductList().enqueue(new Callback<List<Product>>() {
                 @Override
                 public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
                     if (response.isSuccessful()) {
@@ -75,7 +76,8 @@
         }
 
         public void navigateToDetailImportActivity(View view) {
-            Intent intent = new Intent(this, DetailImportActivity.class);
+            Intent intent = new Intent(this, ConfirmImportActivity.class);
+            intent.putExtra("selectedProducts", selectedProducts);
             startActivity(intent);
         }
 
