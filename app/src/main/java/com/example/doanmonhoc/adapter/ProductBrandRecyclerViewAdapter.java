@@ -81,9 +81,9 @@ public class ProductBrandRecyclerViewAdapter extends RecyclerView.Adapter<Produc
 
         public ProductBrandViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageProductBrandAvatar = itemView.findViewById(R.id.image_product_brand_avatar);
-            textProductBrandName = itemView.findViewById(R.id.text_product_brand_name);
-            textProductBrandKey = itemView.findViewById(R.id.text_product_brand_key);
+            imageProductBrandAvatar = itemView.findViewById(R.id.image_item_avatar);
+            textProductBrandName = itemView.findViewById(R.id.text_item_name);
+            textProductBrandKey = itemView.findViewById(R.id.text_item_key);
         }
     }
 }

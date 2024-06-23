@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.BrandManagement.BrandManagementActivity;
+import com.example.doanmonhoc.activity.GroupManagement.GroupManagementActivity;
 import com.example.doanmonhoc.activity.CreateImportProduct.ManagementImportActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 
@@ -32,8 +33,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class HomepageFragment extends Fragment {
-    private FragmentHomepageBinding b;
-    private List<Shortcut> shortcutList;
+    private FragmentHomepageBinding binding;
+    private List<Shortcut> mShortcutList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,15 +43,15 @@ public class HomepageFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        b = FragmentHomepageBinding.inflate(getLayoutInflater());
-        return b.getRoot();
+        binding = FragmentHomepageBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        shortcutList = Arrays.asList(
+        mShortcutList = Arrays.asList(
                 new Shortcut("Sản phẩm", R.drawable.ic_product, R.color.primaryColor),
                 new Shortcut("Thống kê", R.drawable.ic_chart, R.color.primaryColor),
                 new Shortcut("Đơn hàng", R.drawable.ic_note, R.color.primaryColor),
@@ -60,9 +61,9 @@ public class HomepageFragment extends Fragment {
         );
 
         ShortcutGridViewAdapter shortcutGridViewAdapter = new ShortcutGridViewAdapter(getContext());
-        shortcutGridViewAdapter.setData(shortcutList);
+        shortcutGridViewAdapter.setData(mShortcutList);
         shortcutGridViewAdapter.setOnItemClickListener(new ShortcutOnItemClick());
-        b.gridViewShortcut.setAdapter(shortcutGridViewAdapter);
+        binding.gridViewShortcut.setAdapter(shortcutGridViewAdapter);
     }
 
 
@@ -85,8 +86,8 @@ public class HomepageFragment extends Fragment {
                 GridView gridViewShortcut = viewDialog.findViewById(R.id.grid_view_shortcut);
 
                 List<Shortcut> shortcutList = Arrays.asList(
-                        new Shortcut("Nhãn hàng", R.drawable.ic_product_brand, R.color.primaryColor),
-                        new Shortcut("Loại sản phẩm", R.drawable.ic_product_type, R.color.bold_sky)
+                        new Shortcut("Thương hiệu", R.drawable.ic_product_brand, R.color.primaryColor),
+                        new Shortcut("Nhóm sản phẩm", R.drawable.ic_product_group, R.color.bold_sky)
                 );
 
                 final BottomSheetShortcutAdapter bottomSheetShortcutAdapter = new BottomSheetShortcutAdapter(getContext());
@@ -109,7 +110,7 @@ public class HomepageFragment extends Fragment {
             if (position == BottomSheetShortcutAdapter.SHORTCUT_PRODUCT_BRAND) {
                 startActivity(new Intent(getContext(), BrandManagementActivity.class));
             } else if (position == BottomSheetShortcutAdapter.SHORTCUT_PRODUCT_TYPE) {
-                Toast.makeText(getContext(), "Home Fragment Product Type", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), GroupManagementActivity.class));
             }
 
         }

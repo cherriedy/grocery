@@ -18,7 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.contract.BrandManagement.AddOrEditBrandContract;
-import com.example.doanmonhoc.databinding.ActivityAddProductBrandBinding;
+import com.example.doanmonhoc.databinding.ActivityAddOrEditBrandBinding;
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.presenter.BrandManagement.AddOrEditBrandPresenter;
 import com.example.doanmonhoc.utils.IntentManager;
@@ -29,7 +29,7 @@ import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
 public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEditBrandContract.View {
     private static final String TAG = "AddOrEditBrandActivity";
 
-    private ActivityAddProductBrandBinding binding;
+    private ActivityAddOrEditBrandBinding binding;
     private AddOrEditBrandPresenter presenter;
     private LoadingDialog loadingDialog;
     private Brand receivedExtraBrand;
@@ -38,7 +38,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding = ActivityAddProductBrandBinding.inflate(getLayoutInflater());
+        binding = ActivityAddOrEditBrandBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
