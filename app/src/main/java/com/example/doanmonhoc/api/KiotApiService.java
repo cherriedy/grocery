@@ -28,8 +28,13 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface KiotApiService {
+    final String BASE_URL = "http://cherrapi.onlinewebshop.net";
 
     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+
+    Gson gson = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd")
+            .create();
 
     OkHttpClient okHttpClient = new OkHttpClient.Builder()
             .readTimeout(60, TimeUnit.SECONDS)
@@ -38,12 +43,6 @@ public interface KiotApiService {
             .addInterceptor(httpLoggingInterceptor)
             .build();
 
-    final String BASE_URL = "http://cherrapi.onlinewebshop.net";
-
-    Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd")
-            .create();
-
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(gson))
@@ -51,7 +50,6 @@ public interface KiotApiService {
             .build();
 
     KiotApiService apiService = retrofit.create(KiotApiService.class);
-
 
     // Product API
     @GET("/product")
@@ -89,6 +87,22 @@ public interface KiotApiService {
     @GET("/type")
     Call<List<ProductGroup>> getProductGroupList();
 
+    @GET("/type/{id}")
+    Call<ProductGroup> getProductGroupByID(@Path("id") long id);
+
+    @GET("/type/latest")
+    Call<ProductGroup> getLatestProductGroup();
+
+    @POST("/type")
+    Call<ProductGroup> createProductGroup(@Body ProductGroup productGroup);
+
+    @PUT("/type/{id}")
+    Call<ProductGroup> updateProductGroup(@Path("id") long id, @Body ProductGroup productGroup);
+
+    @DELETE("/type/{id}")
+    Call<ProductGroup> deleteProductGroup(@Path("id") long id);
+
+    // Login
     @POST("login")
     Call<LoginResponse> loginUser(@Body Account account);
 

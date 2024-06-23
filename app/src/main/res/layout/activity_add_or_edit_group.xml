@@ -11,10 +11,9 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:layout_weight="0"
         android:background="@color/primaryColor"
-        android:minHeight="?attr/actionBarSize"
         android:paddingHorizontal="16dp"
         android:paddingVertical="8dp">
 
@@ -33,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Tạo nhóm sản phẩm"
-            android:textAppearance="@style/TextAppearance.Material3.LabelMedium"
+            android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
             android:textColor="@color/white"
             android:textStyle="bold" />
     </RelativeLayout>

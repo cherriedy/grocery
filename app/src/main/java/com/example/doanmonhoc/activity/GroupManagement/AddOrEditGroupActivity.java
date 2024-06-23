@@ -51,11 +51,18 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
 
         onFocusHeader();
         callGroupValidation();
+        binding.actionBack.setOnClickListener(v -> onBackPressed());
 
         mPresenter = new AddOrEditGroupPresenter(this);
         mLoadingDialog = new LoadingDialog(this);
 
         handleIntent(getIntent());
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     @Override
@@ -106,7 +113,15 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void updateGroup() {
-        String groupName = TextUtils.getString(binding.)
+        ProductGroup productGroup = new ProductGroup();
+        String groupName = TextUtils.getString(binding.textProductGroupName);
+        productGroup.setProductGroupName(groupName);
+        if (handleGroupNameValidation()) {
+            mLoadingDialog.show();
+            mPresenter.handleUpdateGroup(productGroup);
+        } else {
+            Toast.makeText(this, getString(R.string.msg_fill_all_requierd_fields), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -150,6 +165,7 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
                 case IntentManager.ModeParams.EXTRA_MODE_CREATE:
                     binding.buttonFinish.setOnClickListener(v -> createGroup());
                     break;
+
                 case IntentManager.ModeParams.EXTRA_MODE_EDIT:
                     binding.textActionBarHeader.setText("Chi tiết nhóm sản phẩm");
                     binding.buttonDelete.setVisibility(View.VISIBLE);

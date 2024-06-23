@@ -77,6 +77,7 @@ public class GroupManagementActivity extends AppCompatActivity implements GroupM
         initializeAnimation();
         onExpandMenuClick();
         onAddOneClick();
+        binding.actionBack.setOnClickListener(v -> onBackPressed());
 
         mPresenter = new GroupManagementPresenter(this);
         mLoadingDialog = new LoadingDialog(this);
