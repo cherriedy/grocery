@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.adapter.ListManagementImportAdapter;
 import com.example.doanmonhoc.api.KiotApiService;
+import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import retrofit2.Response;
 public class ManagementImportActivity extends AppCompatActivity {
     private ListView listView;
     private ListManagementImportAdapter adapter;
-//    private List<DetailedGoodsReceivedNote> detailList = new ArrayList<>();
+  private List<DetailedGoodsReceivedNote> detailList = new ArrayList<>();
     private List<GoodsReceivedNote> goodsReceivedNotes = new ArrayList<>();
 
    @Override
@@ -54,6 +55,31 @@ public class ManagementImportActivity extends AppCompatActivity {
             public void onFailure(Call<List<GoodsReceivedNote>> call, Throwable t) {
                 Log.e("API Error", "Network error: " + t.getMessage());
             }
+
+
+
+        });
+
+        KiotApiService.apiService.getDetailedGoodsReceivedNoteList().enqueue(new Callback<List<DetailedGoodsReceivedNote>>() {
+            @Override
+            public void onResponse(Call<List<DetailedGoodsReceivedNote>> call, Response<List<DetailedGoodsReceivedNote>> response) {
+                if (response.isSuccessful()) {
+                    List<DetailedGoodsReceivedNote> detailslist = response.body();
+                    detailList.clear();
+                    detailList.addAll(detailslist);
+                    adapter = new ListManagementImportAdapter(ManagementImportActivity.this, detailList);
+                    listView.setAdapter(adapter);
+                } else {
+                    Log.e("API Error", "Server returned error: " + response.errorBody());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<DetailedGoodsReceivedNote>> call, Throwable t) {
+                Log.e("API Error", "Network error: " + t.getMessage());
+            }
+
+
+
         });
     }
 
@@ -61,4 +87,7 @@ public class ManagementImportActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GoodsImportActivity.class);
         startActivity(intent);
     }
+
+
+
 }

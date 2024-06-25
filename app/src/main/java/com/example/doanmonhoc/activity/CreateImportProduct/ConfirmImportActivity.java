@@ -57,6 +57,10 @@ public class ConfirmImportActivity extends AppCompatActivity {
 
         TextView totalTextView1 = findViewById(R.id.tv_totalPrice1);
         totalTextView1.setText(String.format("%.2f", total));
+
+        Integer totalquantity = updateTotalQuantity();
+        TextView totalTextView2 = findViewById(R.id.tv_totalquantity);
+        totalTextView2.setText(String.format("%d", totalquantity));
     }
 
     private void openGoodsImportActivity() {
@@ -87,4 +91,13 @@ public class ConfirmImportActivity extends AppCompatActivity {
         }
         return total;
     }
+
+    private Integer updateTotalQuantity() {
+        int totalQuantity = 0;
+        for (Product product : selectedProducts) {
+            totalQuantity += product.getActualQuantity();
+        }
+       return totalQuantity;
+    }
+
 }

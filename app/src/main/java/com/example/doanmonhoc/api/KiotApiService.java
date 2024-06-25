@@ -128,4 +128,11 @@ public interface KiotApiService {
     @GET("/goodsReceivedNote")
     Call<List<GoodsReceivedNote>> getGoodsReceivedNoteList();
 
+
+    @GET("detailedGoodsReceivedNote/{id}")
+    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList( @Path("id") int goodsReceivedNoteId);
+
+
+
+
 }
