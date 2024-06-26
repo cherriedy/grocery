@@ -7,6 +7,8 @@ import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivi
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.contract.ProductManagement.AddOrEditProductContract;
 import com.example.doanmonhoc.model.Brand;
+import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
+import com.example.doanmonhoc.model.GoodsReceivedNote;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
 import com.example.doanmonhoc.utils.Utils;
@@ -70,8 +72,10 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
         });
     }
 
-    public void handleCreateProduct(Product product) {
-        KiotApiService.apiService.createProduct(product).enqueue(new Callback<Product>() {
+    public void handleCreateProduct(Product product,
+                                    GoodsReceivedNote goodsReceivedNote,
+                                    DetailedGoodsReceivedNote detailedGoodsReceivedNote) {
+        KiotApiService.apiService.createProduct(product, goodsReceivedNote, detailedGoodsReceivedNote).enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 if (response.isSuccessful()) {

@@ -2,6 +2,7 @@ package com.example.doanmonhoc.activity.ProductManagement;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +25,8 @@ import com.example.doanmonhoc.adapter.TypeAutoCompleteAdapter;
 import com.example.doanmonhoc.contract.ProductManagement.AddOrEditProductContract;
 import com.example.doanmonhoc.databinding.ActivityAddProductBinding;
 import com.example.doanmonhoc.model.Brand;
+import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
+import com.example.doanmonhoc.model.GoodsReceivedNote;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
 import com.example.doanmonhoc.presenter.ProductManagament.AddOrEditProductPresenter;
@@ -149,6 +152,8 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @Override
     public void createProduct() {
+        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        long staffId = sharedPreferences.getLong("id", -1);
         String nameText = TextUtils.getString(binding.textProductName);
         String barcodeText = TextUtils.getString(binding.textProductBarcode);
         String descriptionText = TextUtils.getString(binding.textProductDescription);
@@ -172,6 +177,13 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         product.setProductBrandId(brandClickItemId);
         product.setProductGroupId(productGroupClickItemId);
         product.setActualQuantity(quantity);
+
+        GoodsReceivedNote goodsReceivedNote = new GoodsReceivedNote();
+        goodsReceivedNote.setStaffid(staffId);
+
+        DetailedGoodsReceivedNote detailedGoodsReceivedNote = new DetailedGoodsReceivedNote();
+        detailedGoodsReceivedNote.setQuantity(quantity);
+        detailedGoodsReceivedNote.setPrice(outPrice);
 
         product.setStatus((byte) 1);
         if (binding.buttonOutStock.isSelected()) {
@@ -198,7 +210,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
         if (handleValidateProductName() && handleValidateOutPrice() && handleValidateDescription()) {
             mLoadingDialog.show();
-            mPresenter.handleCreateProduct(product);
+            mPresenter.handleCreateProduct(product, goodsReceivedNote, detailedGoodsReceivedNote);
         } else {
             Toast.makeText(this, getString(R.string.msg_fill_all_requierd_fields), Toast.LENGTH_SHORT).show();
         }

@@ -1,10 +1,10 @@
 package com.example.doanmonhoc.api;
 
 import com.example.doanmonhoc.model.Brand;
-import com.example.doanmonhoc.model.DetailedInvoice;
-import com.example.doanmonhoc.model.Invoice;
 import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
+import com.example.doanmonhoc.model.DetailedInvoice;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
+import com.example.doanmonhoc.model.Invoice;
 import com.example.doanmonhoc.model.LoginResponse;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
@@ -63,7 +63,9 @@ public interface KiotApiService {
     Call<Product> getLatestProduct();
 
     @POST("/product")
-    Call<Product> createProduct(@Body Product product);
+    Call<Product> createProduct(@Body Product product,
+                                @Body GoodsReceivedNote goodsReceivedNote,
+                                @Body DetailedGoodsReceivedNote detailedGoodsReceivedNote);
 
     @PATCH("/product/{id}")
     Call<Product> updateProduct(@Path("id") long productID, @Body Product newProduct);
@@ -83,6 +85,9 @@ public interface KiotApiService {
 
     @DELETE("/brand/{id}")
     Call<Brand> deleteBrand(@Path("id") int id);
+
+    @POST("brand/{id}")
+    Call<Brand> updateBrand(@Path("id") long id, @Body Brand brand);
 
     // ProductGroup API
     @GET("/type")
@@ -130,9 +135,7 @@ public interface KiotApiService {
 
 
     @GET("detailedGoodsReceivedNote/{id}")
-    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList( @Path("id") int goodsReceivedNoteId);
-
-
+    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList(@Path("id") int goodsReceivedNoteId);
 
 
 }

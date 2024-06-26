@@ -3,6 +3,8 @@ package com.example.doanmonhoc.contract.ProductManagement;
 import android.content.Intent;
 
 import com.example.doanmonhoc.model.Brand;
+import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
+import com.example.doanmonhoc.model.GoodsReceivedNote;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
 
@@ -16,7 +18,7 @@ public interface AddOrEditProductContract {
 
         String generateLatestProductKey();
 
-        void handleCreateProduct(Product product);
+        void handleCreateProduct(Product product, GoodsReceivedNote goodsReceivedNote, DetailedGoodsReceivedNote detailedGoodsReceivedNote);
 
         void getExtraProduct(Intent intent);
 
