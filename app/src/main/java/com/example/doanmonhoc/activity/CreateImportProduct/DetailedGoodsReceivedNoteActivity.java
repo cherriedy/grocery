@@ -13,6 +13,7 @@ import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.adapter.DetailedGoodsReceivedNoteAdapter;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
+import com.example.doanmonhoc.model.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,18 +51,41 @@ public class DetailedGoodsReceivedNoteActivity extends AppCompatActivity {
                     List<DetailedGoodsReceivedNote> list = response.body();
                     detailedGoodsReceivedNotes.clear();
                     detailedGoodsReceivedNotes.addAll(list);
+
                     adapter = new DetailedGoodsReceivedNoteAdapter(DetailedGoodsReceivedNoteActivity.this, detailedGoodsReceivedNotes);
                     listView.setAdapter(adapter);
+
+                    fetchProductDetails();
                 } else {
                     Log.e("API Error", "Server returned error: " + response.errorBody());
                 }
             }
-
             @Override
             public void onFailure(Call<List<DetailedGoodsReceivedNote>> call, Throwable t) {
                 Log.e("API Error", "Network error: " + t.getMessage());
             }
         });
+    }
+
+    private void fetchProductDetails() {
+        for (DetailedGoodsReceivedNote note : detailedGoodsReceivedNotes) {
+            KiotApiService.apiService.getDetailedProduct(note.getProductid()).enqueue(new Callback<Product>() {
+                @Override
+                public void onResponse(Call<Product> call, Response<Product> response) {
+                    if (response.isSuccessful()) {
+                        Product product = response.body();
+                        note.setProduct(product);
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Log.e("API Error", "Server returned error: " + response.errorBody());
+                    }
+                }
+                @Override
+                public void onFailure(Call<Product> call, Throwable t) {
+                    Log.e("API Error", "Network error: " + t.getMessage());
+                }
+            });
+        }
     }
 
     public void navigateToManagement(View view) {

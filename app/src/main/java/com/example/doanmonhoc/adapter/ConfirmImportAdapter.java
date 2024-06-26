@@ -66,20 +66,23 @@ public class ConfirmImportAdapter extends BaseAdapter {
         }
 
         final Product product = productList.get(position);
-        holder.quantity.setText(String.valueOf(product.getActualQuantity()));
+        Integer quantity = 0;
+        holder.quantity.setText(String.valueOf(quantity));
         holder.productName.setText(product.getProductName());
         holder.price.setText(String.valueOf(product.getInPrice()));
 
-        double totalPrice = product.getActualQuantity() * product.getInPrice();
+        double totalPrice = quantity * product.getInPrice();
         holder.totalPrice.setText(String.format("%.0f", totalPrice));
 
         holder.btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int quantity = product.getActualQuantity();
+                int quantity = Integer.parseInt(holder.quantity.getText().toString());
                 if (quantity > 0) {
-                    product.setActualQuantity(quantity - 1);
-                    notifyDataSetChanged();
+                    quantity -= 1;
+                    holder.quantity.setText(String.valueOf(quantity));
+                    double totalPrice = quantity * product.getInPrice();
+                    holder.totalPrice.setText(String.format("%.0f", totalPrice));
                 }
             }
         });
@@ -87,9 +90,11 @@ public class ConfirmImportAdapter extends BaseAdapter {
         holder.btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int quantity = product.getActualQuantity();
-                product.setActualQuantity(quantity + 1);
-                notifyDataSetChanged();
+                int quantity = Integer.parseInt(holder.quantity.getText().toString());
+                quantity += 1;
+                holder.quantity.setText(String.valueOf(quantity));
+                double totalPrice = quantity * product.getInPrice();
+                holder.totalPrice.setText(String.format("%.0f", totalPrice));
             }
         });
 

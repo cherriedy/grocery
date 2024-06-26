@@ -39,7 +39,7 @@ public class DetailedGoodsReceivedNoteAdapter extends BaseAdapter {
     }
 
     static class ViewHolder {
-        TextView tvProductId, tvQuantity, tvPrice;
+        TextView tvProductId, tvQuantity, tvPrice,tvProductName;
     }
 
     @Override
@@ -47,22 +47,25 @@ public class DetailedGoodsReceivedNoteAdapter extends BaseAdapter {
         ViewHolder holder;
         if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(context);
-            convertView = inflater.inflate(R.layout.item_details_import, parent, false);
+            convertView = inflater.inflate(R.layout.import_item_details, parent, false);
             holder = new ViewHolder();
 
-            holder.tvProductId = convertView.findViewById(R.id.item_name);
+            holder.tvProductName = convertView.findViewById(R.id.item_name);
             holder.tvQuantity = convertView.findViewById(R.id.item_quantity);
             holder.tvPrice = convertView.findViewById(R.id.tv_totalPrice);
+          //  holder.tvProductName = convertView.findViewById(R.id.tv_product_name);  // Thêm dòng này vào layout của bạn
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         DetailedGoodsReceivedNote detailedGoodsReceivedNote = detailedGoodsReceivedNoteList.get(position);
-        holder.tvProductId.setText("Product ID: " + detailedGoodsReceivedNote.getProductid());
-        holder.tvQuantity.setText("Quantity: " + detailedGoodsReceivedNote.getQuantity());
-        holder.tvPrice.setText("Price: " + detailedGoodsReceivedNote.getPrice());
+        holder.tvQuantity.setText(String.valueOf(detailedGoodsReceivedNote.getQuantity()));
+        holder.tvPrice.setText(String.valueOf(detailedGoodsReceivedNote.getPrice()));
+        holder.tvProductName.setText((detailedGoodsReceivedNote.getProduct() != null ? detailedGoodsReceivedNote.getProduct().getProductName() : "Loading..."));  // Thêm dòng này
 
         return convertView;
     }
+
+
 }

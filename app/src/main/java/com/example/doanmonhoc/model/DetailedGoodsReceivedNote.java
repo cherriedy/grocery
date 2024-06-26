@@ -8,7 +8,15 @@ public class DetailedGoodsReceivedNote implements Serializable {
     private Integer productid;
     private Integer quantity;
     private Integer price;
+    private Product product;
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
     public Integer getId() {
         return id;
     }
