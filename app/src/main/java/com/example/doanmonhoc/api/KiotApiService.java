@@ -84,6 +84,9 @@ public interface KiotApiService {
     @DELETE("/brand/{id}")
     Call<Brand> deleteBrand(@Path("id") int id);
 
+    @POST("brand/{id}")
+    Call<Brand> updateBrand(@Path("id") long id, @Body Brand brand);
+
     // ProductGroup API
     @GET("/type")
     Call<List<ProductGroup>> getProductGroupList();

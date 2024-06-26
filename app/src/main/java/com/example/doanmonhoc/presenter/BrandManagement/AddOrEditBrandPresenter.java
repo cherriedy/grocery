@@ -103,6 +103,27 @@ public class AddOrEditBrandPresenter implements AddOrEditBrandContract.Presenter
         });
     }
 
+    @Override
+    public void handleUpdateBrand(long id, Brand brand) {
+        KiotApiService.apiService.updateBrand(id, brand).enqueue(new Callback<Brand>() {
+            @Override
+            public void onResponse(Call<Brand> call, Response<Brand> response) {
+                if (response.isSuccessful()) {
+                    view.onUpdateBrandSuccess();
+                } else {
+                    Log.e(TAG, "handleUpdateBrand - onResponse: " + "Cập nhật thất bại");
+                    view.onUpdateBrandFail();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Brand> call, Throwable throwable) {
+                Log.e(TAG, "handleUpdateBrand - onFailure: " + "Lỗi truy vấn API");
+                view.onUpdateBrandFail();
+            }
+        });
+    }
+
     private void getLatestProductBrandKey() {
         KiotApiService.apiService.getLatestProductBrand().enqueue(new Callback<Brand>() {
             @Override

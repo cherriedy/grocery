@@ -32,7 +32,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
     private ActivityAddOrEditBrandBinding binding;
     private AddOrEditBrandPresenter presenter;
     private LoadingDialog loadingDialog;
-    private Brand receivedExtraBrand;
+    private Brand mExtraBrand;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void getExtraBrandSuccessfully(Brand brand) {
-        receivedExtraBrand = brand;
+        mExtraBrand = brand;
         String brandName = brand.getBrandName();
         if (TextUtils.isValidString(brandName)) {
             binding.textProductBrandName.setText(brandName);
@@ -111,7 +111,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
     @Override
     public void deleteBrand() {
         loadingDialog.show();
-        presenter.handleDeleteBrand(receivedExtraBrand.getId());
+        presenter.handleDeleteBrand(mExtraBrand.getId());
     }
 
     @Override
@@ -128,6 +128,33 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
         Toast.makeText(this, "Xóa  sản phẩm thất bại", Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void updateBrand() {
+        if (!isBrandInputEmpty()) {
+            loadingDialog.show();
+            String brandNameText = TextUtils.getString(binding.textProductBrandName);
+            Brand brand = new Brand();
+            brand.setBrandName(brandNameText);
+            presenter.handleUpdateBrand(mExtraBrand.getId(), brand);
+        } else {
+            Toast.makeText(this, "Không để trống thông tin", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onUpdateBrandSuccess() {
+        loadingDialog.hide();
+        Toast.makeText(this, "Cập nhật nhãn hàng thành công", Toast.LENGTH_SHORT).show();
+        setResult(Activity.RESULT_OK, new Intent());
+        finish();
+    }
+
+    @Override
+    public void onUpdateBrandFail() {
+        loadingDialog.hide();
+        Toast.makeText(this, "Cập nhật nhãn hàng thất bại", Toast.LENGTH_SHORT).show();
+    }
+
     private void handleIntent(Intent intent) {
         String intentMode = intent.getStringExtra(IntentManager.ModeParams.EXTRA_MODE);
         if (TextUtils.isValidString(intentMode)) {
@@ -141,7 +168,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
                     binding.buttonDelete.setVisibility(View.VISIBLE);
                     binding.viewDividerButton.setVisibility(View.VISIBLE);
                     binding.buttonDelete.setOnClickListener(v -> deleteBrand());
-//                    binding.buttonFinish.setOnClickListener();
+                    binding.buttonFinish.setOnClickListener(v -> updateBrand());
                     presenter.getExtraBrand(intent);
                     break;
             }

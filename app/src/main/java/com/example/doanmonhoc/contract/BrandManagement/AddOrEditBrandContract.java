@@ -21,6 +21,12 @@ public class AddOrEditBrandContract {
         void deleteBrandSuccessfully();
 
         void deleteBrandFail();
+
+        void updateBrand();
+
+        void onUpdateBrandSuccess();
+
+        void onUpdateBrandFail();
     }
 
     public interface Presenter {
@@ -29,5 +35,7 @@ public class AddOrEditBrandContract {
         void getExtraBrand(Intent intent);
 
         void handleDeleteBrand(int id);
+
+        void handleUpdateBrand(long id, Brand brand);
     }
 }
