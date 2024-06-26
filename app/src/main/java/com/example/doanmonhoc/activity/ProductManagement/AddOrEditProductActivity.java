@@ -210,7 +210,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
         if (handleValidateProductName() && handleValidateOutPrice() && handleValidateDescription()) {
             mLoadingDialog.show();
-            mPresenter.handleCreateProduct(product);
+            mPresenter.handleCreateProduct(product, goodsReceivedNote, detailedGoodsReceivedNote);
         } else {
             Toast.makeText(this, getString(R.string.msg_fill_all_requierd_fields), Toast.LENGTH_SHORT).show();
         }
