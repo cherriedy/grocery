@@ -7,7 +7,7 @@ public class DetailedGoodsReceivedNote implements Serializable {
     private Integer GoodReceivedNoteid;
     private Integer productid;
     private Integer quantity;
-    private Integer price;
+    private float price;
 
     public Integer getId() {
         return id;
@@ -41,11 +41,11 @@ public class DetailedGoodsReceivedNote implements Serializable {
         this.quantity = quantity;
     }
 
-    public Integer getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 }

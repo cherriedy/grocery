@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 public class GoodsReceivedNote implements Serializable {
     private Integer id;
     private String grnKey;
-    private String Staffid;
+    private long Staffid;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private String note;
@@ -28,11 +28,11 @@ public class GoodsReceivedNote implements Serializable {
         this.grnKey = grnKey;
     }
 
-    public String getStaffid() {
+    public long getStaffid() {
         return Staffid;
     }
 
-    public void setStaffid(String staffid) {
+    public void setStaffid(long staffid) {
         Staffid = staffid;
     }
 
