@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.CreateImportProduct.GoodsImportActivity;
 import com.example.doanmonhoc.activity.CreateImportProduct.ConfirmImportActivity;
 import com.example.doanmonhoc.model.ImportItem;
 import com.example.doanmonhoc.model.Product;
@@ -20,6 +21,7 @@ import com.example.doanmonhoc.model.Product;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
 
 public class ListFoodsImportAdapter extends BaseAdapter {
     private Context context;
@@ -53,7 +55,6 @@ public class ListFoodsImportAdapter extends BaseAdapter {
         int currentPosition;
         ImageView image;
         Button btnMinus, btnPlus;
-        View thanhTangGiamSoLuong; // Đổi từ CardView sang View
     }
 
     @Override
@@ -88,7 +89,7 @@ public class ListFoodsImportAdapter extends BaseAdapter {
         float discountedPrice = product.getOutPrice() * (1 - product.getDiscount());
         holder.price.setText(String.valueOf(discountedPrice));
 
-        // Cập nhật số lượng hiển thị
+        // Cập nhật trạng thái của thanhTangGiamSoLuong và số lượng
         updateQuantityView(holder, product);
 
         // Xử lý sự kiện khi nhấn nút cộng
@@ -102,14 +103,7 @@ public class ListFoodsImportAdapter extends BaseAdapter {
             }
         });
 
-        // Xử lý sự kiện khi nhấn nút trừ
-        holder.btnMinus.setOnClickListener(v -> {
-            if (checkProductStock(product.getId(), -1)) {
-                updateCart(position, -1);
-            } else {
-                Toast.makeText(context, "Không thể giảm số lượng dưới 0", Toast.LENGTH_SHORT).show();
-            }
-        });
+        holder.btnMinus.setVisibility(View.GONE); // Ẩn nút trừ
 
         return convertView;
     }
@@ -117,18 +111,9 @@ public class ListFoodsImportAdapter extends BaseAdapter {
     // Phương thức để chuyển sang ConfirmImportActivity
     private void navigateToConfirmImportActivity(Product product, int quantity) {
         Intent intent = new Intent(context, ConfirmImportActivity.class);
-
-        // Tạo mới một ImportItem từ sản phẩm và số lượng đã chọn
         ImportItem newItem = new ImportItem(product, quantity, quantity * product.getOutPrice());
-
-        // Thêm newItem vào danh sách importItems
         importItems.add(newItem);
-
-        // Gửi chỉ một importItem mới thêm sang ConfirmImportActivity
-        ArrayList<ImportItem> singleItemList = new ArrayList<>();
-        singleItemList.add(newItem);
-        intent.putExtra("importItems", singleItemList);
-
+        intent.putExtra("importItems", new ArrayList<>(importItems));
         context.startActivity(intent);
     }
 
@@ -136,12 +121,10 @@ public class ListFoodsImportAdapter extends BaseAdapter {
         for (ImportItem item : importItems) {
             if (item.getProduct().getId() == product.getId()) {
                 holder.quantity.setText(String.valueOf(item.getQuantity()));
-                holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
                 return;
             }
         }
         holder.quantity.setText("0");
-        holder.thanhTangGiamSoLuong.setVisibility(View.INVISIBLE);
     }
 
     private boolean checkProductStock(long productId, int requiredQuantity) {
@@ -187,11 +170,5 @@ public class ListFoodsImportAdapter extends BaseAdapter {
             totalQuantity += item.getQuantity();
             totalAmount += item.getPrice();
         }
-    }
-
-    @Override
-    public void notifyDataSetChanged() {
-        super.notifyDataSetChanged();
-        updateTotalUI(); // Cập nhật lại tổng số lượng và tổng tiền sau khi dữ liệu thay đổi
     }
 }
