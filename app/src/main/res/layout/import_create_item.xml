@@ -65,6 +65,12 @@
                 android:layout_height="wrap_content"
                 android:textColor="#787676"
                 android:textSize="17sp" />
+            <TextView
+                android:id="@+id/item_quantity1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#787676"
+                android:textSize="17sp" />
 
             <View
                 android:layout_width="0dp"
@@ -78,6 +84,32 @@
                 android:background="@drawable/radius_4_goc"
                 android:backgroundTint="@color/primaryColor"
                 android:src="@drawable/ic_add" />
+
         </TableRow>
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#6C6C6C"
+            android:textSize="17sp" />
     </TableLayout>
+
+    <!-- Add buttons for increasing and decreasing quantity -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/btn_plus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+
+        <Button
+            android:id="@+id/btn_minus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-" />
+    </LinearLayout>
 </LinearLayout>
