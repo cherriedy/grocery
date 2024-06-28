@@ -45,13 +45,9 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(LoginActivity.this, "Hãy nhập username và mật khẩu", Toast.LENGTH_SHORT).show();
             }
         });
-        quenMatKhau.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
-                // Start the new activity
-                startActivity(intent);
-            }
+        quenMatKhau.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+            startActivity(intent);
         });
     }
 
