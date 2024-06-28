@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,6 +26,8 @@ import com.example.doanmonhoc.utils.IntentManager;
 import com.example.doanmonhoc.utils.LoadingDialog;
 import com.example.doanmonhoc.utils.TextUtils;
 import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 
 public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEditBrandContract.View {
     private static final String TAG = "AddOrEditBrandActivity";
@@ -33,6 +36,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
     private AddOrEditBrandPresenter presenter;
     private LoadingDialog loadingDialog;
     private Brand mExtraBrand;
+    private BottomSheetDialog mConfirmDeletionDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,9 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
         loadingDialog = new LoadingDialog(this);
         presenter = new AddOrEditBrandPresenter(this);
+        mConfirmDeletionDialog = new BottomSheetDialog(this);
+
+        mConfirmDeletionDialog.setCancelable(false);
 
         handleIntent(getIntent());
 
@@ -167,7 +174,22 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
                     binding.textActionBarHeader.setText("Cập nhật thương hiệu");
                     binding.buttonDelete.setVisibility(View.VISIBLE);
                     binding.viewDividerButton.setVisibility(View.VISIBLE);
-                    binding.buttonDelete.setOnClickListener(v -> deleteBrand());
+                    binding.buttonDelete.setOnClickListener(v -> {
+                        View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_confirm_deletion, null);
+                        TextView titleDialog = dialogLayout.findViewById(R.id.title_dialog);
+                        TextView textNotification = dialogLayout.findViewById(R.id.text_notification);
+                        MaterialButton buttonCancel = dialogLayout.findViewById(R.id.button_cancel);
+                        MaterialButton buttonApprove = dialogLayout.findViewById(R.id.button_approve);
+
+                        titleDialog.setText(R.string.delete_brand_dialog_title);
+                        textNotification.setText(getString(R.string.msg_delete_brand));
+                        buttonCancel.setOnClickListener(v1 -> mConfirmDeletionDialog.dismiss());
+                        buttonApprove.setOnClickListener(v2 -> deleteBrand());
+
+                        mConfirmDeletionDialog.setContentView(dialogLayout);
+                        mConfirmDeletionDialog.show();
+
+                    });
                     binding.buttonFinish.setOnClickListener(v -> updateBrand());
                     presenter.getExtraBrand(intent);
                     break;
