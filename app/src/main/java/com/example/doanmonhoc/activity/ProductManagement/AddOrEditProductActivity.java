@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -36,6 +37,7 @@ import com.example.doanmonhoc.utils.NumberUtils;
 import com.example.doanmonhoc.utils.TextUtils;
 import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
 import com.example.doanmonhoc.utils.validation.ValidationUtils;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,6 +57,8 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
     private Map<Integer, Integer> mRadioButton;
     private Product mExtraProduct;
     private BrandSpinnerAdapter mBrandAdapter;
+
+    private BottomSheetDialog mConfirmDeletionDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         mLoadingDialog = new LoadingDialog(this);
         mBrandAdapter = new BrandSpinnerAdapter(this);
         mPresenter = new AddOrEditProductPresenter(this);
+        mConfirmDeletionDialog = new BottomSheetDialog(this);
 
         mRadioButton.put(R.id.button_inStock, RADIO_BUTTON_IN_STOCK);
         mRadioButton.put(R.id.button_outStock, RADIO_BUTTON_OUT_STOCK);
@@ -393,7 +398,20 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
                     // Gán onClickListener cho buttonFinish
                     binding.buttonFinish.setOnClickListener(v -> updateProduct());
                     // Gán onClickListener cho buttonDelete
-                    binding.buttonDelete.setOnClickListener(v -> deleteProduct());
+                    binding.buttonDelete.setOnClickListener(v -> {
+                        View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_confirm_deletion, null);
+                        ((TextView) dialogLayout.findViewById(R.id.title_dialog)).setText(getString(R.string.delete_product_dialog_title));
+                        ((TextView) dialogLayout.findViewById(R.id.text_notification)).setText(getString(R.string.msg_delete_product));
+                        dialogLayout.findViewById(R.id.button_cancel).setOnClickListener(
+                                v1 -> mConfirmDeletionDialog.dismiss()
+                        );
+                        dialogLayout.findViewById(R.id.button_approve).setOnClickListener(
+                                v2 -> deleteProduct()
+                        );
+                        mConfirmDeletionDialog.setCancelable(false);
+                        mConfirmDeletionDialog.setContentView(dialogLayout);
+                        mConfirmDeletionDialog.show();
+                    });
                     // Gọi presenter để lấy dữ liệu từ intent
                     mPresenter.getExtraProduct(intent);
                     break;
