@@ -33,8 +33,8 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
     private static final String TAG = "AddOrEditBrandActivity";
 
     private ActivityAddOrEditBrandBinding binding;
-    private AddOrEditBrandPresenter presenter;
-    private LoadingDialog loadingDialog;
+    private AddOrEditBrandPresenter mPresenter;
+    private LoadingDialog mLoadingDialog;
     private Brand mExtraBrand;
     private BottomSheetDialog mConfirmDeletionDialog;
 
@@ -55,8 +55,8 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
         onFocusHeader();
 
-        loadingDialog = new LoadingDialog(this);
-        presenter = new AddOrEditBrandPresenter(this);
+        mLoadingDialog = new LoadingDialog(this);
+        mPresenter = new AddOrEditBrandPresenter(this);
         mConfirmDeletionDialog = new BottomSheetDialog(this);
 
         mConfirmDeletionDialog.setCancelable(false);
@@ -77,8 +77,8 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
     public void createBrand() {
         String textProductBrandName = TextUtils.getString(binding.textProductBrandName);
         if (!isBrandInputEmpty()) {
-            loadingDialog.show();
-            presenter.handleCreateBrand(new Brand(textProductBrandName));
+            mLoadingDialog.show();
+            mPresenter.handleCreateBrand(new Brand(textProductBrandName));
         } else {
             Toast.makeText(this, "Không để trống thông tin", Toast.LENGTH_SHORT).show();
         }
@@ -86,7 +86,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void createBrandSuccessfully() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Tạo nhãn hàng thành công", Toast.LENGTH_SHORT).show();
         setResult(Activity.RESULT_OK, new Intent());
         finish();
@@ -94,13 +94,13 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void createBrandFail() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Tạo nhãn hàng thất bại", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void getExtraBrandFail() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Xảy ra lỗi nhận thông tin!", Toast.LENGTH_SHORT).show();
     }
 
@@ -117,13 +117,14 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void deleteBrand() {
-        loadingDialog.show();
-        presenter.handleDeleteBrand(mExtraBrand.getId());
+        mConfirmDeletionDialog.hide();
+        mLoadingDialog.show();
+        mPresenter.handleDeleteBrand(mExtraBrand.getId());
     }
 
     @Override
     public void deleteBrandSuccessfully() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Xóa sản phẩm thành công", Toast.LENGTH_SHORT).show();
         setResult(Activity.RESULT_OK, new Intent());
         finish();
@@ -131,18 +132,18 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void deleteBrandFail() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Xóa  sản phẩm thất bại", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void updateBrand() {
         if (!isBrandInputEmpty()) {
-            loadingDialog.show();
+            mLoadingDialog.show();
             String brandNameText = TextUtils.getString(binding.textProductBrandName);
             Brand brand = new Brand();
             brand.setBrandName(brandNameText);
-            presenter.handleUpdateBrand(mExtraBrand.getId(), brand);
+            mPresenter.handleUpdateBrand(mExtraBrand.getId(), brand);
         } else {
             Toast.makeText(this, "Không để trống thông tin", Toast.LENGTH_SHORT).show();
         }
@@ -150,7 +151,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void onUpdateBrandSuccess() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Cập nhật nhãn hàng thành công", Toast.LENGTH_SHORT).show();
         setResult(Activity.RESULT_OK, new Intent());
         finish();
@@ -158,7 +159,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void onUpdateBrandFail() {
-        loadingDialog.hide();
+        mLoadingDialog.hide();
         Toast.makeText(this, "Cập nhật nhãn hàng thất bại", Toast.LENGTH_SHORT).show();
     }
 
@@ -178,11 +179,13 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
                         View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_confirm_deletion, null);
                         TextView titleDialog = dialogLayout.findViewById(R.id.title_dialog);
                         TextView textNotification = dialogLayout.findViewById(R.id.text_notification);
+                        TextView textWarning = dialogLayout.findViewById(R.id.text_warning);
                         MaterialButton buttonCancel = dialogLayout.findViewById(R.id.button_cancel);
                         MaterialButton buttonApprove = dialogLayout.findViewById(R.id.button_approve);
 
                         titleDialog.setText(R.string.delete_brand_dialog_title);
                         textNotification.setText(getString(R.string.msg_delete_brand));
+                        textWarning.setText(getString(R.string.msg_delete_brand_warning));
                         buttonCancel.setOnClickListener(v1 -> mConfirmDeletionDialog.dismiss());
                         buttonApprove.setOnClickListener(v2 -> deleteBrand());
 
@@ -191,7 +194,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
 
                     });
                     binding.buttonFinish.setOnClickListener(v -> updateBrand());
-                    presenter.getExtraBrand(intent);
+                    mPresenter.getExtraBrand(intent);
                     break;
             }
         }
