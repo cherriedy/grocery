@@ -7,8 +7,11 @@ public class DetailedGoodsReceivedNote implements Serializable {
     private Integer GoodReceivedNoteid;
     private Integer productid;
     private Integer quantity;
+
     private Product product;
+
     private float price;
+
 
     public Product getProduct() {
         return product;

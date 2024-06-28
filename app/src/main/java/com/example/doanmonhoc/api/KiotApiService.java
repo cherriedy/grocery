@@ -137,5 +137,7 @@ public interface KiotApiService {
     @GET("detailedGoodsReceivedNote/{id}")
     Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList(@Path("id") int goodsReceivedNoteId);
 
+    @POST("goodsReceivedNote")
+    Call<GoodsReceivedNote>getcrGoodsReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
 
 }
