@@ -147,6 +147,7 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void deleteGroup() {
+        mConfirmDeletionDialog.hide();
         mLoadingDialog.show();
         mPresenter.handleDeleteGroup(mExtraProductGroup.getId());
     }
@@ -182,11 +183,13 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
                         View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_confirm_deletion, null);
                         TextView titleDialog = dialogLayout.findViewById(R.id.title_dialog);
                         TextView textNotification = dialogLayout.findViewById(R.id.text_notification);
+                        TextView textWarning = dialogLayout.findViewById(R.id.text_warning);
                         MaterialButton buttonCancel = dialogLayout.findViewById(R.id.button_cancel);
                         MaterialButton buttonApprove = dialogLayout.findViewById(R.id.button_approve);
 
                         titleDialog.setText(R.string.delete_group_dialog_title);
                         textNotification.setText(getString(R.string.msg_delete_group));
+                        textWarning.setText(getString(R.string.msg_delete_group_warning));
                         buttonCancel.setOnClickListener(v1 -> mConfirmDeletionDialog.dismiss());
                         buttonApprove.setOnClickListener(v2 -> deleteGroup());
 
