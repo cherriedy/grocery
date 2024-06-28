@@ -103,4 +103,7 @@
     <string name="delete_product_dialog_title">Xóa sản phẩm?</string>
     <string name="delete_group_dialog_title">Xóa nhóm sản phẩm?</string>
     <string name="delete_brand_dialog_title">Xóa thương hiệu?</string>
+    <string name="msg_delete_product_warning">Nếu sản phẩm đã bán ít nhất một lần, bạn không thể xóa!</string>
+    <string name="msg_delete_group_warning">Nếu có ít nhất một sản phẩm thuộc nhóm này, bạn không thể xóa!</string>
+    <string name="msg_delete_brand_warning">Nếu có ít nhất một sản phẩm thuộc hãng này, bạn không thể xóa!</string>
 </resources>

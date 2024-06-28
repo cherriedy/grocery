@@ -29,13 +29,23 @@
         <TextView
             android:id="@+id/text_notification"
             android:layout_width="match_parent"
-            android:layout_height="125dp"
+            android:layout_height="wrap_content"
             android:paddingVertical="8dp"
             android:paddingStart="32dp"
             android:paddingEnd="16dp"
             android:text="@string/msg_delete_product"
             android:textSize="14sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/text_warning"
+            android:layout_width="match_parent"
+            android:layout_height="125dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="16dp"
+            android:text="@string/msg_delete_product_warning"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

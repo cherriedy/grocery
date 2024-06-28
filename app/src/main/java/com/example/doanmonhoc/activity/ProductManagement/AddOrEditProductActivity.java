@@ -38,6 +38,7 @@ import com.example.doanmonhoc.utils.TextUtils;
 import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
 import com.example.doanmonhoc.utils.validation.ValidationUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.HashMap;
 import java.util.List;
@@ -341,6 +342,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @Override
     public void deleteProduct() {
+        mConfirmDeletionDialog.hide();
         mLoadingDialog.show();
         mPresenter.handleDeleteProduct(mExtraProduct);
     }
@@ -359,6 +361,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @Override
     public void deleteProductFail() {
+        mLoadingDialog.hide();
         Toast.makeText(this, "Xóa sản phẩm thất bại", Toast.LENGTH_SHORT).show();
     }
 
@@ -400,14 +403,18 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
                     // Gán onClickListener cho buttonDelete
                     binding.buttonDelete.setOnClickListener(v -> {
                         View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_confirm_deletion, null);
-                        ((TextView) dialogLayout.findViewById(R.id.title_dialog)).setText(getString(R.string.delete_product_dialog_title));
-                        ((TextView) dialogLayout.findViewById(R.id.text_notification)).setText(getString(R.string.msg_delete_product));
-                        dialogLayout.findViewById(R.id.button_cancel).setOnClickListener(
-                                v1 -> mConfirmDeletionDialog.dismiss()
-                        );
-                        dialogLayout.findViewById(R.id.button_approve).setOnClickListener(
-                                v2 -> deleteProduct()
-                        );
+                        TextView titleDialog = dialogLayout.findViewById(R.id.title_dialog);
+                        TextView textNotification = dialogLayout.findViewById(R.id.text_notification);
+                        TextView textWarning = dialogLayout.findViewById(R.id.text_warning);
+                        MaterialButton buttonCancel = dialogLayout.findViewById(R.id.button_cancel);
+                        MaterialButton buttonApprove = dialogLayout.findViewById(R.id.button_approve);
+
+                        titleDialog.setText(R.string.delete_product_dialog_title);
+                        textNotification.setText(getString(R.string.msg_delete_product));
+                        textWarning.setText(getString(R.string.msg_delete_product_warning));
+                        buttonCancel.setOnClickListener(v1 -> mConfirmDeletionDialog.dismiss());
+                        buttonApprove.setOnClickListener(v2 -> deleteProduct());
+
                         mConfirmDeletionDialog.setCancelable(false);
                         mConfirmDeletionDialog.setContentView(dialogLayout);
                         mConfirmDeletionDialog.show();

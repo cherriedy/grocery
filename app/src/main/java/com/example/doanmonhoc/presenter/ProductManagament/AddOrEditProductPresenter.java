@@ -138,12 +138,15 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
             public void onResponse(Call<Product> call, Response<Product> response) {
                 if (response.isSuccessful()) {
                     view.deleteProductSuccessfully();
+                } else {
+                    Log.e(TAG, "handleDeleteProduct - onResponse: " + "Lỗi xử lý dữ liệu ở API");
+                    view.deleteProductFail();
                 }
             }
 
             @Override
             public void onFailure(Call<Product> call, Throwable throwable) {
-                Log.e("DeleteProduct", throwable.getMessage());
+                Log.e(TAG, "handleDeleteProduct - onFailure: " + "Lỗi truy vấn API");
                 view.deleteProductFail();
             }
         });
