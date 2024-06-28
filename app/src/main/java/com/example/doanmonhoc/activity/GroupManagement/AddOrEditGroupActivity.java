@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -25,6 +26,8 @@ import com.example.doanmonhoc.utils.LoadingDialog;
 import com.example.doanmonhoc.utils.TextUtils;
 import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
 import com.example.doanmonhoc.utils.validation.ValidationUtils;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.button.MaterialButton;
 
 public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEditGroupContract.View {
     private static final String TAG = AddOrEditGroupActivity.class.getSimpleName();
@@ -33,6 +36,7 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
     private AddOrEditGroupPresenter mPresenter;
     private ProductGroup mExtraProductGroup;
     private LoadingDialog mLoadingDialog;
+    private BottomSheetDialog mConfirmDeletionDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,9 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
 
         mPresenter = new AddOrEditGroupPresenter(this);
         mLoadingDialog = new LoadingDialog(this);
+        mConfirmDeletionDialog = new BottomSheetDialog(this);
+
+        mConfirmDeletionDialog.setCancelable(false);
 
         handleIntent(getIntent());
 
@@ -140,6 +147,7 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
 
     @Override
     public void deleteGroup() {
+        mConfirmDeletionDialog.hide();
         mLoadingDialog.show();
         mPresenter.handleDeleteGroup(mExtraProductGroup.getId());
     }
@@ -171,7 +179,23 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
                     binding.buttonDelete.setVisibility(View.VISIBLE);
                     binding.viewDividerButton.setVisibility(View.VISIBLE);
                     binding.buttonFinish.setOnClickListener(v -> updateGroup());
-                    binding.buttonDelete.setOnClickListener(v -> deleteGroup());
+                    binding.buttonDelete.setOnClickListener(v -> {
+                        View dialogLayout = getLayoutInflater().inflate(R.layout.dialog_confirm_deletion, null);
+                        TextView titleDialog = dialogLayout.findViewById(R.id.title_dialog);
+                        TextView textNotification = dialogLayout.findViewById(R.id.text_notification);
+                        TextView textWarning = dialogLayout.findViewById(R.id.text_warning);
+                        MaterialButton buttonCancel = dialogLayout.findViewById(R.id.button_cancel);
+                        MaterialButton buttonApprove = dialogLayout.findViewById(R.id.button_approve);
+
+                        titleDialog.setText(R.string.delete_group_dialog_title);
+                        textNotification.setText(getString(R.string.msg_delete_group));
+                        textWarning.setText(getString(R.string.msg_delete_group_warning));
+                        buttonCancel.setOnClickListener(v1 -> mConfirmDeletionDialog.dismiss());
+                        buttonApprove.setOnClickListener(v2 -> deleteGroup());
+
+                        mConfirmDeletionDialog.setContentView(dialogLayout);
+                        mConfirmDeletionDialog.show();
+                    });
                     mPresenter.handleExtraGroup(intent);
                     break;
             }

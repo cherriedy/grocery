@@ -9,6 +9,7 @@
         <item name="helperTextTextAppearance">@style/helperTextStyle</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="fontFamily">@font/roboto_light</item>
     </style>
 
     <style name="Theme.DoAnMonHoc" parent="Base.Theme.DoAnMonHoc">

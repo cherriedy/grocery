@@ -91,6 +91,7 @@ public class AddOrEditBrandPresenter implements AddOrEditBrandContract.Presenter
                 if (response.isSuccessful()) {
                     view.deleteBrandSuccessfully();
                 } else {
+                    Log.e(TAG, "handleDeleteProduct - onResponse: " + "Lỗi xử lý dữ liệu ở API");
                     view.deleteBrandFail();
                 }
             }

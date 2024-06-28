@@ -97,4 +97,13 @@
     <string name="msg_error_retrived_data">Xảy ra lỗi dữ liệu</string>
     <string name="title_product_quantity">Tồn kho</string>
     <string name="product_quantity_hint">100</string>
+    <string name="msg_delete_product">Sản phẩm này sẽ được xóa khỏi danh sách các sản phẩm trong cửa hàng của bạn. Bạn có chắc rằng muốn thực hiện?</string>
+    <string name="msg_delete_group">Nhóm sản phẩm này sẽ được xóa khỏi danh sách các nhóm sản phẩm trong cửa hàng của bạn. Bạn có chắc rằng muốn thực hiện?</string>
+    <string name="msg_delete_brand">Thương hiệu này sẽ được xóa khỏi danh sách các nhóm sản phẩm trong cửa hàng của bạn. Bạn có chắc rằng muốn thực hiện?</string>
+    <string name="delete_product_dialog_title">Xóa sản phẩm?</string>
+    <string name="delete_group_dialog_title">Xóa nhóm sản phẩm?</string>
+    <string name="delete_brand_dialog_title">Xóa thương hiệu?</string>
+    <string name="msg_delete_product_warning">Nếu sản phẩm đã bán ít nhất một lần, bạn không thể xóa!</string>
+    <string name="msg_delete_group_warning">Nếu có ít nhất một sản phẩm thuộc nhóm này, bạn không thể xóa!</string>
+    <string name="msg_delete_brand_warning">Nếu có ít nhất một sản phẩm thuộc hãng này, bạn không thể xóa!</string>
 </resources>
