@@ -1,53 +1,45 @@
 package com.example.doanmonhoc.model;
 
-import java.io.Serializable;
-
-public class DetailedGoodsReceivedNote implements Serializable {
-    private Integer id;
-    private Integer GoodReceivedNoteid;
-    private Integer productid;
-    private Integer quantity;
+public class DetailedGoodsReceivedNote {
+    private long id;
+    private long GoodReceivedNoteid;
+    private long productId;
+    private int quantity;
+    private float price;
     private Product product;
 
-    private float price;
-
-
-    public Product getProduct() {
-        return product;
+    public DetailedGoodsReceivedNote() {
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
-    }
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Integer getGoodReceivedNoteid() {
+    public long getGoodReceivedNoteid() {
         return GoodReceivedNoteid;
     }
 
-    public void setGoodReceivedNoteid(Integer goodReceivedNoteid) {
+    public void setGoodReceivedNoteid(long goodReceivedNoteid) {
         GoodReceivedNoteid = goodReceivedNoteid;
     }
 
-    public Integer getProductid() {
-        return productid;
+    public long getProductId() {
+        return productId;
     }
 
-    public void setProductid(Integer productid) {
-        this.productid = productid;
+    public void setProductId(long productId) {
+        this.productId = productId;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
@@ -57,5 +49,13 @@ public class DetailedGoodsReceivedNote implements Serializable {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 }

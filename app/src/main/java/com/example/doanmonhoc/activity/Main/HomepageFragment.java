@@ -16,10 +16,9 @@ import androidx.fragment.app.Fragment;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.BrandManagement.BrandManagementActivity;
 import com.example.doanmonhoc.activity.GroupManagement.GroupManagementActivity;
-import com.example.doanmonhoc.activity.CreateImportProduct.ManagementImportActivity;
+import com.example.doanmonhoc.activity.ImportManagement.ImportManagementActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
 
-import com.example.doanmonhoc.activity.SaleManagement.SaleCreateActivity;
 import com.example.doanmonhoc.activity.SaleManagement.SaleManagementActivity;
 
 import com.example.doanmonhoc.adapter.BottomSheetShortcutAdapter;
@@ -73,7 +72,7 @@ public class HomepageFragment extends Fragment {
             if (position == ShortcutGridViewAdapter.SHORTCUT_PRODUCT) {
                 startActivity(new Intent(getContext(), ProductManagementActivity.class));
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_INVENTORY) {
-                startActivity(new Intent(getContext(), ManagementImportActivity.class));
+                startActivity(new Intent(getContext(), ImportManagementActivity.class));
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_ORDER) {
                 startActivity(new Intent(getContext(), SaleManagementActivity.class));
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_REPORT) {

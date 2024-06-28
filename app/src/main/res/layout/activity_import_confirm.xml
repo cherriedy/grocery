@@ -3,13 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F4F2F2">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
     <RelativeLayout
         android:id="@+id/layout_tren"
         android:layout_width="match_parent"
@@ -17,7 +12,7 @@
         android:background="#FFFFFF">
 
         <ImageButton
-            android:id="@+id/backButton"
+            android:id="@+id/btnBack"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@color/white"
@@ -35,50 +30,47 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-
-    <!-- Product Item -->
-
-
-    <!--Button thêm sản phấm-->
     <ListView
-        android:id="@+id/lv_select"
-        android:layout_width="match_parent"
-        android:layout_height="290dp"
-        android:background="@color/white" />
-
-    <Button
-        android:id="@+id/btn_add"
+        android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thêm sản phẩm"
-        android:textSize="16dp"
-        android:layout_marginBottom="15dp"
-        android:textColor="#FFFFFF" />
+        android:layout_below="@+id/layout_tren"
+        android:layout_above="@+id/layoutongtien"
+        android:background="@color/white" />
 
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/layoutongtien"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/thanhtoanbtn">
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <EditText
+                android:id="@+id/note"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_margin="5dp"
+                android:hint="Ghi chú ở đây"/>
             <TableRow>
                 <TextView
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="15dp"
+                    android:textSize="18dp"
                     android:text="Tổng số lượng"/>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/tv_totalquantity"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
+                    android:id="@+id/tvTongSoLuong"
+                    android:layout_margin="15dp"
+                    android:gravity="right"
+                    android:textSize="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3"/>
@@ -88,94 +80,48 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_margin="15dp"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
                     android:text="Tổng tiền hàng"/>
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
                 <TextView
-                    android:id="@+id/tv_totalPrice"
+                    android:id="@+id/tvThanhTien"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    />
-            </TableRow>
-            <TableRow>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    android:text="Giảm giá"/>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    android:text="0"/>
-            </TableRow>
-            <TableRow>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="15dp"
-                    android:text="Tổng cộng"/>
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
-                <TextView
-                    android:id="@+id/tv_totalPrice1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="150000đ"
+                    android:gravity="right"
                     android:layout_margin="15dp"
+                    android:textColor="#D33227"
+                    android:textStyle="bold"
                     />
             </TableRow>
-
         </TableLayout>
-
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="Ghi chú đơn hàng"/>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
-
-    <androidx.cardview.widget.CardView
+        android:id="@+id/thanhtoanbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom">
 
         <Button
-            android:id="@+id/btn_import"
+            android:id="@+id/btnNhapHang"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/radius_4_goc"
             android:text="Nhập hàng"
-            android:textSize="16dp"
+            android:textSize="17dp"
             android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="35dp"
-            android:theme="@style/Base.Theme.DoAnMonHoc"
-         />
+            android:theme="@style/Base.Theme.DoAnMonHoc" />
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

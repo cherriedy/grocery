@@ -80,23 +80,23 @@
             android:exported="true"
             />
         <activity
-            android:name=".activity.CreateImportProduct.GoodsImportActivity"
+            android:name=".activity.ImportManagement.ImportCreateActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.CreateImportProduct.DetailedGoodsReceivedNoteActivity"
+            android:name=".activity.ImportManagement.DetailedGoodsReceivedNoteActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.CreateImportProduct.BillImportActivity"
+            android:name=".activity.ImportManagement.ImportBillActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.CreateImportProduct.ConfirmImportActivity"
+            android:name=".activity.ImportManagement.ImportConfirmActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.CreateImportProduct.ManagementImportActivity"
+            android:name=".activity.ImportManagement.ImportManagementActivity"
             android:exported="false"
             />
         <activity

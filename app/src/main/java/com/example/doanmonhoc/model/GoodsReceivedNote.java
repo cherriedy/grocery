@@ -2,21 +2,41 @@ package com.example.doanmonhoc.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 
-public class GoodsReceivedNote implements Serializable {
-    private Integer id;
+public class GoodsReceivedNote {
+    private long id;
     private String grnKey;
     private long Staffid;
     private Timestamp createdAt;
     private Timestamp updatedAt;
+    private double totalAmount;
+    private List<CartItem> cartItems;
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
     private String note;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 

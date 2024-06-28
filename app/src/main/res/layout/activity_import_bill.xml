@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
@@ -16,12 +15,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/backButton"
+            android:id="@+id/btnBack"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@color/white"
-            android:src="@drawable/ic_arrow_back"
-            android:onClick="navigatetoDetailsActivity"/>
+            android:src="@drawable/ic_arrow_back" />
 
         <TextView
             android:id="@+id/headerTitle"
@@ -29,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:text="Nhập hàng"
+            android:text="Chi tiết hóa đơn"
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -39,22 +37,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="PHIẾU NHẬP HÀNG"
+        android:text="HÓA ĐƠN NHẬP HÀNG"
         android:gravity="center"
         android:textSize="20sp"
         android:textColor="#000000"
         android:textStyle="bold"
-        app:layout_constraintHorizontal_bias="0.595"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_tren" />
 
     <TextView
-        android:id="@+id/order_code"
+        android:id="@+id/tvGrnKey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:gravity="center"
-        android:text="NH5"
+        android:text="GRN5"
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,10 +70,10 @@
         android:textColor="#000000"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/order_code" />
+        app:layout_constraintTop_toBottomOf="@id/tvGrnKey" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvStaffName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
@@ -86,7 +82,7 @@
         android:textColor="#000000"
         android:textSize="15sp"
         app:layout_constraintStart_toEndOf="@+id/creator_info"
-        app:layout_constraintTop_toBottomOf="@+id/order_code" />
+        app:layout_constraintTop_toBottomOf="@+id/tvGrnKey" />
 
     <TextView
         android:id="@+id/order_date"
@@ -94,7 +90,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="Ngày nhập:"
+        android:text="Ngày tạo:"
         android:textColor="#000000"
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,26 +98,16 @@
 
 
     <TextView
-        android:id="@+id/tv_day"
+        android:id="@+id/tvCreateAt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
-
+        android:text="27/05/2024"
         android:textSize="15dp"
         app:layout_constraintStart_toEndOf="@+id/order_date"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/tvStaffName" />
 
-    <TextView
-        android:id="@+id/tv_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/order_code" />
 
 
     <!-- Product List -->
@@ -132,19 +118,20 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:layout_marginBottom="36dp"
-        android:text="- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - "
+        android:text="- - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - "
         android:textSize="23dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.551"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_marginBottom="15dp"
         android:layout_marginTop="272dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/layout_tren">
@@ -153,59 +140,36 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:textSize="15dp"
-            android:text="Đơn giá" />
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:text="Sản phẩm" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="130dp"
-            android:textSize="15dp"
+            android:textSize="16dp"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
             android:text="SL" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:textSize="15dp"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
             android:text="Thành tiền" />
-    </LinearLayout>
+    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/product_list_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="24dp"
-        android:text="SẢN PHẨM"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold"
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginStart="4dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="(1)"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/item_listselect"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.009"
-        app:layout_constraintStart_toEndOf="@+id/product_list_label"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="0.666" />
-
-    <ListView
-        android:id="@+id/item_listselect"
-        android:layout_width="402dp"
-        android:layout_height="166dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/product_list_label" />
 
     <TextView
         android:id="@+id/textView5"
@@ -215,47 +179,25 @@
         android:text="- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - "
         android:textSize="23dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_listselect" />
+        app:layout_constraintTop_toBottomOf="@+id/listView" />
 
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
-
-        <TableRow
+        <TextView
+            android:id="@+id/tvNote"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/order_summary_label"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Tổng tiền hàng"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:text="(2)"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/item_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp" />
-        </TableRow>
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:layout_marginBottom="15dp"
+            android:hint="Ghi chú trống!"/>
 
         <TableRow
             android:layout_width="match_parent"
@@ -275,11 +217,11 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/item_total1"
+                android:id="@+id/totalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                 />
+                android:textSize="17dp"
+                android:text="30.000" />
         </TableRow>
 
     </TableLayout>
@@ -293,16 +235,18 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+
         <Button
+            android:id="@+id/btnExit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="15dp"
             android:layout_marginBottom="35dp"
+            android:textSize="15dp"
             android:background="@drawable/radius_4_goc"
-            android:onClick="navigateToManagementImportActivity"
-            android:text="In phiếu"
+            android:text="Thoát"
             android:theme="@style/Base.Theme.DoAnMonHoc" />
     </androidx.cardview.widget.CardView>
 

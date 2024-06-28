@@ -10,6 +10,7 @@
     <com.google.android.material.imageview.ShapeableImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:id="@+id/imageView"
         android:src="@drawable/ic_launcher_background"
         app:shapeAppearanceOverlay="@style/roundedImageStyle" />
 
@@ -18,17 +19,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp">
         <TextView
-            android:id="@+id/item_name"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Bàn chải"
             android:textSize="17sp"
             android:textStyle="bold" />
         <TableRow
             android:layout_marginTop="7sp">
             <TextView
-                android:id="@+id/soluong_nhap"
+                android:id="@+id/tvProductKey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="SP003"
                 android:textColor="@color/lightgray"
                 android:textSize="14sp" />
             <View
@@ -40,11 +43,11 @@
                 android:id="@+id/soluong_ban"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:text="Giá:"
                 android:textColor="@color/lightgray"
                 android:textSize="14sp" />
             <TextView
-                android:id="@+id/item_price"
+                android:id="@+id/tvInPrice"
                 android:layout_gravity="right"
                 android:text="10.000"/>
         </TableRow>
@@ -67,23 +70,26 @@
                     android:layout_height="match_parent">
 
                     <ImageButton
-                        android:id="@+id/btn_minus"
+                        android:id="@+id/btnMinus"
                         android:layout_width="32dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="start"
                         android:background="@color/white"
                         android:src="@drawable/ic_minus"/>
 
-                    <TextView
-                        android:id="@+id/item_quantity"
+                    <EditText
+                        android:id="@+id/tvQuantity"
                         android:layout_width="35dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
+                        android:background="@null"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
                         android:textSize="17dp"
                         android:text="2" />
 
                     <ImageButton
-                        android:id="@+id/btn_plus"
+                        android:id="@+id/btnPlus"
                         android:layout_width="32dp"
                         android:layout_height="match_parent"
                         android:background="@color/white"
@@ -101,7 +107,7 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/tv_totalPrice"
+                android:id="@+id/tvAmount"
                 android:text="30.000"
                 android:textStyle="bold"
                 android:textColor="@android:color/holo_red_dark"
@@ -109,4 +115,3 @@
         </TableRow>
     </TableLayout>
 </LinearLayout>
-

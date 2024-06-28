@@ -127,15 +127,13 @@ public interface KiotApiService {
     @POST("invoice")
     Call<Invoice> addInvoice(@Body Invoice invoice);
 
-    @GET("/detailedGoodsReceivedNote")
-    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList();
-
-    @GET("/goodsReceivedNote")
-    Call<List<GoodsReceivedNote>> getGoodsReceivedNoteList();
-
+    @GET("goodsReceivedNote")
+    Call<List<GoodsReceivedNote>> getAllGoodsReceivedNote();
 
     @GET("detailedGoodsReceivedNote/{id}")
-    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList(@Path("id") int goodsReceivedNoteId);
+    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNote(@Path("id") long goodsReceivedNoteId);
 
+    @POST("goodsReceivedNote")
+    Call<GoodsReceivedNote>addGoodReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
 
 }
