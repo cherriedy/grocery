@@ -62,7 +62,7 @@
             android:name=".activity.StaffManagement.AddStaffActivity"
             android:exported="true"
             />
-
+        <activity android:name="com.example.doanmonhoc.activity.StaffManagement.StaffDetailManagementActivity"/>
         <activity
             android:name=".activity.CreateImportProduct.CreateImportActivity"
             android:exported="false"

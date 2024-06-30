@@ -21,6 +21,7 @@ import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivi
 
 import com.example.doanmonhoc.activity.SaleManagement.SaleManagementActivity;
 
+import com.example.doanmonhoc.activity.StaffManagement.StaffManagementActivity;
 import com.example.doanmonhoc.adapter.BottomSheetShortcutAdapter;
 
 import com.example.doanmonhoc.adapter.ShortcutGridViewAdapter;
@@ -78,7 +79,7 @@ public class HomepageFragment extends Fragment {
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_REPORT) {
                 Toast.makeText(requireContext(), "REPORT", Toast.LENGTH_SHORT).show();
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_STAFF) {
-                Toast.makeText(requireContext(), "STAFF", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getContext(), StaffManagementActivity.class));
             } else if (position == ShortcutGridViewAdapter.SHORTCUT_MORE) {
                 @SuppressLint("InflateParams")
                 View viewDialog = getLayoutInflater().inflate(R.layout.modal_bottom_sheet, null);

@@ -115,6 +115,9 @@ public interface KiotApiService {
     @GET("staff/{id}")
     Call<Staff> getStaffById(@Path("id") long id);
 
+    @GET("/staff")
+    Call<List<Staff>> getAllStaff();
+
     @PUT("staff/{id}")
     Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
 
