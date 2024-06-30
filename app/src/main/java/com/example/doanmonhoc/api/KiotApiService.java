@@ -113,14 +113,21 @@ public interface KiotApiService {
     @POST("login")
     Call<LoginResponse> loginUser(@Body Staff staff);
 
+    @GET("staff")
+    Call<List<Staff>> getAllStaff();
+
     @GET("staff/{id}")
     Call<Staff> getStaffById(@Path("id") long id);
+
     @GET("staff/{email}")
     Call<Staff> getStaffByEmail(@Path("email") String id);
+
     @PUT("staff/{id}")
     Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
+
     @PUT("staff/{email}")
     Call<OTP> updateStaffByEmail(@Path("email") String email, @Body OTP otp);
+
     @POST("verifyOTP")
     Call<OTP> verifyOTP(@Body OTP otp);
 

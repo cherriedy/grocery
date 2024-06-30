@@ -36,7 +36,7 @@ import retrofit2.Response;
 
 public class EditAccountActivity extends AppCompatActivity {
 
-    private EditText txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtpassword;
+    private EditText txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone;
     private TextView txtusername;
     private Button btnBack, btnSave;
     private Staff staff;
@@ -64,7 +64,6 @@ public class EditAccountActivity extends AppCompatActivity {
         txtPhone = findViewById(R.id.txtPhone);
         staffImage = findViewById(R.id.staffImage);
         txtusername = findViewById(R.id.txtusername);
-        txtpassword = findViewById(R.id.txtPassword);
 
         // setText
         txtName.setText(staff.getStaffName());
@@ -78,7 +77,6 @@ public class EditAccountActivity extends AppCompatActivity {
         txtEmail.setText(staff.getStaffEmail());
         txtPhone.setText(staff.getStaffPhone());
         txtusername.setText(staff.getUsername());
-        txtpassword.setText(staff.getPassword());
 
         if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
             int resID = getResources().getIdentifier(staff.getStaffImage(), "drawable", getPackageName());
@@ -135,7 +133,6 @@ public class EditAccountActivity extends AppCompatActivity {
         String newAddress = txtAddress.getText().toString();
         String newEmail = txtEmail.getText().toString();
         String newPhone = txtPhone.getText().toString();
-        String newPassword = txtpassword.getText().toString();
         RadioGroup radioGroupGender = findViewById(R.id.radioGroupGender);
         int selectedRadioButtonId = radioGroupGender.getCheckedRadioButtonId();
 
@@ -157,7 +154,6 @@ public class EditAccountActivity extends AppCompatActivity {
         staff.setStaffEmail(newEmail);
         staff.setAddress(newAddress);
         staff.setStaffPhone(newPhone);
-        staff.setPassword(newPassword);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         try {
             Date date = sdf.parse(newDob);

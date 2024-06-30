@@ -140,6 +140,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     if (otp1.isSuccess()) {
                         Toast.makeText(ForgotPasswordActivity.this, "OTP xác thực thành công!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(ForgotPasswordActivity.this, ChangePasswordActivity.class);
+                        intent.putExtra("email",otp1.getEmail());
                         startActivity(intent);
                         finish();
                     } else {

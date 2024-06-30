@@ -8,13 +8,13 @@
     android:backgroundTint="@color/white"
     app:cardCornerRadius="12dp"
     app:strokeColor="@color/text_title"
-    app:strokeWidth="1dp">
+    app:strokeWidth="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="12dp"
-        android:paddingVertical="10dp">
+        android:paddingVertical="12dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/staff_photo"
@@ -38,6 +38,16 @@
                 android:layout_height="wrap_content"
                 android:text="Staff Name"
                 android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/staff_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Staff key"
+                android:textColor="@color/primaryColor"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
