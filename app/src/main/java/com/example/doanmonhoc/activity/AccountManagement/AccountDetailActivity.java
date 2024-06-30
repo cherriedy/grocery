@@ -29,7 +29,7 @@ import retrofit2.Response;
 import java.util.Locale;
 
 public class AccountDetailActivity extends AppCompatActivity {
-    private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername, txtPassword;
+    private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername;
     private Gson gson;
     private ShapeableImageView staffImage;
 
@@ -59,15 +59,17 @@ public class AccountDetailActivity extends AppCompatActivity {
         txtPhone = findViewById(R.id.txtPhone);
         staffImage = findViewById(R.id.staffImage);
         txtUsername = findViewById(R.id.txtUsername);
-        txtPassword = findViewById(R.id.txtPassword);
-
         gson = new Gson();
 
         Button btnEdit = findViewById(R.id.btnEdit);
         btnEdit.setOnClickListener(v -> btnEditOnClick());
+        Button btnPassword = findViewById(R.id.btnPassword);
+        btnPassword.setOnClickListener(v -> btnPasswordOnClick());
 
         loadAccountDetail();
     }
+
+
 
     private void loadAccountDetail() {
         SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
@@ -94,7 +96,6 @@ public class AccountDetailActivity extends AppCompatActivity {
                     txtEmail.setText(staff.getStaffEmail());
                     txtPhone.setText(staff.getStaffPhone());
                     txtUsername.setText(staff.getUsername());
-                    txtPassword.setText(staff.getPassword());
 
                     if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
                         int resID = getResources().getIdentifier(staff.getStaffImage(), "drawable", getPackageName());
@@ -112,6 +113,10 @@ public class AccountDetailActivity extends AppCompatActivity {
             }
         });
     }
+    private void btnPasswordOnClick() {
+        Intent intent = new Intent(AccountDetailActivity.this, EditPasswordActivity.class);
+        startActivity(intent);
+    }
 
     private void btnEditOnClick() {
         Staff staff = new Staff();
@@ -123,7 +128,6 @@ public class AccountDetailActivity extends AppCompatActivity {
         staff.setStaffPhone(txtPhone.getText().toString());
         staff.setAddress(txtAddress.getText().toString());
         staff.setUsername(txtUsername.getText().toString());
-        staff.setPassword(txtPassword.getText().toString());
 
         // set Dob
         try {

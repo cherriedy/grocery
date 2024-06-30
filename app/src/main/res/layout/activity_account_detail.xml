@@ -209,44 +209,27 @@
             android:textSize="16dp"
             android:text="Anh Kiet" />
     </TableRow>
+
     <TableRow>
-        <TextView
-            android:id="@+id/staffPassword"
+        <Button
+            android:id="@+id/btnPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="40dp"
-            android:textSize="16dp"
-            android:text="Password"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/txtPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:text="123" />
-
-    </TableRow>
-    <TableRow>
-        <View
-            android:layout_width="0dp"
-            android:layout_height="100dp"/>
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="30dp"
+            android:background="@drawable/radius_4_goc"
+            android:text="Đổi mật khẩu" />
 
         <Button
             android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:layout_marginStart="60dp"
+            android:layout_marginStart="80dp"
             android:background="@drawable/radius_4_goc"
             android:text="Chỉnh sửa" />
 
     </TableRow>
-
-
 
 </TableLayout>
 </LinearLayout>
