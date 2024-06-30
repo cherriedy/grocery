@@ -14,14 +14,15 @@ public class Staff {
     private String staffImage;
     private String username;
     private String password;
-
+    public Staff(String password) {
+        this.password = password;
+    }
 
     public Staff(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    // Constructors
     public Staff() {
     }
 

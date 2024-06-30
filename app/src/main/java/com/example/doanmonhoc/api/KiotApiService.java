@@ -6,6 +6,7 @@ import com.example.doanmonhoc.model.DetailedInvoice;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
 import com.example.doanmonhoc.model.Invoice;
 import com.example.doanmonhoc.model.LoginResponse;
+import com.example.doanmonhoc.model.OTP;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
 import com.example.doanmonhoc.model.Staff;
@@ -114,9 +115,14 @@ public interface KiotApiService {
 
     @GET("staff/{id}")
     Call<Staff> getStaffById(@Path("id") long id);
-
+    @GET("staff/{email}")
+    Call<Staff> getStaffByEmail(@Path("email") String id);
     @PUT("staff/{id}")
     Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
+    @PUT("staff/{email}")
+    Call<OTP> updateStaffByEmail(@Path("email") String email, @Body OTP otp);
+    @POST("verifyOTP")
+    Call<OTP> verifyOTP(@Body OTP otp);
 
     @GET("invoice")
     Call<List<Invoice>> getAllInvoice();
@@ -135,5 +141,4 @@ public interface KiotApiService {
 
     @POST("goodsReceivedNote")
     Call<GoodsReceivedNote>addGoodReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
-
 }
