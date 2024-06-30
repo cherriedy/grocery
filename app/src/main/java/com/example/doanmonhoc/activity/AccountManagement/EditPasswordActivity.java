@@ -87,6 +87,11 @@ public class EditPasswordActivity extends AppCompatActivity {
             return;
         }
 
+        if (!matkhaucu.equals(staff.getPassword())) {
+            Toast.makeText(this, "Mật khẩu cũ không chính xác", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         if (!matkhaumoi1.equals(matkhaumoi2)) {
             Toast.makeText(this, "Mật khẩu mới không khớp", Toast.LENGTH_SHORT).show();
             return;
