@@ -14,6 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MultipartBody;
@@ -35,7 +37,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface KiotApiService {
-    final String BASE_URL = "http://cherrapi.onlinewebshop.net";
+    String BASE_URL = "http://cherrapi.onlinewebshop.net";
 
     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -58,6 +60,12 @@ public interface KiotApiService {
 
     KiotApiService apiService = retrofit.create(KiotApiService.class);
 
+    // Loading temporary files API
+    @Multipart
+    @POST("/upload-files/temporary")
+    Call<ResponseBody> pushTemporaryFiles(@Part("uniqueKey") RequestBody uniqueKey,
+                                          @Part MultipartBody.Part thumbnail);
+
     // Product API
     @GET("/product")
     Call<List<Product>> getProductList();
@@ -69,9 +77,7 @@ public interface KiotApiService {
     Call<Product> getLatestProduct();
 
     @POST("/product")
-    Call<Product> createProduct(@Body Product product,
-                                @Body GoodsReceivedNote goodsReceivedNote,
-                                @Body DetailedGoodsReceivedNote detailedGoodsReceivedNote);
+    Call<Product> createProduct(@Body Map<String, Object> productCreationRequest);
 
     @PATCH("/product/{id}")
     Call<Product> updateProduct(@Path("id") long productID, @Body Product newProduct);
@@ -152,6 +158,8 @@ public interface KiotApiService {
     Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNote(@Path("id") long goodsReceivedNoteId);
 
     @POST("goodsReceivedNote")
+    //Call<GoodsReceivedNote> getcrGoodsReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
+
     Call<GoodsReceivedNote>addGoodReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
 
     @Multipart
