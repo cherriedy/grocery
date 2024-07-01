@@ -13,9 +13,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -23,13 +28,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface KiotApiService {
-    final String BASE_URL = "http://cherrapi.onlinewebshop.net";
+    String BASE_URL = "http://cherrapi.onlinewebshop.net";
 
     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -52,6 +59,12 @@ public interface KiotApiService {
 
     KiotApiService apiService = retrofit.create(KiotApiService.class);
 
+    // Loading temporary files API
+    @Multipart
+    @POST("/upload-files/temporary")
+    Call<ResponseBody> pushTemporaryFiles(@Part("uniqueKey") RequestBody uniqueKey,
+                                          @Part MultipartBody.Part thumbnail);
+
     // Product API
     @GET("/product")
     Call<List<Product>> getProductList();
@@ -63,9 +76,7 @@ public interface KiotApiService {
     Call<Product> getLatestProduct();
 
     @POST("/product")
-    Call<Product> createProduct(@Body Product product,
-                                @Body GoodsReceivedNote goodsReceivedNote,
-                                @Body DetailedGoodsReceivedNote detailedGoodsReceivedNote);
+    Call<Product> createProduct(@Body Map<String, Object> productCreationRequest);
 
     @PATCH("/product/{id}")
     Call<Product> updateProduct(@Path("id") long productID, @Body Product newProduct);
@@ -138,6 +149,6 @@ public interface KiotApiService {
     Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList(@Path("id") int goodsReceivedNoteId);
 
     @POST("goodsReceivedNote")
-    Call<GoodsReceivedNote>getcrGoodsReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
+    Call<GoodsReceivedNote> getcrGoodsReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
 
 }
