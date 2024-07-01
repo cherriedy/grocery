@@ -1,5 +1,7 @@
 package com.example.doanmonhoc.activity.StaffManagement;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -30,7 +32,7 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
     private TextView txtMaNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername;
     private ImageView staffImage;
     private ImageButton btnBack;
-    private Button btnEdit;
+    private Button btnEdit, btnDelete;
 
     private long staffId;
 
@@ -50,6 +52,7 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
         staffImage = findViewById(R.id.staffImage);
         btnBack = findViewById(R.id.btnBack);
         btnEdit = findViewById(R.id.btnEdit);
+        btnDelete = findViewById(R.id.btnDelete);
 
         // Nhận ID nhân viên từ Intent
         staffId = getIntent().getLongExtra("staffId", -1);
@@ -91,6 +94,15 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        // Xử lý sự kiện khi nhấn nút delete
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Hiển thị dialog xác nhận xóa
+                showDeleteConfirmationDialog();
+            }
+        });
     }
 
     private void displayStaffDetails(Staff staff) {
@@ -115,6 +127,50 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
                 .load(resourceId)
                 .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
                 .into(staffImage);
+    }
+
+    private void deleteStaff() {
+        KiotApiService.apiService.deleteStaff(staffId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(StaffDetailManagementActivity.this, "Xóa nhân viên thành công", Toast.LENGTH_SHORT).show();
+                    // Trở về StaffManagementActivity và làm mới danh sách nhân viên
+                    Intent intent = new Intent(StaffDetailManagementActivity.this, StaffManagementActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish(); // Đóng activity hiện tại
+                } else {
+                    Toast.makeText(StaffDetailManagementActivity.this, "Xóa nhân viên thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(StaffDetailManagementActivity.this, "Xảy ra lỗi khi xóa nhân viên", Toast.LENGTH_SHORT).show();
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void showDeleteConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Bạn có chắc chắn muốn xóa nhân viên này?")
+                .setCancelable(false)
+                .setPositiveButton("Đồng ý", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Xác nhận đồng ý xóa
+                        deleteStaff();
+                    }
+                })
+                .setNegativeButton("Hủy bỏ", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // Đóng dialog khi người dùng hủy bỏ
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void showErrorMessage() {

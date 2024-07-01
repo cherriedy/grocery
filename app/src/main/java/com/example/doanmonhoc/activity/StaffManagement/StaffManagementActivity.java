@@ -1,13 +1,13 @@
 package com.example.doanmonhoc.activity.StaffManagement;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
@@ -21,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class StaffManagementActivity extends AppCompatActivity {
+public class StaffManagementActivity extends AppCompatActivity implements StaffAdapter.OnDeleteClickListener {
 
     private ListView listView;
     private List<Staff> staffList;
@@ -38,12 +38,6 @@ public class StaffManagementActivity extends AppCompatActivity {
 
         fetchStaffList();
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            Staff staff = staffList.get(position);
-            long staffId = staff.getId();
-            showStaffDetail(staffId);
-        });
-
         back_btn.setOnClickListener(v -> finish());
     }
 
@@ -59,16 +53,49 @@ public class StaffManagementActivity extends AppCompatActivity {
             public void onResponse(Call<List<Staff>> call, Response<List<Staff>> response) {
                 if (response.isSuccessful()) {
                     staffList = response.body();
-                    adapter = new StaffAdapter(StaffManagementActivity.this, staffList);
+                    adapter = new StaffAdapter(StaffManagementActivity.this, staffList, StaffManagementActivity.this);
                     listView.setAdapter(adapter);
                 } else {
-                    Toast.makeText(StaffManagementActivity.this, "Failed to fetch staff list", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StaffManagementActivity.this, "Lấy danh sách nhân viên thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Staff>> call, Throwable t) {
-                Toast.makeText(StaffManagementActivity.this, "Network error! Please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(StaffManagementActivity.this, "Lỗi mạng! Vui lòng thử lại", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onDeleteClick(long staffId) {
+        showDeleteConfirmationDialog(staffId);
+    }
+
+    private void showDeleteConfirmationDialog(long staffId) {
+        new AlertDialog.Builder(this)
+                .setTitle("Xác nhận xoá")
+                .setMessage("Bạn có chắc chắn muốn xoá nhân viên này không?")
+                .setPositiveButton("Có", (dialog, which) -> deleteStaff(staffId))
+                .setNegativeButton("Không", null)
+                .show();
+    }
+
+    private void deleteStaff(long staffId) {
+        KiotApiService.apiService.deleteStaff(staffId).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Toast.makeText(StaffManagementActivity.this, "Xoá nhân viên thành công", Toast.LENGTH_SHORT).show();
+                    fetchStaffList(); // Làm mới danh sách sau khi xoá thành công
+                } else {
+                    Toast.makeText(StaffManagementActivity.this, "Xoá nhân viên thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(StaffManagementActivity.this, "Lỗi mạng! Vui lòng thử lại", Toast.LENGTH_SHORT).show();
             }
         });
     }
