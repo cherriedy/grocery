@@ -50,42 +50,74 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="12dp">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_upload_images"
-                    android:layout_width="125dp"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@android:color/transparent"
-                    android:drawableLeft="@drawable/ic_add_image"
-                    android:drawableTint="@color/bold_sky"
-                    android:padding="8dp"
-                    android:text="Tải ảnh lên"
-                    android:textColor="@color/bold_sky"
-                    android:textSize="12dp"
-                    app:cornerRadius="10dp"
-                    app:strokeColor="@color/bold_sky"
-                    app:strokeWidth="1dp" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/button_take_picture"
-                    android:layout_width="125dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:backgroundTint="@android:color/transparent"
-                    android:drawableLeft="@drawable/ic_take_new_photo"
-                    android:drawableTint="@color/bold_sky"
-                    android:padding="8dp"
-                    android:text="Chụp ảnh"
-                    android:textColor="@color/bold_sky"
-                    android:textSize="12dp"
-                    app:cornerRadius="10dp"
-                    app:strokeColor="@color/bold_sky"
-                    app:strokeWidth="1dp" />
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_upload_images"
+                        android:layout_width="125dp"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@android:color/transparent"
+                        android:drawableLeft="@drawable/ic_add_image"
+                        android:drawableTint="@color/bold_sky"
+                        android:padding="8dp"
+                        android:text="Tải ảnh lên"
+                        android:textColor="@color/bold_sky"
+                        android:textSize="12dp"
+                        app:cornerRadius="10dp"
+                        app:strokeColor="@color/bold_sky"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_take_picture"
+                        android:layout_width="125dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@android:color/transparent"
+                        android:drawableLeft="@drawable/ic_take_new_photo"
+                        android:drawableTint="@color/bold_sky"
+                        android:padding="8dp"
+                        android:text="Chụp ảnh"
+                        android:textColor="@color/bold_sky"
+                        android:textSize="12dp"
+                        app:cornerRadius="10dp"
+                        app:strokeColor="@color/bold_sky"
+                        app:strokeWidth="1dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="18dp"
+                    android:orientation="vertical">
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:indeterminate="true"
+                        android:indeterminateTint="@color/primaryColor"
+                        android:padding="18dp"
+                        android:visibility="gone" />
+
+                    <androidx.constraintlayout.utils.widget.ImageFilterView
+                        android:id="@+id/image_product"
+                        android:layout_width="92dp"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/cat" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
