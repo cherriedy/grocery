@@ -26,7 +26,6 @@ public class StaffManagementActivity extends AppCompatActivity {
     private ListView listView;
     private List<Staff> staffList;
     private StaffAdapter adapter;
-
     private ImageButton back_btn;
 
     @Override
@@ -34,28 +33,24 @@ public class StaffManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_staff_management);
 
-        // Đảm bảo bạn đang tham chiếu đúng ID của ListView trong layout file
         listView = findViewById(R.id.listViewStaff);
-        back_btn = findViewById(R.id.back_btn); // Initialize back_btn
+        back_btn = findViewById(R.id.back_btn);
 
         fetchStaffList();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Staff staff = staffList.get(position);
-                long staffId = staff.getId();
-                showStaffDetail(staffId);
-            }
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            Staff staff = staffList.get(position);
+            long staffId = staff.getId();
+            showStaffDetail(staffId);
         });
 
-        // Set click listener for back_btn
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // Finish the current activity and return to the previous one
-            }
-        });
+        back_btn.setOnClickListener(v -> finish());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchStaffList(); // Tải lại danh sách nhân viên khi quay lại màn hình này
     }
 
     private void fetchStaffList() {
@@ -80,7 +75,7 @@ public class StaffManagementActivity extends AppCompatActivity {
 
     private void showStaffDetail(long staffId) {
         Intent intent = new Intent(StaffManagementActivity.this, StaffDetailManagementActivity.class);
-        intent.putExtra("staffId", staffId); // Gửi ID nhân viên qua Intent
+        intent.putExtra("staffId", staffId);
         startActivity(intent);
     }
 }
