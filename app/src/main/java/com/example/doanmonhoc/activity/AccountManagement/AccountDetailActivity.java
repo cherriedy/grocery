@@ -20,6 +20,8 @@ import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.Staff;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -29,7 +31,7 @@ import retrofit2.Response;
 import java.util.Locale;
 
 public class AccountDetailActivity extends AppCompatActivity {
-    private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername;
+    private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername, txtImage;
     private Gson gson;
     private ShapeableImageView staffImage;
 
@@ -58,6 +60,7 @@ public class AccountDetailActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPhone = findViewById(R.id.txtPhone);
         staffImage = findViewById(R.id.staffImage);
+        txtImage = findViewById(R.id.txtImage);
         txtUsername = findViewById(R.id.txtUsername);
         gson = new Gson();
 
@@ -97,10 +100,9 @@ public class AccountDetailActivity extends AppCompatActivity {
                     txtPhone.setText(staff.getStaffPhone());
                     txtUsername.setText(staff.getUsername());
 
+                    // Load staff image if available
                     if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
-                        int resID = getResources().getIdentifier(staff.getStaffImage(), "drawable", getPackageName());
-                        staffImage.setImageResource(resID);
-                        staffImage.setTag(staff.getStaffImage()); // Store the resource name in the tag
+                        Picasso.get().load(staff.getStaffImage()).into(staffImage);
                     }
                 } else {
                     Toast.makeText(AccountDetailActivity.this, "Failed to get staff info", Toast.LENGTH_SHORT).show();
@@ -119,39 +121,7 @@ public class AccountDetailActivity extends AppCompatActivity {
     }
 
     private void btnEditOnClick() {
-        Staff staff = new Staff();
-        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        staff.setId(sharedPreferences.getLong("id", -1));
-        staff.setStaffKey(maNV.getText().toString());
-        staff.setStaffName(txtName.getText().toString());
-        staff.setStaffEmail(txtEmail.getText().toString());
-        staff.setStaffPhone(txtPhone.getText().toString());
-        staff.setAddress(txtAddress.getText().toString());
-        staff.setUsername(txtUsername.getText().toString());
-
-        // set Dob
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-            staff.setStaffDob(dateFormat.parse(txtDob.getText().toString()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Định dạng ngày tháng không hợp lệ", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // set gender
-        Byte gender = txtGender.getText().toString().equalsIgnoreCase("Nam") ? (byte) 1 : (byte) 0;
-        staff.setStaffGender(gender);
-
-        //set image
-        if (staffImage.getTag() != null) {
-            staff.setStaffImage(staffImage.getTag().toString());
-        }
-
-        String staffJson = gson.toJson(staff);
-
         Intent intent = new Intent(AccountDetailActivity.this, EditAccountActivity.class);
-        intent.putExtra("staff", staffJson);
         activityResultLauncher.launch(intent);
     }
 }

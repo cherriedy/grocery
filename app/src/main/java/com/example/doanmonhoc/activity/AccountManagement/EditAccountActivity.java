@@ -1,8 +1,12 @@
 package com.example.doanmonhoc.activity.AccountManagement;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,46 +19,58 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.activity.Main.MainActivity;
+import com.example.doanmonhoc.api.CloudinaryService;
 import com.example.doanmonhoc.api.KiotApiService;
+import com.example.doanmonhoc.model.CloudinaryUploadResponse;
 import com.example.doanmonhoc.model.Staff;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.picasso.Picasso;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditAccountActivity extends AppCompatActivity {
-
+    private Uri selectedImageUri;
     private EditText txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone;
-    private TextView txtusername;
-    private Button btnBack, btnSave;
+    private TextView txtUsername, txtMaNV;
+    private Button btnBack, btnSave, btnImage;
     private Staff staff;
     private Gson gson;
     private RadioButton radioButtonMale, radioButtonFemale;
     private ShapeableImageView staffImage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_account_edit);
 
-        gson = new GsonBuilder().setDateFormat("MMM d, yyyy hh:mm:ss a").create();
-
-        String staffJson = getIntent().getStringExtra("staff");
-        staff = gson.fromJson(staffJson, Staff.class);
-
+        txtMaNV = findViewById(R.id.txtMaNV);
         txtName = findViewById(R.id.txtName);
         txtDob = findViewById(R.id.txtDob);
         radioButtonMale = findViewById(R.id.radioButtonMale);
@@ -63,28 +79,12 @@ public class EditAccountActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPhone = findViewById(R.id.txtPhone);
         staffImage = findViewById(R.id.staffImage);
-        txtusername = findViewById(R.id.txtusername);
+        txtUsername = findViewById(R.id.txtusername);
+        btnBack = findViewById(R.id.btnCancel);
+        btnImage = findViewById(R.id.btnImage);
+        btnSave = findViewById(R.id.btnSave);
 
-        // setText
-        txtName.setText(staff.getStaffName());
-        txtDob.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(staff.getStaffDob()));
-        if (staff.getStaffGender() == 1) {
-            radioButtonMale.setChecked(true);
-        } else {
-            radioButtonFemale.setChecked(true);
-        }
-        txtAddress.setText(staff.getAddress());
-        txtEmail.setText(staff.getStaffEmail());
-        txtPhone.setText(staff.getStaffPhone());
-        txtusername.setText(staff.getUsername());
-
-        if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
-            int resID = getResources().getIdentifier(staff.getStaffImage(), "drawable", getPackageName());
-            staffImage.setImageResource(resID);
-            staffImage.setTag(staff.getStaffImage()); // Lưu tên tài nguyên vào tag
-        }
-
-
+        loadAccountDetail();
 
         txtDob.setOnClickListener(v -> {
             // Lấy ngày hiện tại để làm mặc định cho DatePicker
@@ -102,30 +102,78 @@ public class EditAccountActivity extends AppCompatActivity {
                         txtDob.setText(selectedDate);
                     },
                     year, month, day) {
-                @Override
-                protected void onCreate(Bundle savedInstanceState) {
-                    super.onCreate(savedInstanceState);
-                    // Lấy nút "OK" và "Cancel" và thay đổi màu sắc của chúng
-                    int okButtonId = getResources().getIdentifier("android:id/button1", null, null);
-                    Button okButton = findViewById(okButtonId);
-                    okButton.setTextColor(Color.BLACK);
-
-                    int cancelButtonId = getResources().getIdentifier("android:id/button2", null, null);
-                    Button cancelButton = findViewById(cancelButtonId);
-                    cancelButton.setTextColor(Color.BLACK);
-                }
             };
             datePickerDialog.show();
 
         });
 
-
-        btnBack = findViewById(R.id.btnCancel);
         btnBack.setOnClickListener(v -> finish());
-
-        btnSave = findViewById(R.id.btnSave);
+        btnImage.setOnClickListener(v -> {
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            activityResultLauncher.launch(intent);
+        });
         btnSave.setOnClickListener(v -> updateStaff());
     }
+    private void loadAccountDetail() {
+        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        long staffId = sharedPreferences.getLong("id", -1);
+
+        if (staffId == -1) {
+            Toast.makeText(this, "Không tìm thấy Staff ID trong SharedPreferences", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        KiotApiService.apiService.getStaffById(staffId).enqueue(new Callback<Staff>() {
+            @Override
+            public void onResponse(Call<Staff> call, Response<Staff> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    staff = response.body();
+                    txtMaNV.setText(staff.getStaffKey());
+                    txtName.setText(staff.getStaffName());
+
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    txtDob.setText(dateFormat.format(staff.getStaffDob()));
+
+                    txtDob.setText(new SimpleDateFormat("yyyy-MM-dd", Locale.US).format(staff.getStaffDob()));
+                    if (staff.getStaffGender() == 1) {
+                        radioButtonMale.setChecked(true);
+                    } else {
+                        radioButtonFemale.setChecked(true);
+                    }
+                    txtAddress.setText(staff.getAddress());
+                    txtEmail.setText(staff.getStaffEmail());
+                    txtPhone.setText(staff.getStaffPhone());
+                    txtUsername.setText(staff.getUsername());
+
+                    // Load staff image if available
+                    if (staff.getStaffImage() != null && !staff.getStaffImage().isEmpty()) {
+                        Picasso.get().load(staff.getStaffImage()).into(staffImage);
+                    }
+                } else {
+                    Toast.makeText(EditAccountActivity.this, "Failed to get staff info", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Staff> call, Throwable t) {
+                Toast.makeText(EditAccountActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    // Khởi tạo ActivityResultLauncher
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    selectedImageUri = result.getData().getData();
+                    if (selectedImageUri != null) {
+                        // Display selected image in imageView
+                        staffImage.setImageURI(selectedImageUri);
+                    }
+                }
+            });
 
     private void updateStaff() {
         String newName = txtName.getText().toString().trim();
@@ -148,7 +196,6 @@ public class EditAccountActivity extends AppCompatActivity {
             return;
         }
 
-
         staff.setStaffName(newName);
         staff.setStaffGender((byte) newGender);
         staff.setStaffEmail(newEmail);
@@ -163,10 +210,51 @@ public class EditAccountActivity extends AppCompatActivity {
             Toast.makeText(this, "Định dạng ngày sinh không hợp lệ. Vui lòng nhập lại.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (staffImage.getTag() != null) {
-            staff.setStaffImage(staffImage.getTag().toString());
+        // Check selected image
+        if (selectedImageUri != null) {
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+                byte[] imageBytes = IOUtils.toByteArray(inputStream);
+                saveToCloudinary(imageBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(EditAccountActivity.this, "Failed to read image file", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            saveToDatabase(staff);
         }
+    }
+    private void saveToCloudinary(byte[] imageBytes) {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageBytes);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", "image.jpg", requestFile);
+        RequestBody uploadPreset = RequestBody.create(MediaType.parse("text/plain"), "ml_default");
 
+        CloudinaryService.apiService.uploadImage(body, uploadPreset).enqueue(new Callback<CloudinaryUploadResponse>() {
+            @Override
+            public void onResponse(Call<CloudinaryUploadResponse> call, Response<CloudinaryUploadResponse> response) {
+                if (response.isSuccessful()) {
+                    CloudinaryUploadResponse uploadResponse = response.body();
+                    if (uploadResponse != null) {
+                        String imageUrl = uploadResponse.getUrl();
+                        Toast.makeText(EditAccountActivity.this, "Upload thành công: " + imageUrl, Toast.LENGTH_SHORT).show();
+                        staffImage.setImageURI(selectedImageUri); // Display uploaded image in ImageView
+                        staff.setStaffImage(imageUrl); // Save image URL to staff object
+                        saveToDatabase(staff);
+                    } else {
+                        Toast.makeText(EditAccountActivity.this, "Upload thất bại: Response body is empty", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(EditAccountActivity.this, "Upload thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CloudinaryUploadResponse> call, Throwable t) {
+                Toast.makeText(EditAccountActivity.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    private void saveToDatabase(Staff staff) {
         KiotApiService.apiService.updateStaff(staff.getId(), staff).enqueue(new Callback<Staff>() {
             @Override
             public void onResponse(Call<Staff> call, Response<Staff> response) {
@@ -175,7 +263,7 @@ public class EditAccountActivity extends AppCompatActivity {
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    Toast.makeText(EditAccountActivity.this, "Cập nhật thất bạiiiiiiiiiiiii!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(EditAccountActivity.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();
                 }
             }
 
