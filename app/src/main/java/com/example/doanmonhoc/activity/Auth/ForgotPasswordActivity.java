@@ -54,6 +54,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             } else {
                 verifyOTP(email, enteredOTP);
             }
+//            Intent intent = new Intent(ForgotPasswordActivity.this, ChangePasswordActivity.class);
+//            intent.putExtra("email","2254810125@vaa.edu.vn");
+//            startActivity(intent);
         });
     }
     private void checkEmail(String email) {
@@ -82,7 +85,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<OTP> call, Response<OTP> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Toast.makeText(ForgotPasswordActivity.this, "Đã update OTP trong db.", Toast.LENGTH_SHORT).show();
+
                 } else {
                     Toast.makeText(ForgotPasswordActivity.this, "Failed update OTP trong db.", Toast.LENGTH_SHORT).show();
                 }

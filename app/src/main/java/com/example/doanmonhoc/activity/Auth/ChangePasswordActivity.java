@@ -37,7 +37,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         btnChangePass = findViewById(R.id.btnChangePass);
         btnChangePass.setOnClickListener(v -> {
             getStaff(staffEmail);
-            updatePass();
+
         });
 
     }
@@ -47,6 +47,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             public void onResponse(Call<Staff> call, Response<Staff> response) {
                 if (response.isSuccessful()) {
                     staff = response.body();
+                    updatePass(staff);
                 } else {
                     Toast.makeText(ChangePasswordActivity.this, "Không tìm thấy thông tin nhân viên", Toast.LENGTH_SHORT).show();
                 }
@@ -58,14 +59,17 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         });
     }
-    private void updatePass(){
+    private void updatePass(Staff staff){
         String newPass = editNewPass.getText().toString();
         String newPass1 = editNewPass1.getText().toString();
 
         if (TextUtils.isEmpty(newPass) || TextUtils.isEmpty(newPass1)) {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-        }else if(!newPass.equals(newPass1)){
+            return;
+        }
+        if(!newPass.equals(newPass1)){
             Toast.makeText(this, "Mật khẩu mới không khớp", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         staff.setPassword(newPass);
