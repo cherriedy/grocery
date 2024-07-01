@@ -1,7 +1,9 @@
 package com.example.doanmonhoc.activity.StaffManagement;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,8 +29,10 @@ import retrofit2.Response;
 public class StaffDetailManagementActivity extends AppCompatActivity {
     private TextView txtMaNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername;
     private ImageView staffImage;
-
     private ImageButton btnBack;
+    private Button btnEdit;
+
+    private long staffId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,10 +48,11 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
         txtPhone = findViewById(R.id.txtPhone);
         txtUsername = findViewById(R.id.txtUsername);
         staffImage = findViewById(R.id.staffImage);
-        btnBack = findViewById(R.id.btnBack); // Initialize btnBack
+        btnBack = findViewById(R.id.btnBack);
+        btnEdit = findViewById(R.id.btnEdit);
 
         // Nhận ID nhân viên từ Intent
-        long staffId = getIntent().getLongExtra("staffId", -1);
+        staffId = getIntent().getLongExtra("staffId", -1);
 
         // Gọi API để lấy thông tin nhân viên theo ID
         KiotApiService.apiService.getStaffById(staffId).enqueue(new Callback<Staff>() {
@@ -74,6 +79,16 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish(); // Đóng activity hiện tại
+            }
+        });
+
+        // Xử lý sự kiện khi nhấn nút edit
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(StaffDetailManagementActivity.this, StaffEditActivity.class);
+                intent.putExtra("staffId", staffId);
+                startActivity(intent);
             }
         });
     }

@@ -76,6 +76,9 @@
             android:name=".activity.StaffManagement.StaffDetailManagementActivity"
             android:exported="false"/>
         <activity
+            android:name=".activity.StaffManagement.StaffEditActivity"
+            android:exported="false"/>
+        <activity
             android:name=".activity.ImportManagement.ImportCreateActivity"
             android:exported="false"
             />
