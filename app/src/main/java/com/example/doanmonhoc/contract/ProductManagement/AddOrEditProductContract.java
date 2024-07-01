@@ -1,14 +1,15 @@
 package com.example.doanmonhoc.contract.ProductManagement;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import com.example.doanmonhoc.model.Brand;
-import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
-import com.example.doanmonhoc.model.GoodsReceivedNote;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AddOrEditProductContract {
     interface Presenter {
@@ -18,13 +19,15 @@ public interface AddOrEditProductContract {
 
         String generateLatestProductKey();
 
-        void handleCreateProduct(Product product, GoodsReceivedNote goodsReceivedNote, DetailedGoodsReceivedNote detailedGoodsReceivedNote);
+        void handleCreateProduct(Map<String, Object> productCreationRequest);
 
         void getExtraProduct(Intent intent);
 
         void handleUpdateProduct(Product product);
 
         void handleDeleteProduct(Product product);
+
+        void handleUploadTemporaryImage(Context context, Uri imageUri);
     }
 
     interface View {
@@ -61,5 +64,11 @@ public interface AddOrEditProductContract {
         void updateProductSuccessfully();
 
         void updateProductFail();
+
+        void uploadTemporaryImage();
+
+        void onUploadTemporaryImageSuccess();
+
+        void onUploadTemporaryImageFail();
     }
 }

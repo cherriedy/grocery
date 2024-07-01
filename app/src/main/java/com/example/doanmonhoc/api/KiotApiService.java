@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MultipartBody;
@@ -35,7 +36,7 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface KiotApiService {
-    final String BASE_URL = "http://cherrapi.onlinewebshop.net";
+    String BASE_URL = "http://cherrapi.onlinewebshop.net";
 
     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -58,6 +59,12 @@ public interface KiotApiService {
 
     KiotApiService apiService = retrofit.create(KiotApiService.class);
 
+    // Loading temporary files API
+    @Multipart
+    @POST("/upload-files/temporary")
+    Call<ResponseBody> pushTemporaryFiles(@Part("uniqueKey") RequestBody uniqueKey,
+                                          @Part MultipartBody.Part thumbnail);
+
     // Product API
     @GET("/product")
     Call<List<Product>> getProductList();
@@ -69,9 +76,7 @@ public interface KiotApiService {
     Call<Product> getLatestProduct();
 
     @POST("/product")
-    Call<Product> createProduct(@Body Product product,
-                                @Body GoodsReceivedNote goodsReceivedNote,
-                                @Body DetailedGoodsReceivedNote detailedGoodsReceivedNote);
+    Call<Product> createProduct(@Body Map<String, Object> productCreationRequest);
 
     @PATCH("/product/{id}")
     Call<Product> updateProduct(@Path("id") long productID, @Body Product newProduct);
@@ -127,14 +132,14 @@ public interface KiotApiService {
     @GET("staff/{email}")
     Call<Staff> getStaffByEmail(@Path("email") String id);
 
-    @PUT("staff/{id}")
-    Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
-
     @PUT("staff/{email}")
     Call<OTP> updateStaffByEmail(@Path("email") String email, @Body OTP otp);
 
     @POST("verifyOTP")
     Call<OTP> verifyOTP(@Body OTP otp);
+
+    @PUT("staff/{id}")
+    Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
 
     @GET("invoice")
     Call<List<Invoice>> getAllInvoice();
@@ -142,22 +147,30 @@ public interface KiotApiService {
     @GET("invoiceDetail/{id}")
     Call<List<DetailedInvoice>> getDetailedInvoiceById(@Path("id") long id);
 
-    @POST("invoice")
-    Call<Invoice> addInvoice(@Body Invoice invoice);
-
     @GET("goodsReceivedNote")
     Call<List<GoodsReceivedNote>> getAllGoodsReceivedNote();
+
+    @POST("invoice")
+    Call<Invoice> addInvoice(@Body Invoice invoice);
 
     @GET("detailedGoodsReceivedNote/{id}")
     Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNote(@Path("id") long goodsReceivedNoteId);
 
     @POST("goodsReceivedNote")
-    Call<GoodsReceivedNote>addGoodReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
+    Call<GoodsReceivedNote> addGoodReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
 
-    @Multipart
-    @POST("up")
-    Call<ResponseBody> uploadImage(
-            @Part MultipartBody.Part file,
-            @Part("staffId") RequestBody id
-    );
+
+    @GET("/detailedGoodsReceivedNote")
+    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList();
+
+    @GET("/goodsReceivedNote")
+    Call<List<GoodsReceivedNote>> getGoodsReceivedNoteList();
+
+
+    @GET("detailedGoodsReceivedNote/{id}")
+    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList(@Path("id") int goodsReceivedNoteId);
+
+    @POST("goodsReceivedNote")
+    Call<GoodsReceivedNote> getcrGoodsReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
+
 }

@@ -1,8 +1,14 @@
 package com.example.doanmonhoc.activity.ProductManagement;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
@@ -34,15 +43,24 @@ import com.example.doanmonhoc.presenter.ProductManagament.AddOrEditProductPresen
 import com.example.doanmonhoc.utils.IntentManager;
 import com.example.doanmonhoc.utils.LoadingDialog;
 import com.example.doanmonhoc.utils.NumberUtils;
+import com.example.doanmonhoc.utils.PermissionManager;
 import com.example.doanmonhoc.utils.TextUtils;
 import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
 import com.example.doanmonhoc.utils.validation.ValidationUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 
 public class AddOrEditProductActivity extends AppCompatActivity implements AddOrEditProductContract.View {
     public static final int RADIO_BUTTON_IN_STOCK = 0;
@@ -58,8 +76,10 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
     private Map<Integer, Integer> mRadioButton;
     private Product mExtraProduct;
     private BrandSpinnerAdapter mBrandAdapter;
-
     private BottomSheetDialog mConfirmDeletionDialog;
+    private ActivityResultLauncher<Intent> mOpenGalleryLauncher;
+    private ActivityResultLauncher<Uri> mTakePictureLauncher;
+    private Uri mSelectedPictureUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,20 +96,24 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.primaryColor));
 
-        onFocusHeader();
-        callValidateProduct();
-        binding.actionBack.setOnClickListener(v -> onBackPressed());
-
         mRadioButton = new HashMap<>();
         mLoadingDialog = new LoadingDialog(this);
         mBrandAdapter = new BrandSpinnerAdapter(this);
         mPresenter = new AddOrEditProductPresenter(this);
         mConfirmDeletionDialog = new BottomSheetDialog(this);
+        mSelectedPictureUri = PermissionManager.createUriForTakePicture(this);
+
+        registerOpenGalleryLauncher();
+        registerTakePictureLauncher();
+        registerOnClickListener();
+        registerProductValidation();
+        onFocusHeader();
 
         mRadioButton.put(R.id.button_inStock, RADIO_BUTTON_IN_STOCK);
         mRadioButton.put(R.id.button_outStock, RADIO_BUTTON_OUT_STOCK);
 
         handleIntent(getIntent());
+
     }
 
     @Override
@@ -214,9 +238,14 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
             product.setProductNote(noteText);
         }
 
+        Map<String, Object> productCreationRequest = new HashMap<>();
+        productCreationRequest.put("product", product);
+        productCreationRequest.put("grn", goodsReceivedNote);
+        productCreationRequest.put("dgrn", detailedGoodsReceivedNote);
+
         if (handleValidateProductName() && handleValidateOutPrice() && handleValidateDescription()) {
             mLoadingDialog.show();
-            mPresenter.handleCreateProduct(product, goodsReceivedNote, detailedGoodsReceivedNote);
+            mPresenter.handleCreateProduct(productCreationRequest);
         } else {
             Toast.makeText(this, getString(R.string.msg_fill_all_requierd_fields), Toast.LENGTH_SHORT).show();
         }
@@ -338,6 +367,50 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         if (TextUtils.isValidString(note)) {
             binding.textProductNote.setText(note);
         }
+
+        new Thread(() -> {
+//        String imagePaths = product.getAvatarPath();
+            String imagePaths = "https://images.pexels.com/photos/3230214/pexels-photo-3230214.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+
+            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
+
+            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .readTimeout(60, TimeUnit.SECONDS)
+                    .connectTimeout(60, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(true)
+                    .addInterceptor(loggingInterceptor)
+                    .build();
+
+            Picasso picasso = new Picasso.Builder(this)
+                    .downloader(new OkHttp3Downloader(okHttpClient))
+                    .build();
+
+            runOnUiThread(() -> {
+                if (TextUtils.isValidString(imagePaths)) {
+                    picasso.load(imagePaths)
+                            .into(new Target() {
+                                @Override
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    binding.progressBarImage.setVisibility(View.GONE);
+                                    binding.imageProduct.setImageBitmap(bitmap);
+                                    binding.imageProduct.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                                    binding.progressBarImage.setVisibility(View.GONE);
+                                    Toast.makeText(AddOrEditProductActivity.this, "Tải ảnh thất bại", Toast.LENGTH_SHORT).show();
+                                }
+
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                    binding.progressBarImage.setVisibility(View.VISIBLE);
+                                }
+                            });
+                }
+            });
+        }).start();
     }
 
     @Override
@@ -377,6 +450,30 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
     public void updateProductFail() {
         mLoadingDialog.hide();
         Toast.makeText(this, "Cập nhật sản phẩm thất bại", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void uploadTemporaryImage() {
+        binding.progressBarImage.setVisibility(View.VISIBLE);
+        mPresenter.handleUploadTemporaryImage(this, mSelectedPictureUri);
+    }
+
+    @Override
+    public void onUploadTemporaryImageSuccess() {
+        binding.progressBarImage.setVisibility(View.GONE);
+        handleSelectedImages();
+    }
+
+    @Override
+    public void onUploadTemporaryImageFail() {
+        binding.progressBarImage.setVisibility(View.GONE);
+        Toast.makeText(this, "Upload ảnh thất bại", Toast.LENGTH_SHORT).show();
+    }
+
+    private void registerOnClickListener() {
+        binding.actionBack.setOnClickListener(v -> onBackPressed());
+        binding.buttonUploadImages.setOnClickListener(v -> onClickRequestGalleryPermission());
+        binding.buttonTakePicture.setOnClickListener(v -> onClickRequestCameraPermission());
     }
 
     private void handleIntent(Intent intent) {
@@ -451,7 +548,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         }
     }
 
-    private void callValidateProduct() {
+    private void registerProductValidation() {
         validateProductName();
         validateOutPrice();
         validateProductBrand();
@@ -620,5 +717,91 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 //        } catch (NullPointerException e) {
 //            Log.e(TAG, "setSelectionBrand: brandList bị null");
 //        }
+    }
+
+    private void onClickRequestGalleryPermission() {
+        if (checkSelfPermission(Manifest.permission.READ_MEDIA_IMAGES)
+                == PackageManager.PERMISSION_GRANTED) {
+            PermissionManager.openGallery(mOpenGalleryLauncher);
+        } else {
+            requestPermissions(new String[]{Manifest.permission.READ_MEDIA_IMAGES},
+                    PermissionManager.REQUEST_PERMISSION_MEDIA_IMAGE);
+        }
+    }
+
+    private void onClickRequestCameraPermission() {
+        if (checkSelfPermission(Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            mTakePictureLauncher.launch(mSelectedPictureUri);
+        } else {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    PermissionManager.REQUEST_PERMISSION_CAMERA);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PermissionManager.REQUEST_PERMISSION_MEDIA_IMAGE) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                PermissionManager.openGallery(mOpenGalleryLauncher);
+            }
+        } else if (requestCode == PermissionManager.REQUEST_PERMISSION_CAMERA) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mTakePictureLauncher.launch(mSelectedPictureUri);
+            }
+        } else {
+            Toast.makeText(this, "Không có quyền truy cập, vui lòng kiểm tra lại", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void handleSelectedImages() {
+        // Chạy trên thread khác tránh block thread chính dẫn tới crash ứng dụng.
+        new Thread(() -> {
+            try {
+                // ImageDecode.Source tạo đường dẫn từ uri
+                ImageDecoder.Source source = ImageDecoder.createSource(getContentResolver(), mSelectedPictureUri);
+                // Sử dụng ImageDecoder.decodeBitmap thay cho MediaStore.Images.Media.getBitmap
+                Bitmap bitmap = ImageDecoder.decodeBitmap(source);
+                runOnUiThread(() -> {
+                    binding.imageProduct.setImageBitmap(bitmap);
+                    binding.imageProduct.setVisibility(View.VISIBLE);
+                });
+            } catch (IOException e) {
+                Log.e(TAG, "handleSelectedImages: " + e.getMessage());
+            }
+        }).start();
+    }
+
+    private void registerOpenGalleryLauncher() {
+        mOpenGalleryLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(), o -> {
+                    if (o.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = o.getData();
+                        if (data != null) {
+//                            Uri uri = data.getData();
+//                            handleSelectedImages(uri);
+                            mSelectedPictureUri = data.getData();
+                            uploadTemporaryImage();
+                        }
+                    }
+                }
+        );
+    }
+
+    private void registerTakePictureLauncher() {
+        mTakePictureLauncher = registerForActivityResult(
+                new ActivityResultContracts.TakePicture(), result -> {
+                    try {
+                        if (result) {
+                            handleSelectedImages();
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "registerTakePictureLauncher: " + e.getMessage());
+                    }
+                }
+        );
     }
 }
