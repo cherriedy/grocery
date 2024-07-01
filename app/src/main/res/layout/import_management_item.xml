@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="5dp"
+    android:id="@+id/cardView"
     android:layout_margin="15dp">
 
     <TableLayout
@@ -14,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/tvId"
+                android:id="@+id/tvMaHD"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="17dp"
@@ -48,7 +49,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
             <TextView
-                android:id="@+id/totalPrice"
+                android:id="@+id/tvTotalAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"

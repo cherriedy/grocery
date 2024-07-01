@@ -1,4 +1,4 @@
-package com.example.doanmonhoc.activity.SaleManagement;
+package com.example.doanmonhoc.activity.ImportManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,56 +13,53 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.activity.Main.HomepageFragment;
 import com.example.doanmonhoc.activity.Main.MainActivity;
+import com.example.doanmonhoc.activity.SaleManagement.SaleCreateActivity;
+import com.example.doanmonhoc.activity.SaleManagement.SaleDetailedInvoiceActivity;
+import com.example.doanmonhoc.adapter.ImportBillAdapter;
 import com.example.doanmonhoc.adapter.SaleDetailedInvoiceAdapter;
-import com.example.doanmonhoc.adapter.SaleManagementAdapter;
 import com.example.doanmonhoc.api.KiotApiService;
+import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.DetailedInvoice;
-import com.example.doanmonhoc.model.Invoice;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.Staff;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SaleDetailedInvoiceActivity extends AppCompatActivity {
-    private SaleDetailedInvoiceAdapter adapter;
+public class ImportBillActivity extends AppCompatActivity {
+    private ImportBillAdapter adapter;
     private ListView listView;
     private ImageButton btnBack;
     private Button btnExit;
-    private TextView tvinvoiceKey, staffName, createAt, totalPrice, tvNote;
-    private List<DetailedInvoice> detailedInvoices = new ArrayList<>();
+    private TextView tvGrnKey, staffName, createAt, totalPrice, tvNote;
+    private List<DetailedGoodsReceivedNote> detailedGoodsReceivedNotes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_sales_bill);
+        setContentView(R.layout.activity_import_bill);
 
 
         listView = findViewById(R.id.listView);
-        tvinvoiceKey = findViewById(R.id.tvInvoiceKey);
+        tvGrnKey = findViewById(R.id.tvGrnKey);
         totalPrice = findViewById(R.id.totalPrice);
         staffName = findViewById(R.id.tvStaffName);
         createAt = findViewById(R.id.tvCreateAt);
         tvNote = findViewById(R.id.tvNote);
 
-        adapter = new SaleDetailedInvoiceAdapter(this, detailedInvoices);
+        adapter = new ImportBillAdapter(this, detailedGoodsReceivedNotes);
         listView.setAdapter(adapter);
 
         Intent intent = getIntent();
-        long invoiceId = intent.getLongExtra("invoiceId", -1);
-        String invoiceKey = intent.getStringExtra("invoiceKey");
+        long grnId = intent.getLongExtra("grnId", -1);
+        String grnKey = intent.getStringExtra("grnKey");
         long staffId = intent.getLongExtra("staffId", -1);
         long createdAtMillis = intent.getLongExtra("createAt", -1);
         // Reconstruct Timestamp from long
@@ -73,14 +70,17 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
         String note = intent.getStringExtra("note");
 
         // Display tv
-        tvinvoiceKey.setText(invoiceKey);
+        tvGrnKey.setText(grnKey);
         getStaffNameById(staffId);
         createAt.setText(createdAt.toString());
 
         totalPrice.setText(String.valueOf(totalAmount));
         tvNote.setText(note);
 
-        loadDetailedInvoiceById(invoiceId);
+        loadDetailedInvoiceById(grnId);
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
 
         btnExit = findViewById(R.id.btnExit);
         btnExit.setOnClickListener(v -> {
@@ -88,9 +88,6 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
             startActivity(intent1);
             finishAffinity();
         });
-
-        btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> finish());
     }
     private void getStaffNameById(long staffId){
         KiotApiService.apiService.getStaffById(staffId).enqueue(new Callback<Staff>() {
@@ -104,23 +101,23 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<Staff> call, Throwable t) {
-                Toast.makeText(SaleDetailedInvoiceActivity.this, "Không lấy tên nhân viên được!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ImportBillActivity.this, "Không lấy tên nhân viên được!", Toast.LENGTH_SHORT).show();
                 Log.e("API_ERROR", "Loi error staff name", t);
             }
         });
     }
 
-    private void loadDetailedInvoiceById(long invoiceId) {
-        KiotApiService.apiService.getDetailedInvoiceById(invoiceId).enqueue(new Callback<List<DetailedInvoice>>() {
+    private void loadDetailedInvoiceById(long grnId) {
+        KiotApiService.apiService.getDetailedGoodsReceivedNote(grnId).enqueue(new Callback<List<DetailedGoodsReceivedNote>>() {
             @Override
-            public void onResponse(Call<List<DetailedInvoice>> call, Response<List<DetailedInvoice>> response) {
+            public void onResponse(Call<List<DetailedGoodsReceivedNote>> call, Response<List<DetailedGoodsReceivedNote>> response) {
                 if (response.isSuccessful()) {
-                    List<DetailedInvoice> list = response.body();
+                    List<DetailedGoodsReceivedNote> list = response.body();
                     if (list != null && !list.isEmpty()) {
-                        detailedInvoices.clear();
-                        detailedInvoices.addAll(list);
+                        detailedGoodsReceivedNotes.clear();
+                        detailedGoodsReceivedNotes.addAll(list);
 
-                        for (DetailedInvoice detail : detailedInvoices) {
+                        for (DetailedGoodsReceivedNote detail : detailedGoodsReceivedNotes) {
                             KiotApiService.apiService.getDetailedProduct(detail.getProductId()).enqueue(new Callback<Product>() {
                                 @Override
                                 public void onResponse(Call<Product> call, Response<Product> response) {
@@ -129,7 +126,7 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
                                         detail.setProduct(product);
 
                                         // Notify adapter only when all products not null
-                                        if (allProductsNotNull(detailedInvoices)) {
+                                        if (allProductsNotNull(detailedGoodsReceivedNotes)) {
                                             adapter.notifyDataSetChanged();
                                         }
                                     }
@@ -137,28 +134,28 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onFailure(Call<Product> call, Throwable t) {
-                                    Toast.makeText(SaleDetailedInvoiceActivity.this, "Không setProduct được!", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ImportBillActivity.this, "Không setProduct được!", Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
                     } else {
-                        Toast.makeText(SaleDetailedInvoiceActivity.this, "Không tìm thấy chi tiết hóa đơn nào!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ImportBillActivity.this, "Không tìm thấy chi tiết hóa đơn nào!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(SaleDetailedInvoiceActivity.this, "Không có phản hồi", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ImportBillActivity.this, "Không có phản hồi", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onFailure(Call<List<DetailedInvoice>> call, Throwable t) {
-                Toast.makeText(SaleDetailedInvoiceActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<List<DetailedGoodsReceivedNote>> call, Throwable t) {
+                Toast.makeText(ImportBillActivity.this, "Failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
 
-    private boolean allProductsNotNull(List<DetailedInvoice> detailedInvoices) {
-        for (DetailedInvoice detail : detailedInvoices) {
+    private boolean allProductsNotNull(List<DetailedGoodsReceivedNote> detailedGoodsReceivedNotes) {
+        for (DetailedGoodsReceivedNote detail : detailedGoodsReceivedNotes) {
             if (detail.getProduct() == null) {
                 return false;
             }

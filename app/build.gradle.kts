@@ -38,6 +38,7 @@ android {
 dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
+    implementation(libs.glide)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.converter.gson)
@@ -49,8 +50,8 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.android.lottie)
-    implementation(libs.glide)
     implementation(libs.okhttp3.integration)
+    implementation(libs.commons.io)
     implementation(libs.picasso)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

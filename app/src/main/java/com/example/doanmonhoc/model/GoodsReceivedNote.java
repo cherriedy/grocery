@@ -6,16 +6,20 @@ import java.util.List;
 
 
 public class GoodsReceivedNote {
-    private Integer id;
+    private long id;
     private String grnKey;
     private long Staffid;
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private double totalAmount;
-    private List<ImportItem> importItems;
+    private List<CartItem> cartItems;
 
-    public void setImportItems(List<ImportItem> importItems) {
-        this.importItems = importItems;
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
     }
 
     public double getTotalAmount() {
@@ -28,11 +32,11 @@ public class GoodsReceivedNote {
 
     private String note;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 

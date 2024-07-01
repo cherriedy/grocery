@@ -238,7 +238,7 @@
 
 
         <Button
-            android:id="@+id/btnAddInvoice"
+            android:id="@+id/btnExit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -247,7 +247,7 @@
             android:layout_marginBottom="35dp"
             android:textSize="15dp"
             android:background="@drawable/radius_4_goc"
-            android:text="Tạo đơn mới"
+            android:text="Thoát"
             android:theme="@style/Base.Theme.DoAnMonHoc" />
     </androidx.cardview.widget.CardView>
 

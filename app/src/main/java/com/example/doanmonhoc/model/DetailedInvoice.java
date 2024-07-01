@@ -8,11 +8,8 @@ public class DetailedInvoice {
     private double price;
     private Product product;
 
-
-
     public DetailedInvoice() {
     }
-
 
     public long getId() {
         return id;

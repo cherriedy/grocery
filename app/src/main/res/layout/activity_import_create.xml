@@ -7,40 +7,42 @@ android:layout_height="match_parent"
 android:orientation="vertical">
 
 
-<RelativeLayout
-    android:id="@+id/layout_tren"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#FFFFFF">
+    <RelativeLayout
+        android:id="@+id/layout_tren"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#FFFFFF">
 
-    <ImageButton
-        android:id="@+id/btnReturn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/ic_arrow_back"
-        android:onClick="ReturntoManagementImportActivity" />
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            android:src="@drawable/ic_arrow_back" />
 
-    <TextView
-        android:id="@+id/headerTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/btnReturn"
-        android:text="Nhập hàng"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_centerHorizontal="true"
+            android:text="Tạo phiếu nhập"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <ImageButton
-        android:id="@+id/search_btn"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentEnd="true"
-        android:backgroundTint="@color/white"
-        android:src="@drawable/ic_search"
-        app:tint="@color/black" />
-</RelativeLayout>
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/edit_text_timkiem"
+            android:drawableStart="@drawable/ic_search"
+            android:hint="Tìm kiếm mặt hàng"
+            android:padding="12dp" />
+    </RelativeLayout>
 
 <!-- Tabs -->
     <LinearLayout
@@ -83,32 +85,35 @@ android:orientation="vertical">
     <!-- Footer with Selected Items Count and Continue Button -->
 
     <ListView
-        android:id="@+id/list_view"
+        android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="612dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/layout_tren"
+        android:layout_above="@+id/layoutBtnThanhToan"
         android:layout_marginTop="59dp"
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/thanhtoanbtn"
+        android:id="@+id/layoutBtnThanhToan"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom">
+
         <androidx.cardview.widget.CardView
-            android:id="@+id/loginButton"
+            android:id="@+id/btnTiepTuc"
             android:layout_width="match_parent"
-            android:layout_height="55sp"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="17dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="35dp"
-            app:cardCornerRadius="10dp"
             android:backgroundTint="@color/primaryColor"
-            android:text="Tiếp tục" >
+            android:text="Tiếp tục"
+            app:cardCornerRadius="10dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -125,7 +130,6 @@ android:orientation="vertical">
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_marginStart="32dp"
@@ -136,6 +140,7 @@ android:orientation="vertical">
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
+                        android:id="@+id/tvTotalQuantityInCart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -145,6 +150,7 @@ android:orientation="vertical">
                 </androidx.cardview.widget.CardView>
 
                 <TextView
+                    android:id="@+id/tvTotalPriceInCart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="49.000"
@@ -158,8 +164,7 @@ android:orientation="vertical">
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.428" />
 
-                <Button
-                    android:id="@+id/btnTiepTuc"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="32dp"
@@ -169,8 +174,7 @@ android:orientation="vertical">
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:onClick="navigateToDetailImportActivity"/>
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
     </androidx.cardview.widget.CardView>

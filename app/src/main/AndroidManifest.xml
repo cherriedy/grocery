@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -26,14 +29,6 @@
         tools:targetApi="31"
         >
         <activity
-            android:name=".activity.GroupManagement.AddOrEditGroupActivity"
-            android:exported="false"
-            />
-        <activity
-            android:name=".activity.GroupManagement.GroupManagementActivity"
-            android:exported="false"
-            />
-        <activity
             android:name=".activity.BrandManagement.AddOrEditBrandActivity"
             android:exported="false"
             />
@@ -42,7 +37,15 @@
             android:exported="false"
             android:theme="@style/Theme.DoAnMonHoc"
             />
-
+        <activity
+            android:name=".activity.GroupManagement.AddOrEditGroupActivity"
+            android:exported="false"
+            />
+        <activity
+            android:name=".activity.GroupManagement.GroupManagementActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DoAnMonHoc"
+            />
         <activity
             android:name=".activity.AccountManagement.EditAccountActivity"
             android:exported="false"
@@ -51,8 +54,7 @@
             android:name=".activity.AccountManagement.AccountDetailActivity"
             android:exported="false"
             />
-        <activity
-            android:name=".activity.StaffManagement.StaffManagementActivity"
+        <activity android:name=".activity.AccountManagement.EditPasswordActivity"
             android:exported="false"
             />
         <activity
@@ -72,54 +74,38 @@
             android:exported="false"
             />
         <activity
-            android:name=".activity.Auth.LoginActivity"
+            android:name=".activity.StaffManagement.StaffManagementActivity"
             android:exported="false"
             />
         <activity
             android:name=".activity.StaffManagement.AddStaffActivity"
-            android:exported="true"
-            />
-        <activity
-            android:name=".activity.CreateImportProduct.GoodsImportActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.CreateImportProduct.DetailedGoodsReceivedNoteActivity"
+            android:name=".activity.StaffManagement.StaffDetailManagementActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activity.StaffManagement.StaffEditActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activity.ImportManagement.ImportCreateActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.CreateImportProduct.BillImportActivity"
+            android:name=".activity.ImportManagement.ImportBillActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.CreateImportProduct.ConfirmImportActivity"
+            android:name=".activity.ImportManagement.ImportConfirmActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.CreateImportProduct.ManagementImportActivity"
+            android:name=".activity.ImportManagement.ImportManagementActivity"
             android:exported="false"
             />
         <activity
-            android:name=".activity.SaleManagement.SaleConfirmActivity"
-            android:exported="false"
-            />
-        <activity
-            android:name=".activity.SaleManagement.SaleCreateActivity"
-            android:exported="false"
-            />
-        <activity
-            android:name=".activity.SaleManagement.SaleDetailedInvoiceActivity"
-            android:exported="false"
-            />
-        <activity
-            android:name=".activity.SaleManagement.SaleManagementActivity"
-            android:exported="false"
-            />
-
-        <activity
-            android:name=".activity.Auth.SplashActivity"
-            android:exported="true"
-            >
+                android:name=".activity.Auth.SplashActivity"
+                android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -140,6 +126,28 @@
                 />
         </provider>
 
+        <activity
+            android:name=".activity.SaleManagement.SaleManagementActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activity.SaleManagement.SaleDetailedInvoiceActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activity.SaleManagement.SaleCreateActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activity.SaleManagement.SaleConfirmActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".activity.Auth.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Auth.ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.Auth.ChangePasswordActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

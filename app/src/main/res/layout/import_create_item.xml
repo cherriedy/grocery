@@ -7,11 +7,10 @@
     android:background="@drawable/radius_4_goc"
     android:backgroundTint="@color/white"
     android:padding="16dp">
-
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/myShapeableImageView"
         android:layout_width="70dp"
         android:layout_height="70dp"
+        android:id="@+id/imageView"
         android:src="@drawable/ic_launcher_background"
         app:shapeAppearanceOverlay="@style/roundedImageStyle" />
 
@@ -19,97 +18,90 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp">
-
         <TextView
-            android:id="@+id/item_productname"
+            android:id="@+id/tvName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Bàn chải"
             android:textSize="17sp"
             android:textStyle="bold" />
 
         <TableRow
             android:layout_marginTop="7sp">
-
             <TextView
-                android:id="@+id/item_grnKey"
-                android:layout_width="59dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:id="@+id/tvProductKey"
+                android:text="SP003"
+                android:textSize="17sp"
                 android:textColor="@color/lightgray"
-                android:textSize="17sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/item_productKey"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="#615F5F"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="|  Còn:"
-                    android:textColor="#6C6C6C"
-                    android:textSize="17sp" />
-            </LinearLayout>
-
+                android:layout_marginEnd="10dp"/>
             <TextView
-                android:id="@+id/item_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#787676"
-                android:textSize="17sp" />
+                android:text="|  Còn:"
+                android:textSize="17sp"
+                android:textColor="@color/lightgray"
+                android:layout_marginEnd="5dp"/>
             <TextView
-                android:id="@+id/item_quantity1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#787676"
-                android:textSize="17sp" />
-
+                android:id="@+id/tvInventoryQuantity"
+                android:text="50"
+                android:textColor="@color/lightgray"
+                android:textSize="17sp"/>
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
 
             <ImageButton
-                android:id="@+id/btn_add"
+                android:id="@+id/btnBigPlus"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/radius_4_goc"
                 android:backgroundTint="@color/primaryColor"
-                android:src="@drawable/ic_add" />
+                android:src="@drawable/ic_add"/>
 
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/thanhTangGiamSoLuong"
+                android:layout_width="100dp"
+                android:layout_height="25dp"
+                app:cardCornerRadius="5dp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.466"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.355" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageButton
+                        android:id="@+id/btnMinus"
+                        android:layout_width="32dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:background="@color/white"
+                        android:src="@drawable/ic_minus"/>
+
+                    <EditText
+                        android:id="@+id/tvQuantity"
+                        android:layout_width="35dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@null"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:textSize="17dp"
+                        android:text="2" />
+
+                    <ImageButton
+                        android:id="@+id/btnPlus"
+                        android:layout_width="32dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        app:tint="@color/black"
+                        android:src="@drawable/ic_add" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </TableRow>
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#6C6C6C"
-            android:textSize="17sp" />
     </TableLayout>
-
-    <!-- Add buttons for increasing and decreasing quantity -->
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btn_plus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="+" />
-
-        <Button
-            android:id="@+id/btn_minus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-" />
-    </LinearLayout>
 </LinearLayout>

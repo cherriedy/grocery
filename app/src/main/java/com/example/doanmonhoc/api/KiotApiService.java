@@ -6,6 +6,7 @@ import com.example.doanmonhoc.model.DetailedInvoice;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
 import com.example.doanmonhoc.model.Invoice;
 import com.example.doanmonhoc.model.LoginResponse;
+import com.example.doanmonhoc.model.OTP;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
 import com.example.doanmonhoc.model.Staff;
@@ -123,11 +124,23 @@ public interface KiotApiService {
     @POST("login")
     Call<LoginResponse> loginUser(@Body Staff staff);
 
+    @GET("staff")
+    Call<List<Staff>> getAllStaff();
+
     @GET("staff/{id}")
     Call<Staff> getStaffById(@Path("id") long id);
 
+    @GET("staff/{email}")
+    Call<Staff> getStaffByEmail(@Path("email") String id);
+
     @PUT("staff/{id}")
     Call<Staff> updateStaff(@Path("id") long id, @Body Staff staff);
+
+    @PUT("staff/{email}")
+    Call<OTP> updateStaffByEmail(@Path("email") String email, @Body OTP otp);
+
+    @POST("verifyOTP")
+    Call<OTP> verifyOTP(@Body OTP otp);
 
     @GET("invoice")
     Call<List<Invoice>> getAllInvoice();
@@ -138,17 +151,21 @@ public interface KiotApiService {
     @POST("invoice")
     Call<Invoice> addInvoice(@Body Invoice invoice);
 
-    @GET("/detailedGoodsReceivedNote")
-    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList();
-
-    @GET("/goodsReceivedNote")
-    Call<List<GoodsReceivedNote>> getGoodsReceivedNoteList();
-
+    @GET("goodsReceivedNote")
+    Call<List<GoodsReceivedNote>> getAllGoodsReceivedNote();
 
     @GET("detailedGoodsReceivedNote/{id}")
-    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNoteList(@Path("id") int goodsReceivedNoteId);
+    Call<List<DetailedGoodsReceivedNote>> getDetailedGoodsReceivedNote(@Path("id") long goodsReceivedNoteId);
 
     @POST("goodsReceivedNote")
-    Call<GoodsReceivedNote> getcrGoodsReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
+    //Call<GoodsReceivedNote> getcrGoodsReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
 
+    Call<GoodsReceivedNote>addGoodReceivedNote(@Body GoodsReceivedNote goodsReceivedNote);
+
+    @Multipart
+    @POST("up")
+    Call<ResponseBody> uploadImage(
+            @Part MultipartBody.Part file,
+            @Part("staffId") RequestBody id
+    );
 }
