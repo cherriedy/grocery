@@ -35,14 +35,28 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/staffImage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_launcher_background"
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        app:shapeAppearanceOverlay="@style/roundedImageStyle" />
+        android:layout_marginTop="20dp">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/staffImage"
+            android:layout_width="185dp"
+            android:layout_height="175dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_launcher_background"
+            app:shapeAppearanceOverlay="@style/roundedImageStyle" />
+
+        <Button
+            android:id="@+id/btnChangeImage"
+            android:layout_width="78dp"
+            android:layout_height="38dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="50dp"
+            android:text="Đổi" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,108 +72,107 @@
             android:textStyle="bold"
             android:text="NV001"/>
     </LinearLayout>
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp">
+
         <TableRow>
             <TextView
                 android:id="@+id/staffname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
+                android:text="Họ và tên"
                 android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="Họ và tên"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
-                android:text="Thu Thao"/>
+                android:text="Thu Thao"
+                android:textSize="16dp" />
         </TableRow>
+
         <TableRow>
             <TextView
                 android:id="@+id/staffDob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
+                android:text="Ngày sinh"
                 android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="Ngày sinh" />
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/txtDob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
                 android:text="2004 - 01 -30"
-                android:focusable="false"/>
+                android:textSize="16dp"
+                android:focusable="false" />
         </TableRow>
+
         <TableRow>
-
-
             <TextView
                 android:id="@+id/staffgender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Giới tính"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
+            <RadioGroup
+                android:id="@+id/radioGroupGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
 
+                <RadioButton
+                    android:id="@+id/radioButtonMale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nam" />
 
-                    <RadioGroup
-                        android:id="@+id/radioGroupGender"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/radioButtonMale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Nam" />
-
-                        <RadioButton
-                            android:id="@+id/radioButtonFemale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Nữ" />
-                    </RadioGroup>
-
-
-
+                <RadioButton
+                    android:id="@+id/radioButtonFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nữ" />
+            </RadioGroup>
         </TableRow>
+
         <TableRow>
             <TextView
                 android:id="@+id/staffaddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Địa chỉ"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txtAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
-                android:text="Tân Bình" />
-
+                android:text="Tân Bình"
+                android:textSize="16dp" />
         </TableRow>
 
         <TableRow>
@@ -167,67 +180,67 @@
                 android:id="@+id/staffemail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Email"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txtEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
                 android:inputType="textEmailAddress"
-                android:text="thao@gmail.com" />
-
+                android:text="thao@gmail.com"
+                android:textSize="16dp" />
         </TableRow>
+
         <TableRow>
             <TextView
                 android:id="@+id/staffphone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Số điện thoại"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txtPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
-                android:text="0954848445" />
-
+                android:text="0954848445"
+                android:textSize="16dp" />
         </TableRow>
+
         <TableRow>
             <TextView
                 android:id="@+id/staffusername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Username"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtusername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:textSize="16dp"
-                android:text="Kiet" />
-
+                android:text="Kiet"
+                android:textSize="16dp" />
         </TableRow>
 
     </TableLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -236,17 +249,12 @@
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
+            android:layout_marginBottom="20dp"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
             android:background="@drawable/radius_4_goc"
-            android:text="Lưu"/>
-
-
-
+            android:text="Lưu" />
     </RelativeLayout>
-
 
 </LinearLayout>

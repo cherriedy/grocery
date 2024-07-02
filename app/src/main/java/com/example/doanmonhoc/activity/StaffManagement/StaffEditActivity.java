@@ -1,7 +1,9 @@
 package com.example.doanmonhoc.activity.StaffManagement;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,17 +26,27 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.doanmonhoc.R;
+import com.example.doanmonhoc.api.CloudinaryService;
 import com.example.doanmonhoc.api.KiotApiService;
+import com.example.doanmonhoc.model.CloudinaryUploadResponse;
 import com.example.doanmonhoc.model.Staff;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.apache.commons.io.IOUtils;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,10 +59,12 @@ public class StaffEditActivity extends AppCompatActivity {
     private Button btnUpdate;
     private ImageButton btnCancel;
     private ImageView staffImage;
+    private Button btnImage;
 
     private long staffId;
     private Staff staff;
     private Gson gson;
+    private Uri selectedImageUri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +86,7 @@ public class StaffEditActivity extends AppCompatActivity {
         staffImage = findViewById(R.id.staffImage);
         btnUpdate = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
+        btnImage = findViewById(R.id.btnChangeImage);
 
         staffId = getIntent().getLongExtra("staffId", -1);
 
@@ -92,6 +109,7 @@ public class StaffEditActivity extends AppCompatActivity {
         });
 
         txtDob.setOnClickListener(v -> showDatePickerDialog());
+        btnImage.setOnClickListener(v -> selectImage());
 
         btnUpdate.setOnClickListener(v -> updateStaffDetails());
         btnCancel.setOnClickListener(v -> finish());
@@ -127,7 +145,6 @@ public class StaffEditActivity extends AppCompatActivity {
     }
 
     private void updateStaffDetails() {
-        // Lấy thông tin từ các EditText và RadioGroup
         String name = txtName.getText().toString().trim();
         String dob = txtDob.getText().toString().trim();
         String address = txtAddress.getText().toString().trim();
@@ -135,13 +152,11 @@ public class StaffEditActivity extends AppCompatActivity {
         String phone = txtPhone.getText().toString().trim();
         int gender = radioGroupGender.getCheckedRadioButtonId() == R.id.radioButtonMale ? 1 : 0;
 
-        // Kiểm tra các trường thông tin có trống không
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(dob) || TextUtils.isEmpty(address) || TextUtils.isEmpty(email) || TextUtils.isEmpty(phone)) {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Cập nhật thông tin nhân viên
         staff.setStaffName(name);
         staff.setAddress(address);
         staff.setStaffEmail(email);
@@ -158,52 +173,100 @@ public class StaffEditActivity extends AppCompatActivity {
             return;
         }
 
-        // Gọi API để cập nhật nhân viên
-        KiotApiService.apiService.updateStaff(staffId, staff).enqueue(new Callback<Staff>() {
+        if (selectedImageUri != null) {
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+                byte[] imageBytes = IOUtils.toByteArray(inputStream);
+                saveToCloudinary(imageBytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Failed to read image file", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            saveToDatabase(staff);
+        }
+    }
+
+    private void selectImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        activityResultLauncher.launch(intent);
+    }
+
+    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    selectedImageUri = result.getData().getData();
+                    if (selectedImageUri != null) {
+                        staffImage.setImageURI(selectedImageUri);
+                    }
+                }
+            }
+    );
+
+    private void saveToCloudinary(byte[] imageBytes) {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), imageBytes);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", "image.jpg", requestFile);
+        RequestBody uploadPreset = RequestBody.create(MediaType.parse("text/plain"), "ml_default");
+
+        CloudinaryService.apiService.uploadImage(body, uploadPreset).enqueue(new Callback<CloudinaryUploadResponse>() {
+            @Override
+            public void onResponse(Call<CloudinaryUploadResponse> call, Response<CloudinaryUploadResponse> response) {
+                if (response.isSuccessful()) {
+                    CloudinaryUploadResponse uploadResponse = response.body();
+                    if (uploadResponse != null) {
+                        String imageUrl = uploadResponse.getUrl();
+                        Toast.makeText(StaffEditActivity.this, "Cập nhật thông tin nhân viên thành công" , Toast.LENGTH_SHORT).show();
+                        staffImage.setImageURI(selectedImageUri);
+                        staff.setStaffImage(imageUrl);
+                        saveToDatabase(staff);
+                    }
+                } else {
+                    Toast.makeText(StaffEditActivity.this, "Cập nhật thông tin nhân viên thất bại", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CloudinaryUploadResponse> call, Throwable t) {
+                Toast.makeText(StaffEditActivity.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void saveToDatabase(Staff staff) {
+        KiotApiService.apiService.updateStaff(staff.getId(), staff).enqueue(new Callback<Staff>() {
             @Override
             public void onResponse(Call<Staff> call, Response<Staff> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    // Thông báo cập nhật thành công
-                    Toast.makeText(StaffEditActivity.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-
-                    // Gửi kết quả về cho StaffManagementActivity
-                    Intent resultIntent = new Intent();
-                    setResult(RESULT_OK, resultIntent);
-
-                    // Tạo intent để quay lại StaffManagementActivity và tải lại danh sách nhân viên
+                if (response.isSuccessful()) {
+                    Toast.makeText(StaffEditActivity.this, "Cập nhật thông tin nhân viên thành công", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(StaffEditActivity.this, StaffManagementActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
                 } else {
-                    // Hiển thị thông báo lỗi nếu không thành công
-                    showErrorMessage();
+                    Toast.makeText(StaffEditActivity.this, "Cập nhật thất bại", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Staff> call, Throwable t) {
-                // Hiển thị thông báo lỗi và in ra log nếu gặp lỗi trong quá trình gọi API
-                showErrorMessage();
-                t.printStackTrace();
+                Toast.makeText(StaffEditActivity.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-
     private void showDatePickerDialog() {
-        final Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                StaffEditActivity.this,
-                (view, year1, month1, dayOfMonth) -> {
-                    String selectedDate = year1 + "-" + (month1 + 1) + "-" + dayOfMonth;
-                    txtDob.setText(selectedDate);
-                },
-                year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(StaffEditActivity.this, (view, year1, month1, dayOfMonth) -> {
+            String selectedDate = year1 + "-" + (month1 + 1) + "-" + dayOfMonth;
+            txtDob.setText(selectedDate);
+        }, year, month, day);
         datePickerDialog.show();
     }
 }
