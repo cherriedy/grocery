@@ -118,4 +118,10 @@ public class ImportManagementActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadAllInvoice(); // Tải lại danh sách
+    }
 }

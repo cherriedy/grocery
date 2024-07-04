@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         editor.remove("id");
         editor.remove("Roleid");
         editor.remove("staffName");
+        editor.remove("staffImage");
         editor.apply();
 
         Toast.makeText(this, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();

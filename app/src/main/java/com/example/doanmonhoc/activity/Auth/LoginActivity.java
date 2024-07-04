@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                         long Roleid = loginResponse.getRoleid();
                         long id = loginResponse.getId();
                         String staffName = loginResponse.getStaffName();
+                        String staffImage = loginResponse.getStaffImage();
 
                         // Lưu vào SharedPreferences
                         SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
@@ -71,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putLong("id", id);
                         editor.putLong("Roleid", Roleid);
                         editor.putString("staffName", staffName);
+                        editor.putString("staffImage", staffImage);
                         editor.apply();
 
                         Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();

@@ -3,31 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="16dp"
     android:layout_marginTop="8dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginEnd="15dp"
     android:elevation="8dp"
     app:cardCornerRadius="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:background="@color/white"
+        android:padding="10dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image_item_avatar"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/CircleBorder"
-            app:srcCompat="@drawable/cat" />
+<!--        <com.google.android.material.imageview.ShapeableImageView-->
+<!--            android:id="@+id/image_item_avatar"-->
+<!--            android:layout_width="45dp"-->
+<!--            android:layout_height="45dp"-->
+<!--            android:layout_centerVertical="true"-->
+<!--            android:scaleType="centerCrop"-->
+<!--            app:shapeAppearanceOverlay="@style/CircleBorder"-->
+<!--            app:srcCompat="@drawable/cat" />-->
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:layout_toEndOf="@id/image_item_avatar"
             android:orientation="vertical">
 
             <TextView
@@ -35,6 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Samsung"
+                android:textSize="17dp"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textStyle="bold" />
 
@@ -42,6 +44,7 @@
                 android:id="@+id/text_item_key"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="15dp"
                 android:text="PR001"
                 android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
         </LinearLayout>

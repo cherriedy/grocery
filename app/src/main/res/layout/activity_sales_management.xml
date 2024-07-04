@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_changepassword"
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/layout_tren"
@@ -105,8 +107,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp"
-        android:backgroundTint="@color/bold_sky"
-        android:text="+ Tạo đơn hàng"
+        android:backgroundTint="@color/primaryColor"
+        android:text="+ Tạo hóa đơn"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>
