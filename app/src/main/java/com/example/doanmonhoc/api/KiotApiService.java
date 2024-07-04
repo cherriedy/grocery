@@ -41,7 +41,7 @@ public interface KiotApiService {
     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
     Gson gson = new GsonBuilder()
-            .setDateFormat("yyyy-MM-dd")
+            .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .create();
 
     OkHttpClient okHttpClient = new OkHttpClient.Builder()

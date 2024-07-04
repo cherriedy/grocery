@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -14,9 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.Auth.LoginActivity;
-import com.example.doanmonhoc.activity.Main.MainActivity;
 import com.example.doanmonhoc.api.KiotApiService;
-import com.example.doanmonhoc.model.ChangePasswordRequest;
 import com.example.doanmonhoc.model.Staff;
 
 import retrofit2.Call;
@@ -98,7 +95,6 @@ public class EditPasswordActivity extends AppCompatActivity {
 
         staff.setPassword(matkhaumoi1);
 
-        ChangePasswordRequest request = new ChangePasswordRequest(matkhaucu, matkhaumoi1);
         KiotApiService.apiService.updateStaff(staff.getId(), staff).enqueue(new Callback<Staff>() {
             @Override
             public void onResponse(Call<Staff> call, Response<Staff> response) {
