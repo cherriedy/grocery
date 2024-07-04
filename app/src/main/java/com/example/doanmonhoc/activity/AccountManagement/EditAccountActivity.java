@@ -166,12 +166,9 @@ public class EditAccountActivity extends AppCompatActivity {
     private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
-                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                if (result.getData() != null) {
                     selectedImageUri = result.getData().getData();
-                    if (selectedImageUri != null) {
-                        // Display selected image in imageView
-                        staffImage.setImageURI(selectedImageUri);
-                    }
+                    staffImage.setImageURI(selectedImageUri);
                 }
             });
 
@@ -237,7 +234,6 @@ public class EditAccountActivity extends AppCompatActivity {
                     if (uploadResponse != null) {
                         String imageUrl = uploadResponse.getUrl();
                         Toast.makeText(EditAccountActivity.this, "Upload thành công: " + imageUrl, Toast.LENGTH_SHORT).show();
-                        staffImage.setImageURI(selectedImageUri); // Display uploaded image in ImageView
                         staff.setStaffImage(imageUrl); // Save image URL to staff object
                         saveToDatabase(staff);
                     } else {

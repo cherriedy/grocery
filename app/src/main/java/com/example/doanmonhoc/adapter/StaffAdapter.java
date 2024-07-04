@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.StaffManagement.StaffDetailManagementActivity;
 import com.example.doanmonhoc.model.Staff;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -65,16 +66,10 @@ public class StaffAdapter extends ArrayAdapter<Staff> {
         holder.staffKey.setText(staff.getStaffKey());
         holder.staffEmail.setText(staff.getStaffEmail());
 
-        // Load image using Glide from drawable
-        String imageName = staff.getStaffImage(); // Assuming 'getStaffImage()' returns image file name
-        Resources resources = context.getResources();
-        int resourceId = resources.getIdentifier(imageName, "drawable", context.getPackageName());
 
-        Glide.with(context)
-                .load(resourceId)
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                .placeholder(R.drawable.cat)
-                .into(holder.staffImage);
+        if (staff.getStaffImage() != null) {
+            Picasso.get().load(staff.getStaffImage()).into(holder.staffImage);
+        }
 
         // Set delete button click listener
         holder.btnDelete.setOnClickListener(v -> onDeleteClickListener.onDeleteClick(staff.getId()));

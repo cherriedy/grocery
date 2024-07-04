@@ -17,6 +17,7 @@ import androidx.cardview.widget.CardView;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.model.CartItem;
 import com.example.doanmonhoc.model.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -85,9 +86,9 @@ public class SaleCreateAdapter extends BaseAdapter {
 
         Product product = list.get(position);
         holder.currentPosition = position; // Lưu vị trí hiện tại của item
-        String imageName = product.getAvatarPath();
-        int resID = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
-        holder.imageView.setImageResource(resID);
+        if (product.getAvatarPath() != null) {
+            Picasso.get().load(product.getAvatarPath()).into(holder.imageView);
+        }
 
         holder.tvName.setText(product.getProductName());
         float discountedPrice = product.getOutPrice() * (1 - product.getDiscount());
