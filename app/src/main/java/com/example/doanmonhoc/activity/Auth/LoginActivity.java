@@ -56,37 +56,36 @@ public class LoginActivity extends AppCompatActivity {
         KiotApiService.apiService.loginUser(staff).enqueue(new Callback<LoginResponse>() {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                if (response.isSuccessful() ) {
+                if (response.isSuccessful() && response.body() != null) {
                     LoginResponse loginResponse = response.body();
-                    if (loginResponse != null) {
 
-                        String message = loginResponse.getMessage();
-                        long Roleid = loginResponse.getRoleid();
-                        long id = loginResponse.getId();
-                        String staffName = loginResponse.getStaffName();
-                        String staffImage = loginResponse.getStaffImage();
+                    String message = loginResponse.getMessage();
+                    long Roleid = loginResponse.getRoleid();
+                    long id = loginResponse.getId();
+                    String staffName = loginResponse.getStaffName();
+                    String staffImage = loginResponse.getStaffImage();
 
-                        // Lưu vào SharedPreferences
-                        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putLong("id", id);
-                        editor.putLong("Roleid", Roleid);
-                        editor.putString("staffName", staffName);
-                        editor.putString("staffImage", staffImage);
-                        editor.apply();
+                    // Lưu vào SharedPreferences
+                    SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putLong("id", id);
+                    editor.putLong("Roleid", Roleid);
+                    editor.putString("staffName", staffName);
+                    editor.putString("staffImage", staffImage);
+                    editor.apply();
 
-                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
-                        Intent intent;
-                        if (Roleid == 1) {
-                            intent = new Intent(LoginActivity.this, MainActivity.class);
-                        } else {
-                            intent = new Intent(LoginActivity.this, MainActivityForStaff.class);
-                        }
-                        startActivity(intent);
-                        finish();
+                    Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
+                    Intent intent;
+                    if (Roleid == 1) {
+                        intent = new Intent(LoginActivity.this, MainActivity.class);
+                    } else {
+                        intent = new Intent(LoginActivity.this, MainActivityForStaff.class);
                     }
+                    startActivity(intent);
+                    finish();
+
                 } else {
-                    Toast.makeText(LoginActivity.this, "Sai username hoặc mật khẩu ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Sai username hoặc mật khẩu", Toast.LENGTH_SHORT).show();
                 }
             }
 

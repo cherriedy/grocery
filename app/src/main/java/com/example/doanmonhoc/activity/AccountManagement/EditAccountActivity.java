@@ -61,7 +61,6 @@ public class EditAccountActivity extends AppCompatActivity {
     private TextView txtUsername, txtMaNV;
     private Button btnBack, btnSave, btnImage;
     private Staff staff;
-    private Gson gson;
     private RadioButton radioButtonMale, radioButtonFemale;
     private ShapeableImageView staffImage;
     @Override
