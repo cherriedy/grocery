@@ -109,13 +109,19 @@
                         android:padding="18dp"
                         android:visibility="gone" />
 
-                    <androidx.constraintlayout.utils.widget.ImageFilterView
-                        android:id="@+id/image_product"
-                        android:layout_width="92dp"
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:scaleType="centerCrop"
-                        android:visibility="gone"
-                        app:srcCompat="@drawable/cat" />
+                        app:cardCornerRadius="4dp">
+
+                        <androidx.constraintlayout.utils.widget.ImageFilterView
+                            android:id="@+id/image_product"
+                            android:layout_width="92dp"
+                            android:layout_height="wrap_content"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone"
+                            app:srcCompat="@drawable/cat" />
+                    </com.google.android.material.card.MaterialCardView>
 
                 </LinearLayout>
 

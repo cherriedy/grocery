@@ -112,8 +112,10 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         mRadioButton.put(R.id.button_inStock, RADIO_BUTTON_IN_STOCK);
         mRadioButton.put(R.id.button_outStock, RADIO_BUTTON_OUT_STOCK);
 
-        handleIntent(getIntent());
+        // Lấy dữ liệu về dòng sản phẩm mới nhất.
+//        mPresenter.fetchLatestProductRow();
 
+        handleIntent(getIntent());
     }
 
     @Override
@@ -481,7 +483,6 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         if (TextUtils.isValidString(intentMode)) {
             switch (intentMode) {
                 case IntentManager.ModeParams.EXTRA_MODE_CREATE:
-                    mPresenter.getCurrentLatestProductKey();
                     // Gán onClickListener cho buttonFinish
                     binding.buttonFinish.setOnClickListener(v -> createProduct());
                     break;
@@ -781,8 +782,6 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
                     if (o.getResultCode() == Activity.RESULT_OK) {
                         Intent data = o.getData();
                         if (data != null) {
-//                            Uri uri = data.getData();
-//                            handleSelectedImages(uri);
                             mSelectedPictureUri = data.getData();
                             uploadTemporaryImage();
                         }

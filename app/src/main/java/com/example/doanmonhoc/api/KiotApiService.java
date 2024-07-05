@@ -125,8 +125,10 @@ public interface KiotApiService {
 
     @GET("staff")
     Call<List<Staff>> getAllStaff();
+
     @DELETE("staff/{id}")
     Call<Void> deleteStaff(@Path("id") long id);
+
     @GET("staff/{id}")
     Call<Staff> getStaffById(@Path("id") long id);
 
