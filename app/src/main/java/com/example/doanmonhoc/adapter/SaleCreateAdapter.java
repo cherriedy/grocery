@@ -86,7 +86,7 @@ public class SaleCreateAdapter extends BaseAdapter {
 
         Product product = list.get(position);
         holder.currentPosition = position; // Lưu vị trí hiện tại của item
-        if (product.getAvatarPath() != null) {
+        if (product.getAvatarPath() != null && !product.getAvatarPath().isEmpty()) {
             Picasso.get().load(product.getAvatarPath()).into(holder.imageView);
         }
 

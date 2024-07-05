@@ -256,7 +256,6 @@ public class EditAccountActivity extends AppCompatActivity {
             public void onResponse(Call<Staff> call, Response<Staff> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(EditAccountActivity.this, "Cập nhật thành công!", Toast.LENGTH_SHORT).show();
-                    setResult(RESULT_OK);
                     finish();
                 } else {
                     Toast.makeText(EditAccountActivity.this, "Cập nhật thất bại!", Toast.LENGTH_SHORT).show();

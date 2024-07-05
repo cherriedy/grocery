@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/actionbar"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="60dp"
         android:background="@color/primaryColor"
         android:paddingHorizontal="@dimen/padding_appbar"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,6 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/action_back"
+            android:textSize="17dp"
             android:text="Nhóm sản phẩm"
             android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
             android:textColor="@color/white"

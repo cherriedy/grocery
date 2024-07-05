@@ -16,6 +16,7 @@ import androidx.cardview.widget.CardView;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.model.CartItem;
 import com.example.doanmonhoc.model.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -77,10 +78,9 @@ public class SaleConfirmAdapter extends BaseAdapter {
 
         CartItem cartItem = list.get(position);
         Product product = cartItem.getProduct();
-        String imageName = product.getAvatarPath();
-        // Lấy ID của tài nguyên drawable từ tên ảnh
-        int resID = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
-        holder.imageView.setImageResource(resID);
+        if (product.getAvatarPath() != null) {
+            Picasso.get().load(product.getAvatarPath()).into(holder.imageView);
+        }
 
         holder.tvName.setText(product.getProductName());
         holder.tvPrice.setText(String.valueOf(cartItem.getPrice()));

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.model.CartItem;
 import com.example.doanmonhoc.model.Product;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -77,10 +78,9 @@ public class ImportConfirmAdapter extends BaseAdapter {
 
         CartItem cartItem = list.get(position);
         Product product = cartItem.getProduct();
-        String imageName = product.getAvatarPath();
-        // Lấy ID của tài nguyên drawable từ tên ảnh
-        int resID = context.getResources().getIdentifier(imageName, "drawable", context.getPackageName());
-        holder.imageView.setImageResource(resID);
+        if (product.getAvatarPath() != null) {
+            Picasso.get().load(product.getAvatarPath()).into(holder.imageView);
+        }
 
         holder.tvName.setText(product.getProductName());
         holder.tvProductKey.setText(product.getProductKey());
@@ -90,12 +90,8 @@ public class ImportConfirmAdapter extends BaseAdapter {
 
         holder.btnPlus.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.editQuantity.getText().toString());
-            if (checkProductStock(product.getId(), currentQuantity + 1)) {
-                holder.editQuantity.setText(String.valueOf(currentQuantity + 1));
-                updateCart(position, currentQuantity + 1);
-            } else {
-                Toast.makeText(context, "Số lượng tồn kho không đủ", Toast.LENGTH_SHORT).show();
-            }
+            holder.editQuantity.setText(String.valueOf(currentQuantity + 1));
+            updateCart(position, currentQuantity + 1);
         });
 
         holder.btnMinus.setOnClickListener(v -> {
@@ -110,26 +106,13 @@ public class ImportConfirmAdapter extends BaseAdapter {
         holder.editQuantity.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 int enteredQuantity = Integer.parseInt(holder.editQuantity.getText().toString());
-                if (checkProductStock(product.getId(), enteredQuantity)) {
-                    updateCart(position, enteredQuantity);
-                } else {
-                    Toast.makeText(context, "Số lượng tồn kho không đủ", Toast.LENGTH_SHORT).show();
-                }
+                updateCart(position, enteredQuantity);
+
                 return true;
             }
             return false;
         });
         return convertView;
-    }
-    private boolean checkProductStock(long productId, int requiredQuantity) {
-        // Logic để kiểm tra số lượng tồn kho
-        for (CartItem item : list) {
-            Product product = item.getProduct();
-            if (product.getId() == productId) {
-                return product.getInventoryQuantity() >= requiredQuantity;
-            }
-        }
-        return false;
     }
     private void updateCart(int position, int quantity) {
         CartItem cartItem = list.get(position);

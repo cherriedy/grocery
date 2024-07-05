@@ -44,44 +44,44 @@
 
 
 
-    <LinearLayout
-        android:id="@+id/nhomhang"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="7dp"
-        android:layout_below="@+id/layout_tren"
-        android:weightSum="5">
+<!--    <LinearLayout-->
+<!--        android:id="@+id/nhomhang"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="7dp"-->
+<!--        android:layout_below="@+id/layout_tren"-->
+<!--        android:weightSum="5">-->
 
-        <Button
-            android:id="@+id/tabAll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/radius_4_goc"
-            android:text="Tất cả"
-            android:textColor="@color/black"
-            android:textSize="14dp" />
+<!--        <Button-->
+<!--            android:id="@+id/tabAll"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="5dp"-->
+<!--            android:background="@drawable/radius_4_goc"-->
+<!--            android:text="Tất cả"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="14dp" />-->
 
-        <Button
-            android:id="@+id/tabPackage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/radius_4_goc"
-            android:text="Gói" />
+<!--        <Button-->
+<!--            android:id="@+id/tabPackage"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginEnd="5dp"-->
+<!--            android:background="@drawable/radius_4_goc"-->
+<!--            android:text="Gói" />-->
 
-        <Button
-            android:id="@+id/tabPowder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/radius_4_goc"
-            android:text="Bột"/>
-    </LinearLayout>
+<!--        <Button-->
+<!--            android:id="@+id/tabPowder"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:background="@drawable/radius_4_goc"-->
+<!--            android:text="Bột"/>-->
+<!--    </LinearLayout>-->
     <GridView
         android:id="@+id/gridView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/nhomhang"
+        android:layout_below="@+id/layout_tren"
         android:horizontalSpacing="5dp"
         android:backgroundTint="@color/backgroundColor"
         android:numColumns="3"
