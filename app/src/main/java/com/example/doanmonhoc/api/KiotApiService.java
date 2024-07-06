@@ -138,7 +138,8 @@ public interface KiotApiService {
 
     @PUT("staff/{email}")
     Call<OTP> updateStaffByEmail(@Path("email") String email, @Body OTP otp);
-
+    @POST("/staff")
+    Call<Staff> createStaff(@Body Staff staff);
     @POST("verifyOTP")
     Call<OTP> verifyOTP(@Body OTP otp);
 

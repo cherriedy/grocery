@@ -56,6 +56,7 @@ public class AccountDetailActivity extends AppCompatActivity {
 
         Button btnEdit = findViewById(R.id.btnEdit);
         btnEdit.setOnClickListener(v -> btnEditOnClick());
+
         Button btnPassword = findViewById(R.id.btnPassword);
         btnPassword.setOnClickListener(v -> btnPasswordOnClick());
 

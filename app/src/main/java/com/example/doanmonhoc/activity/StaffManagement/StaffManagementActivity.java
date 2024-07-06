@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,13 +24,14 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 public class StaffManagementActivity extends AppCompatActivity implements StaffAdapter.OnDeleteClickListener {
 
     private ListView listView;
     private List<Staff> staffList;
     private StaffAdapter adapter;
     private ImageButton back_btn;
+    private ImageButton add_btn;
+    private EditText etSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +40,31 @@ public class StaffManagementActivity extends AppCompatActivity implements StaffA
 
         listView = findViewById(R.id.listViewStaff);
         back_btn = findViewById(R.id.back_btn);
+        add_btn = findViewById(R.id.add_button);
+        etSearch = findViewById(R.id.etSearch); // Thêm EditText để nhập từ khóa tìm kiếm
 
         fetchStaffList();
 
         back_btn.setOnClickListener(v -> finish());
+        add_btn.setOnClickListener(v -> goToAddStaff());
+
+        // Xử lý sự kiện khi người dùng nhập từ khóa tìm kiếm
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (adapter != null) {
+                    adapter.filter(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
 
     @Override
@@ -100,9 +126,8 @@ public class StaffManagementActivity extends AppCompatActivity implements StaffA
         });
     }
 
-    private void showStaffDetail(long staffId) {
-        Intent intent = new Intent(StaffManagementActivity.this, StaffDetailManagementActivity.class);
-        intent.putExtra("staffId", staffId);
+    private void goToAddStaff() {
+        Intent intent = new Intent(StaffManagementActivity.this, AddStaffActivity.class);
         startActivity(intent);
     }
 }
