@@ -2,7 +2,6 @@ package com.example.doanmonhoc.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.StaffManagement.StaffDetailManagementActivity;
 import com.example.doanmonhoc.model.Staff;
@@ -66,9 +62,10 @@ public class StaffAdapter extends ArrayAdapter<Staff> {
         holder.staffKey.setText(staff.getStaffKey());
         holder.staffEmail.setText(staff.getStaffEmail());
 
-
         if (staff.getStaffImage() != null) {
             Picasso.get().load(staff.getStaffImage()).into(holder.staffImage);
+        } else {
+            holder.staffImage.setImageResource(R.drawable.staff);
         }
 
         // Set delete button click listener

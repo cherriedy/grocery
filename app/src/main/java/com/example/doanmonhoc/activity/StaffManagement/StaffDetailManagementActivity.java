@@ -24,10 +24,6 @@ import com.example.doanmonhoc.model.Staff;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class StaffDetailManagementActivity extends AppCompatActivity {
     private TextView txtMaNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername;
     private ImageView staffImage;
@@ -58,9 +54,9 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
         staffId = getIntent().getLongExtra("staffId", -1);
 
         // Gọi API để lấy thông tin nhân viên theo ID
-        KiotApiService.apiService.getStaffById(staffId).enqueue(new Callback<Staff>() {
+        KiotApiService.apiService.getStaffById(staffId).enqueue(new retrofit2.Callback<Staff>() {
             @Override
-            public void onResponse(Call<Staff> call, Response<Staff> response) {
+            public void onResponse(retrofit2.Call<Staff> call, retrofit2.Response<Staff> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     Staff staff = response.body();
                     displayStaffDetails(staff);
@@ -70,7 +66,7 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Staff> call, Throwable t) {
+            public void onFailure(retrofit2.Call<Staff> call, Throwable t) {
                 // Xử lý khi gọi API không thành công
                 showErrorMessage();
                 t.printStackTrace();
@@ -106,7 +102,7 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
     }
 
     private void displayStaffDetails(Staff staff) {
-        // Hiển thị thông tin nhân viên trên giao diện
+        // Display text details
         txtMaNV.setText(staff.getStaffKey());
         txtName.setText(staff.getStaffName());
 
@@ -119,20 +115,24 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
         txtPhone.setText(staff.getStaffPhone());
         txtUsername.setText(staff.getUsername());
 
-        // Hiển thị ảnh nhân viên nếu có
-        String imageName = staff.getStaffImage(); // Assuming 'getStaffImage()' returns image file name
-        int resourceId = getResources().getIdentifier(imageName, "drawable", getPackageName());
-
-        Glide.with(this)
-                .load(resourceId)
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                .into(staffImage);
+        // Load image from drawable if staff image URL is null
+        if (staff.getStaffImage() != null) {
+            Glide.with(this)
+                    .load(staff.getStaffImage())
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .into(staffImage);
+        } else {
+            Glide.with(this)
+                    .load(R.drawable.staff) // Placeholder image from drawable
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .into(staffImage);
+        }
     }
 
     private void deleteStaff() {
-        KiotApiService.apiService.deleteStaff(staffId).enqueue(new Callback<Void>() {
+        KiotApiService.apiService.deleteStaff(staffId).enqueue(new retrofit2.Callback<Void>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(retrofit2.Call<Void> call, retrofit2.Response<Void> response) {
                 if (response.isSuccessful()) {
                     Toast.makeText(StaffDetailManagementActivity.this, "Xóa nhân viên thành công", Toast.LENGTH_SHORT).show();
                     // Trở về StaffManagementActivity và làm mới danh sách nhân viên
@@ -146,7 +146,7 @@ public class StaffDetailManagementActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(retrofit2.Call<Void> call, Throwable t) {
                 Toast.makeText(StaffDetailManagementActivity.this, "Xảy ra lỗi khi xóa nhân viên", Toast.LENGTH_SHORT).show();
                 t.printStackTrace();
             }

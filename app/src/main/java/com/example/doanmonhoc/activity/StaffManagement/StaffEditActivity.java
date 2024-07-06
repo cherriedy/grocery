@@ -56,10 +56,9 @@ public class StaffEditActivity extends AppCompatActivity {
     private TextView txtUsername, txtMaNV;
     private RadioGroup radioGroupGender;
     private RadioButton radioButtonMale, radioButtonFemale;
-    private Button btnUpdate;
+    private Button btnUpdate,btnImage;
     private ImageButton btnCancel;
     private ImageView staffImage;
-    private Button btnImage;
 
     private long staffId;
     private Staff staff;
@@ -131,13 +130,22 @@ public class StaffEditActivity extends AppCompatActivity {
         txtPhone.setText(staff.getStaffPhone());
         txtUsername.setText(staff.getUsername());
 
-        String imageName = staff.getStaffImage();
-        int resourceId = getResources().getIdentifier(imageName, "drawable", getPackageName());
-        Glide.with(this)
-                .load(resourceId)
-                .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                .into(staffImage);
+        if (!TextUtils.isEmpty(staff.getStaffImage())) {
+            // Load image from URL using Glide
+            Glide.with(this)
+                    .load(staff.getStaffImage())
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .into(staffImage);
+        } else {
+            // Load placeholder image from drawable
+            Glide.with(this)
+                    .load(R.drawable.staff) // Replace with your default image resource
+                    .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                    .into(staffImage);
+        }
     }
+
+
 
     private void showErrorMessage() {
         Toast.makeText(this, "Không tìm thấy thông tin nhân viên", Toast.LENGTH_SHORT).show();

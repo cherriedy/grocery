@@ -20,13 +20,13 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 public class StaffManagementActivity extends AppCompatActivity implements StaffAdapter.OnDeleteClickListener {
 
     private ListView listView;
     private List<Staff> staffList;
     private StaffAdapter adapter;
     private ImageButton back_btn;
+    private ImageButton add_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,10 +35,12 @@ public class StaffManagementActivity extends AppCompatActivity implements StaffA
 
         listView = findViewById(R.id.listViewStaff);
         back_btn = findViewById(R.id.back_btn);
+        add_btn = findViewById(R.id.add_button);
 
         fetchStaffList();
 
         back_btn.setOnClickListener(v -> finish());
+        add_btn.setOnClickListener(v -> goToAddStaff());
     }
 
     @Override
@@ -100,9 +102,8 @@ public class StaffManagementActivity extends AppCompatActivity implements StaffA
         });
     }
 
-    private void showStaffDetail(long staffId) {
-        Intent intent = new Intent(StaffManagementActivity.this, StaffDetailManagementActivity.class);
-        intent.putExtra("staffId", staffId);
+    private void goToAddStaff() {
+        Intent intent = new Intent(StaffManagementActivity.this, AddStaffActivity.class);
         startActivity(intent);
     }
 }
