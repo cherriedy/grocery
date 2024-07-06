@@ -2,6 +2,7 @@ package com.example.doanmonhoc.activity.BrandManagement;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ import com.example.doanmonhoc.databinding.ActivityProductBrandBinding;
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.presenter.BrandManagement.BrandManagePresenter;
 import com.example.doanmonhoc.utils.IntentManager;
+import com.example.doanmonhoc.utils.PrefsUtils;
 
 import java.util.List;
 
@@ -43,6 +45,7 @@ public class BrandManagementActivity extends AppCompatActivity implements Produc
     private ProductBrandRecyclerViewAdapter mBrandAdapter;
     private BrandManagePresenter mPresenter;
     private ActivityResultLauncher<Intent> getActivityResultOk;
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +68,10 @@ public class BrandManagementActivity extends AppCompatActivity implements Produc
 
         mPresenter = new BrandManagePresenter(this);
         mBrandAdapter = new ProductBrandRecyclerViewAdapter(this);
+        mPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         mBrandAdapter.setOnItemClickListener(this);
-        binding.listProductBrand.setLayoutManager(
-                new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        );
-        mPresenter.getProductBrandList();
+        binding.listProductBrand.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         getActivityResultOk = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), o -> {
@@ -83,6 +84,13 @@ public class BrandManagementActivity extends AppCompatActivity implements Produc
         );
 
         binding.actionBack.setOnClickListener(v -> onBackPressed());
+        handleFeatureByRole();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getProductBrandList();
     }
 
     @Override
@@ -143,5 +151,11 @@ public class BrandManagementActivity extends AppCompatActivity implements Produc
             intent.putExtra(IntentManager.ModeParams.EXTRA_MODE, IntentManager.ModeParams.EXTRA_MODE_CREATE);
             getActivityResultOk.launch(intent);
         });
+    }
+
+    private void handleFeatureByRole() {
+        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+            binding.fabExpandMenu.setVisibility(View.GONE);
+        }
     }
 }

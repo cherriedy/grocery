@@ -2,6 +2,7 @@ package com.example.doanmonhoc.activity.ProductManagement;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -28,10 +29,12 @@ import com.example.doanmonhoc.databinding.ActivityProductManagementBinding;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.presenter.ProductManagament.ProductManagePresenter;
 import com.example.doanmonhoc.utils.IntentManager;
+import com.example.doanmonhoc.utils.PrefsUtils;
 
 import java.util.List;
 
-public class ProductManagementActivity extends AppCompatActivity implements ProductManageContract.View, ProductRecyclerViewAdapter.OnItemClickListener {
+public class ProductManagementActivity extends AppCompatActivity implements ProductManageContract.View,
+        ProductRecyclerViewAdapter.OnItemClickListener {
     public static final String EXTRA_PRODUCT = "EXTRA_PRODUCT";
 
     private ActivityProductManagementBinding binding;
@@ -43,6 +46,7 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     private ProductManagePresenter mPresenter;
     private ProductRecyclerViewAdapter mProductAdapter;
     private ActivityResultLauncher<Intent> getActivityResultOk;
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +80,20 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
 
         mPresenter = new ProductManagePresenter(this);
         mProductAdapter = new ProductRecyclerViewAdapter(this, this);
+        mPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         // Thiết lập LayoutManager
         binding.listProduct.setLayoutManager(
                 new LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         );
+        binding.listProduct.getRecycledViewPool().setMaxRecycledViews(0, 0);
 
+        handleFeatureByRole();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         // Gọi callback tới presenter, lấy dữ liệu từ api
         mPresenter.getProductList();
     }
@@ -113,10 +125,10 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     }
 
     private void initializeAnimation() {
-        mAnimFromBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.from_bottom_fab);
-        mAnimToBottomFab = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.to_bottom_fab);
-        mAnimRotateClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_clock_wise);
-        mAnimRotateAntiClockWise = AnimationUtils.loadAnimation(ProductManagementActivity.this, R.anim.rotate_anti_clock_wise);
+        mAnimFromBottomFab = AnimationUtils.loadAnimation(this, R.anim.from_bottom_fab);
+        mAnimToBottomFab = AnimationUtils.loadAnimation(this, R.anim.to_bottom_fab);
+        mAnimRotateClockWise = AnimationUtils.loadAnimation(this, R.anim.rotate_clock_wise);
+        mAnimRotateAntiClockWise = AnimationUtils.loadAnimation(this, R.anim.rotate_anti_clock_wise);
     }
 
     private void closeMenu() {
@@ -150,4 +162,11 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
             getActivityResultOk.launch(intent);
         });
     }
+
+    private void handleFeatureByRole() {
+        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+            binding.fabExpandMenu.setVisibility(View.GONE);
+        }
+    }
+
 }

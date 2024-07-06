@@ -31,17 +31,13 @@ public interface AddOrEditProductContract {
     }
 
     interface View {
-        void getBrandAutoCompleteDataSuccessfully(List<Brand> brandList);
+        void getBrandListSuccessfully(List<Brand> brandList);
 
-        void getBrandAutoCompleteDataFail();
+        void getBrandListDataFail();
 
-        void getProductGroupAutoCompleteDataSuccessfully(List<ProductGroup> productGroupList);
+        void getTypeListSuccessfully(List<ProductGroup> productGroupList);
 
-        void getProductGroupAutoCompleteDataFail();
-
-        void getBrandItemId();
-
-        void getProductGroupItemId();
+        void getTypeListFail();
 
         void createProduct();
 

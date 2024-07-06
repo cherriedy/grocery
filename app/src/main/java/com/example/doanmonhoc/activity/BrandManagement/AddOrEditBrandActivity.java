@@ -1,7 +1,9 @@
 package com.example.doanmonhoc.activity.BrandManagement;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.presenter.BrandManagement.AddOrEditBrandPresenter;
 import com.example.doanmonhoc.utils.IntentManager;
 import com.example.doanmonhoc.utils.LoadingDialog;
+import com.example.doanmonhoc.utils.PrefsUtils;
 import com.example.doanmonhoc.utils.TextUtils;
 import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -37,6 +40,7 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
     private LoadingDialog mLoadingDialog;
     private Brand mExtraBrand;
     private BottomSheetDialog mConfirmDeletionDialog;
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +62,12 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
         mLoadingDialog = new LoadingDialog(this);
         mPresenter = new AddOrEditBrandPresenter(this);
         mConfirmDeletionDialog = new BottomSheetDialog(this);
+        mPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         mConfirmDeletionDialog.setCancelable(false);
 
         handleIntent(getIntent());
+        handleFeatureByRole();
 
         validateBrandName();
 
@@ -229,5 +235,17 @@ public class AddOrEditBrandActivity extends AppCompatActivity implements AddOrEd
         }
         binding.textLayoutProductBrandName.setError(null);
         return false;
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void handleFeatureByRole() {
+        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+            binding.textActionBarHeader.setText("Chi tiết nhãn hàng");
+
+            binding.layoutActionButton.setVisibility(View.GONE);
+
+            TextUtils.disableEditText(binding.textProductBrandName);
+            TextUtils.disableEditText(binding.textProductBrandDes);
+        }
     }
 }

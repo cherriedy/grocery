@@ -20,7 +20,8 @@ import retrofit2.http.Part;
 public interface CloudinaryService {
     final String BASE_URL = "https://api.cloudinary.com/";
 
-    HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    HttpLoggingInterceptor httpLoggingInterceptor =
+            new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
     Gson gson = new GsonBuilder()
             .setDateFormat("yyyy-MM-dd")
@@ -40,6 +41,7 @@ public interface CloudinaryService {
             .build();
 
     CloudinaryService apiService = retrofit.create(CloudinaryService.class);
+
     @Multipart
     @POST("v1_1/dpuldllty/image/upload")
     Call<CloudinaryUploadResponse> uploadImage(@Part MultipartBody.Part file, @Part("upload_preset") RequestBody uploadPreset);
