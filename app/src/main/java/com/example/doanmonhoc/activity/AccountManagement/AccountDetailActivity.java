@@ -55,10 +55,16 @@ public class AccountDetailActivity extends AppCompatActivity {
         txtUsername = findViewById(R.id.txtUsername);
 
         Button btnEdit = findViewById(R.id.btnEdit);
-        btnEdit.setOnClickListener(v -> btnEditOnClick());
+        btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(AccountDetailActivity.this, EditAccountActivity.class);
+            startActivity(intent);
+        });
 
         Button btnPassword = findViewById(R.id.btnPassword);
-        btnPassword.setOnClickListener(v -> btnPasswordOnClick());
+        btnPassword.setOnClickListener(v -> {
+            Intent intent = new Intent(AccountDetailActivity.this, EditPasswordActivity.class);
+            startActivity(intent);
+        });
 
         loadAccountDetail();
     }
@@ -103,16 +109,6 @@ public class AccountDetailActivity extends AppCompatActivity {
             }
         });
     }
-    private void btnPasswordOnClick() {
-        Intent intent = new Intent(AccountDetailActivity.this, EditPasswordActivity.class);
-        startActivity(intent);
-    }
-
-    private void btnEditOnClick() {
-        Intent intent = new Intent(AccountDetailActivity.this, EditAccountActivity.class);
-        startActivity(intent);
-    }
-
     @Override
     protected void onResume() {
         super.onResume();

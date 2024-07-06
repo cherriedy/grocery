@@ -26,7 +26,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private Button btnSendOTP, btnTiepTuc;
     private EditText editEmail, editOTP;
-    private String otp, email;
+    private String generatedOTP, email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +54,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             } else {
                 verifyOTP(email, enteredOTP);
             }
-//            Intent intent = new Intent(ForgotPasswordActivity.this, ChangePasswordActivity.class);
-//            intent.putExtra("email","2254810125@vaa.edu.vn");
-//            startActivity(intent);
         });
     }
     private void checkEmail(String email) {
@@ -65,10 +62,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onResponse(Call<Staff> call, Response<Staff> response) {
                 if (response.isSuccessful()  && response.body() != null) {
                     // Generate OTP
-                    ForgotPasswordActivity.this.otp = String.valueOf((int) (Math.random() * 9000) + 1000);
-                    OTP otp = new OTP(ForgotPasswordActivity.this.otp);
+                    generatedOTP = String.valueOf((int) (Math.random() * 9000) + 1000);
+                    OTP otp = new OTP(generatedOTP);
                     updateOTP(email, otp);
-                    sendOTP(email, ForgotPasswordActivity.this.otp);
                 }else{
                     Toast.makeText(ForgotPasswordActivity.this, "Email không khớp", Toast.LENGTH_SHORT).show();
                 }
@@ -85,7 +81,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<OTP> call, Response<OTP> response) {
                 if (response.isSuccessful() && response.body() != null) {
-
+                    sendOTP(email, String.valueOf(otp));
                 } else {
                     Toast.makeText(ForgotPasswordActivity.this, "Failed update OTP trong db.", Toast.LENGTH_SHORT).show();
                 }
