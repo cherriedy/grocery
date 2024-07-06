@@ -184,7 +184,7 @@ public class GroupManagementActivity extends AppCompatActivity implements GroupM
     }
 
     private void handleFeatureByRole() {
-        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+        if (PrefsUtils.getRoleId(mPrefs) == 2) {
             binding.fabExpandMenu.setVisibility(View.GONE);
         }
     }

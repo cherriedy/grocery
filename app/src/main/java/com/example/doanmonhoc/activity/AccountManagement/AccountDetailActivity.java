@@ -1,34 +1,34 @@
 package com.example.doanmonhoc.activity.AccountManagement;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.Staff;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import java.util.Locale;
 
 public class AccountDetailActivity extends AppCompatActivity {
     private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername;
@@ -40,6 +40,14 @@ public class AccountDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_account_detail);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
 
         ImageButton btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
@@ -62,6 +70,7 @@ public class AccountDetailActivity extends AppCompatActivity {
 
         loadAccountDetail();
     }
+
     private void loadAccountDetail() {
         SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
         long staffId = sharedPreferences.getLong("id", -1);
@@ -103,6 +112,7 @@ public class AccountDetailActivity extends AppCompatActivity {
             }
         });
     }
+
     private void btnPasswordOnClick() {
         Intent intent = new Intent(AccountDetailActivity.this, EditPasswordActivity.class);
         startActivity(intent);

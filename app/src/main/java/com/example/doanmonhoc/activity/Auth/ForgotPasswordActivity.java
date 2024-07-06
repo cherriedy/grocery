@@ -1,24 +1,32 @@
 package com.example.doanmonhoc.activity.Auth;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.api.MailjetApiService;
+import com.example.doanmonhoc.model.OTP;
 import com.example.doanmonhoc.model.OTPRequest;
 import com.example.doanmonhoc.model.OTPResponse;
-import com.example.doanmonhoc.model.OTP;
 import com.example.doanmonhoc.model.Staff;
+
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import java.util.Collections;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     public static final String API_KEY = "bc134a134d9bee09055d5d51b68ae499";
@@ -32,6 +40,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgotpassword);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
 
         editEmail = findViewById(R.id.editPhoneNumber);
         editOTP = findViewById(R.id.editOTP);
@@ -59,17 +75,18 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 //            startActivity(intent);
         });
     }
+
     private void checkEmail(String email) {
         KiotApiService.apiService.getStaffByEmail(email).enqueue(new Callback<Staff>() {
             @Override
             public void onResponse(Call<Staff> call, Response<Staff> response) {
-                if (response.isSuccessful()  && response.body() != null) {
+                if (response.isSuccessful() && response.body() != null) {
                     // Generate OTP
                     ForgotPasswordActivity.this.otp = String.valueOf((int) (Math.random() * 9000) + 1000);
                     OTP otp = new OTP(ForgotPasswordActivity.this.otp);
                     updateOTP(email, otp);
                     sendOTP(email, ForgotPasswordActivity.this.otp);
-                }else{
+                } else {
                     Toast.makeText(ForgotPasswordActivity.this, "Email không khớp", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -80,7 +97,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
         });
     }
-    private void updateOTP (String email, OTP otp){
+
+    private void updateOTP(String email, OTP otp) {
         KiotApiService.apiService.updateStaffByEmail(email, otp).enqueue(new Callback<OTP>() {
             @Override
             public void onResponse(Call<OTP> call, Response<OTP> response) {
@@ -97,6 +115,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
         });
     }
+
     private void sendOTP(String email, String otp) {
         // Send OTP via email using Mailjet
         OTPRequest.From from = new OTPRequest.From("yennhisociuu2004@gmail.com", "7Eleven - Cửa hàng tiện lợi");
@@ -134,7 +153,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void verifyOTP(String email, String enteredOTP) {
-        OTP otp = new OTP(email,enteredOTP);
+        OTP otp = new OTP(email, enteredOTP);
         KiotApiService.apiService.verifyOTP(otp).enqueue(new Callback<OTP>() {
             @Override
             public void onResponse(Call<OTP> call, Response<OTP> response) {
@@ -143,7 +162,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                     if (otp1.isSuccess()) {
                         Toast.makeText(ForgotPasswordActivity.this, "OTP xác thực thành công!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(ForgotPasswordActivity.this, ChangePasswordActivity.class);
-                        intent.putExtra("email",otp1.getEmail());
+                        intent.putExtra("email", otp1.getEmail());
                         startActivity(intent);
                         finish();
                     } else {

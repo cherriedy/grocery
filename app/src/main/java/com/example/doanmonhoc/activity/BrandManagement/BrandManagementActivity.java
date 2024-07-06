@@ -154,7 +154,7 @@ public class BrandManagementActivity extends AppCompatActivity implements Produc
     }
 
     private void handleFeatureByRole() {
-        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+        if (PrefsUtils.getRoleId(mPrefs) == 2) {
             binding.fabExpandMenu.setVisibility(View.GONE);
         }
     }
