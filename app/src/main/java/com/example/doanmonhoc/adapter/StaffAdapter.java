@@ -18,11 +18,14 @@ import com.example.doanmonhoc.activity.StaffManagement.StaffDetailManagementActi
 import com.example.doanmonhoc.model.Staff;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class StaffAdapter extends ArrayAdapter<Staff> {
 
     private List<Staff> staffList;
+    private List<Staff> originalStaffList; // Danh sách nhân viên gốc
     private Context context;
     private OnDeleteClickListener onDeleteClickListener;
 
@@ -30,6 +33,7 @@ public class StaffAdapter extends ArrayAdapter<Staff> {
         super(context, 0, staffList);
         this.context = context;
         this.staffList = staffList;
+        this.originalStaffList = new ArrayList<>(staffList); // Sao chép danh sách nhân viên gốc
         this.onDeleteClickListener = onDeleteClickListener;
     }
 
@@ -86,5 +90,21 @@ public class StaffAdapter extends ArrayAdapter<Staff> {
         TextView staffName, staffKey, staffEmail;
         ImageView staffImage;
         ImageButton btnDelete;
+    }
+
+    // Phương thức tìm kiếm nhân viên theo tên
+    public void filter(String searchText) {
+        searchText = searchText.toLowerCase(Locale.getDefault());
+        staffList.clear();
+        if (searchText.length() == 0) {
+            staffList.addAll(originalStaffList);
+        } else {
+            for (Staff staff : originalStaffList) {
+                if (staff.getStaffName().toLowerCase(Locale.getDefault()).contains(searchText)) {
+                    staffList.add(staff);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 }
