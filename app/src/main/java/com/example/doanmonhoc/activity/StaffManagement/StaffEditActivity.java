@@ -1,6 +1,7 @@
 package com.example.doanmonhoc.activity.StaffManagement;
 
 import android.app.Activity;
+import android.util.Patterns;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -165,6 +166,21 @@ public class StaffEditActivity extends AppCompatActivity {
             return;
         }
 
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (phone.length() != 10) {
+            Toast.makeText(this, "Số điện thoại phải có 10 số", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!Patterns.PHONE.matcher(phone).matches()) {
+            Toast.makeText(this, "Số điện thoại không hợp lệ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         staff.setStaffName(name);
         staff.setAddress(address);
         staff.setStaffEmail(email);
@@ -188,7 +204,7 @@ public class StaffEditActivity extends AppCompatActivity {
                 saveToCloudinary(imageBytes);
             } catch (IOException e) {
                 e.printStackTrace();
-                Toast.makeText(this, "Failed to read image file", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Không thể đọc tệp ảnh", Toast.LENGTH_SHORT).show();
             }
         } else {
             saveToDatabase(staff);
