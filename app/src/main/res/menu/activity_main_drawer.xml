@@ -12,7 +12,7 @@
         <item
             android:id="@+id/nav_forget_password"
             android:icon="@drawable/ic_password_star"
-            android:title="Quên mật khẩu" />
+            android:title="Đổi mật khẩu" />
 
         <item
             android:id="@+id/nav_logout"
