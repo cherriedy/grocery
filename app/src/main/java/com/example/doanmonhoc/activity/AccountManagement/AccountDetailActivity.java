@@ -31,18 +31,10 @@ import retrofit2.Response;
 import java.util.Locale;
 
 public class AccountDetailActivity extends AppCompatActivity {
-    private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername, txtImage;
-    private Gson gson;
+    private TextView maNV, txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone, txtUsername;
     private ShapeableImageView staffImage;
 
-    // Khởi tạo ActivityResultLauncher
-    private final ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    loadAccountDetail();
-                }
-            });
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,20 +52,16 @@ public class AccountDetailActivity extends AppCompatActivity {
         txtEmail = findViewById(R.id.txtEmail);
         txtPhone = findViewById(R.id.txtPhone);
         staffImage = findViewById(R.id.staffImage);
-        txtImage = findViewById(R.id.txtImage);
         txtUsername = findViewById(R.id.txtUsername);
-        gson = new Gson();
 
         Button btnEdit = findViewById(R.id.btnEdit);
         btnEdit.setOnClickListener(v -> btnEditOnClick());
+
         Button btnPassword = findViewById(R.id.btnPassword);
         btnPassword.setOnClickListener(v -> btnPasswordOnClick());
 
         loadAccountDetail();
     }
-
-
-
     private void loadAccountDetail() {
         SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
         long staffId = sharedPreferences.getLong("id", -1);
@@ -122,6 +110,12 @@ public class AccountDetailActivity extends AppCompatActivity {
 
     private void btnEditOnClick() {
         Intent intent = new Intent(AccountDetailActivity.this, EditAccountActivity.class);
-        activityResultLauncher.launch(intent);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadAccountDetail(); // Tải lại danh sách
     }
 }

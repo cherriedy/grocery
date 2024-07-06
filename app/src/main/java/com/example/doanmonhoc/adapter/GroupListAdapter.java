@@ -43,7 +43,7 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
         }
 
         try {
-            holder.mGroupAvatar.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.cat));
+//            holder.mGroupAvatar.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.cat));
             holder.mGroupName.setText(currentGroup.getProductGroupName());
             holder.mGroupKey.setText(currentGroup.getProductGroupKey());
             holder.itemView.setOnClickListener(v -> {
@@ -65,13 +65,13 @@ public class GroupListAdapter extends RecyclerView.Adapter<GroupListAdapter.Grou
     }
 
     public static class GroupItemViewHolder extends RecyclerView.ViewHolder {
-        private final ShapeableImageView mGroupAvatar;
+//        private final ShapeableImageView mGroupAvatar;
         private final TextView mGroupName;
         private final TextView mGroupKey;
 
         public GroupItemViewHolder(@NonNull View itemView) {
             super(itemView);
-            mGroupAvatar = itemView.findViewById(R.id.image_item_avatar);
+//            mGroupAvatar = itemView.findViewById(R.id.image_item_avatar);
             mGroupName = itemView.findViewById(R.id.text_item_name);
             mGroupKey = itemView.findViewById(R.id.text_item_key);
         }

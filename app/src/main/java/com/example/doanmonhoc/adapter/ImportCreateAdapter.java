@@ -92,7 +92,7 @@ public class ImportCreateAdapter extends BaseAdapter {
 
         Product product = list.get(position);
         holder.currentPosition = position; // Lưu vị trí hiện tại của item
-        if (product.getAvatarPath() != null) {
+        if (product.getAvatarPath() != null && !product.getAvatarPath().isEmpty()) {
             Picasso.get().load(product.getAvatarPath()).into(holder.imageView);
         }
 
@@ -107,32 +107,20 @@ public class ImportCreateAdapter extends BaseAdapter {
         holder.btnBigPlus.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.editQuantity.getText().toString());
             if (currentQuantity == 0) {
-                if (checkProductStock(product.getId(), 1)) {
-                    holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
-                    holder.btnBigPlus.setVisibility(View.GONE);
-                    holder.editQuantity.setText(String.valueOf(1));
-                    updateCart(position, 1);
-                } else {
-                    Toast.makeText(context, "Số lượng tồn kho không đủ", Toast.LENGTH_SHORT).show();
-                }
+                holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
+                holder.btnBigPlus.setVisibility(View.GONE);
+                holder.editQuantity.setText(String.valueOf(1));
+                updateCart(position, 1);
             } else {
-                if (checkProductStock(product.getId(), currentQuantity + 1)) {
-                    holder.editQuantity.setText(String.valueOf(currentQuantity + 1));
-                    updateCart(position, currentQuantity + 1);
-                } else {
-                    Toast.makeText(context, "Số lượng tồn kho không đủ", Toast.LENGTH_SHORT).show();
-                }
+                holder.editQuantity.setText(String.valueOf(currentQuantity + 1));
+                updateCart(position, currentQuantity + 1);
             }
         });
 
         holder.btnPlus.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.editQuantity.getText().toString());
-            if (checkProductStock(product.getId(), currentQuantity + 1)) {
-                holder.editQuantity.setText(String.valueOf(currentQuantity + 1));
-                updateCart(position, currentQuantity + 1);
-            } else {
-                Toast.makeText(context, "Số lượng tồn kho không đủ", Toast.LENGTH_SHORT).show();
-            }
+            holder.editQuantity.setText(String.valueOf(currentQuantity + 1));
+            updateCart(position, currentQuantity + 1);
         });
 
         holder.btnMinus.setOnClickListener(v -> {
@@ -151,11 +139,8 @@ public class ImportCreateAdapter extends BaseAdapter {
         holder.editQuantity.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 int enteredQuantity = Integer.parseInt(holder.editQuantity.getText().toString());
-                if (checkProductStock(product.getId(), enteredQuantity)) {
-                    updateCart(position, enteredQuantity);
-                } else {
-                    Toast.makeText(context, "Số lượng tồn kho không đủ", Toast.LENGTH_SHORT).show();
-                }
+                updateCart(position, enteredQuantity);
+
                 return true;
             }
             return false;
@@ -182,15 +167,7 @@ public class ImportCreateAdapter extends BaseAdapter {
         }
     }
 
-    private boolean checkProductStock(long productId, int requiredQuantity) {
-        // Logic để kiểm tra số lượng tồn kho
-        for (Product product : list) {
-            if (product.getId() == productId) {
-                return product.getInventoryQuantity() >= requiredQuantity;
-            }
-        }
-        return false;
-    }
+
 
     private void updateCart(int position, int quantity) {
         Product product = list.get(position);

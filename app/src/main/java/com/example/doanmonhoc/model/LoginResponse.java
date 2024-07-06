@@ -5,6 +5,7 @@ public class LoginResponse {
     private long id;
     private long Roleid;
     private String staffName;
+    private String staffImage;
 
     public String getStaffName() {
         return staffName;
@@ -24,5 +25,13 @@ public class LoginResponse {
 
     public long getRoleid() {
         return Roleid;
+    }
+
+    public String getStaffImage() {
+        return staffImage;
+    }
+
+    public void setStaffImage(String staffImage) {
+        this.staffImage = staffImage;
     }
 }

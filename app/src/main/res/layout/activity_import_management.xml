@@ -120,7 +120,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="15dp"
-        android:backgroundTint="@color/bold_sky"
+        android:backgroundTint="@color/primaryColor"
         android:text="+ Tạo nhập hàng"
         android:textColor="@android:color/white"/>
 
