@@ -120,37 +120,62 @@ public class AddStaffActivity extends AppCompatActivity {
             return;
         }
 
-        Staff newStaff = new Staff();
-        newStaff.setStaffName(name);
-        newStaff.setStaffPhone(phone);
-        newStaff.setStaffEmail(email);
-        newStaff.setAddress(address);
-        newStaff.setUsername(username);
-        newStaff.setPassword(password);
-        newStaff.setStaffGender((byte) gender);
+        // Check if email already exists
+        checkEmailExists(email, name, dob, phone, address, username, password, gender);
+    }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        try {
-            Date date = sdf.parse(dob);
-            newStaff.setStaffDob(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Định dạng ngày không hợp lệ", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void checkEmailExists(String email, String name, String dob, String phone, String address, String username, String password, int gender) {
+        KiotApiService.apiService.getStaffByEmail(email).enqueue(new Callback<Staff>() {
+            @Override
+            public void onResponse(Call<Staff> call, Response<Staff> response) {
+                if (response.isSuccessful()) {
+                    Staff existingStaff = response.body();
+                    if (existingStaff != null) {
+                        Toast.makeText(AddStaffActivity.this, "Email đã tồn tại", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // Email does not exist, proceed to save
+                        Staff newStaff = new Staff();
+                        newStaff.setStaffName(name);
+                        newStaff.setStaffPhone(phone);
+                        newStaff.setStaffEmail(email);
+                        newStaff.setAddress(address);
+                        newStaff.setUsername(username);
+                        newStaff.setPassword(password);
+                        newStaff.setStaffGender((byte) gender);
 
-        if (selectedImageUri != null) {
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
-                byte[] imageBytes = IOUtils.toByteArray(inputStream);
-                saveToCloudinary(imageBytes, newStaff);
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "Failed to read image file", Toast.LENGTH_SHORT).show();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                        try {
+                            Date date = sdf.parse(dob);
+                            newStaff.setStaffDob(date);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                            Toast.makeText(AddStaffActivity.this, "Định dạng ngày không hợp lệ", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (selectedImageUri != null) {
+                            try {
+                                InputStream inputStream = getContentResolver().openInputStream(selectedImageUri);
+                                byte[] imageBytes = IOUtils.toByteArray(inputStream);
+                                saveToCloudinary(imageBytes, newStaff);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                Toast.makeText(AddStaffActivity.this, "Failed to read image file", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            saveToDatabase(newStaff);
+                        }
+                    }
+                } else {
+                    Toast.makeText(AddStaffActivity.this, "Lỗi khi kiểm tra email", Toast.LENGTH_SHORT).show();
+                }
             }
-        } else {
-            saveToDatabase(newStaff);
-        }
+
+            @Override
+            public void onFailure(Call<Staff> call, Throwable t) {
+                Toast.makeText(AddStaffActivity.this, "Lỗi: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void selectImage() {
