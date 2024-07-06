@@ -1,7 +1,9 @@
 package com.example.doanmonhoc.utils;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.Log;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -33,5 +35,14 @@ public final class TextUtils {
                 header.setTextColor(ContextCompat.getColor(context, R.color.text_title));
             }
         });
+    }
+
+    public static void disableEditText(EditText editText) {
+        editText.setFocusable(false);
+        editText.setEnabled(false);
+        editText.setCursorVisible(false);
+        editText.setKeyListener(null);
+        editText.setBackgroundColor(Color.TRANSPARENT);
+        editText.setTextColor(Color.BLACK);
     }
 }

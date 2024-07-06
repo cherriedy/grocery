@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.model.Product;
+import com.example.doanmonhoc.utils.PicassoHelper;
+import com.example.doanmonhoc.utils.TextUtils;
+import com.squareup.picasso.Callback;
 
 import java.util.List;
 
@@ -19,6 +24,7 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     private final Context context;
     private final OnItemClickListener onItemClickListener;
     private List<Product> productList;              // Lưu data để binding
+
     public ProductRecyclerViewAdapter(Context context, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.onItemClickListener = onItemClickListener;
@@ -43,9 +49,9 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull ProductItemViewHolder holder, int position) {
-        // Lấy đối tượng product tương ứng với vị trí dòng (row) hiện tại trong list
-        Product product = productList.get(position);
-        if (product == null) {
+        // Lấy đối tượng currentProduct tương ứng với vị trí dòng (row) hiện tại trong list
+        Product currentProduct = productList.get(position);
+        if (currentProduct == null) {
             return;
         }
 
@@ -56,13 +62,36 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         }
 
         // Gán dữ liệu các view trong layout
-        holder.productName.setText(product.getProductName());
-        holder.productPrice.setText(String.valueOf(product.getOutPrice() + " đ"));
-        holder.productQuantity.setText(String.valueOf(product.getActualQuantity()));
+        holder.productName.setText(currentProduct.getProductName());
+        holder.productPrice.setText(currentProduct.getOutPrice() + " đ");
+        holder.productQuantity.setText(String.valueOf(currentProduct.getActualQuantity()));
+
+        String imagePath = currentProduct.getAvatarPath();
+        if (!TextUtils.isValidString(imagePath)) {
+            onFetchingImageFail(holder);
+        } else {
+            holder.productAvatar.setTag(imagePath);
+
+            PicassoHelper.getPicassoInstance(context)
+                    .load(imagePath)
+                    .into(holder.productAvatar, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            if (holder.productAvatar.getTag().equals(imagePath)) {
+                                onFetchingImageSuccess(holder);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            onFetchingImageFail(holder);
+                        }
+                    });
+        }
 
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(product);
+                onItemClickListener.onItemClick(currentProduct);
             }
         });
     }
@@ -76,19 +105,32 @@ public class ProductRecyclerViewAdapter extends RecyclerView.Adapter<ProductRecy
         return 0;
     }
 
+    private void onFetchingImageSuccess(ProductItemViewHolder holder) {
+        holder.progressBar.setVisibility(View.GONE);
+        holder.productAvatar.setVisibility(View.VISIBLE);
+    }
+
+    private void onFetchingImageFail(ProductItemViewHolder holder) {
+        holder.productAvatar.setImageResource(R.drawable.img_no_image);
+        holder.progressBar.setVisibility(View.GONE);
+        holder.productAvatar.setVisibility(View.VISIBLE);
+    }
+
     public interface OnItemClickListener {
         void onItemClick(Product product);
     }
 
     public static class ProductItemViewHolder extends RecyclerView.ViewHolder {
-        //        private final ImageView productAvatar;
+        private final ProgressBar progressBar;
+        private final ImageView productAvatar;
         private final TextView productName;
         private final TextView productPrice;
         private final TextView productQuantity;
 
         public ProductItemViewHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
-//            productAvatar = itemView.findViewById(R.id.product_avatar);
+            progressBar = itemView.findViewById(R.id.progress_bar);
+            productAvatar = itemView.findViewById(R.id.image_avatar);
             productName = itemView.findViewById(R.id.text_name);
             productPrice = itemView.findViewById(R.id.text_price);
             productQuantity = itemView.findViewById(R.id.text_quantity);

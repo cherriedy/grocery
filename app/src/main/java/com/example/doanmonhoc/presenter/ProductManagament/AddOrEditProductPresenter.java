@@ -45,40 +45,52 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
         fetchLatestProduct();
     }
 
-    public void getBrandList() {
-        KiotApiService.apiService.getBrandList().enqueue(new Callback<List<Brand>>() {
-            @Override
-            public void onResponse(Call<List<Brand>> call, Response<List<Brand>> response) {
-                if (response.isSuccessful()) {
-                    mBrandList = response.body();
-                    mView.getBrandAutoCompleteDataSuccessfully(mBrandList);
-                } else {
-                    mView.getBrandAutoCompleteDataFail();
-                }
-            }
+    public List<Brand> brandList() {
+        return mBrandList;
+    }
 
-            @Override
-            public void onFailure(Call<List<Brand>> call, Throwable throwable) {
-                mView.getBrandAutoCompleteDataFail();
-            }
-        });
+    public void getBrandList() {
+        if (!mBrandList.isEmpty()) {
+            mView.getBrandListSuccessfully(mBrandList);
+        } else {
+            KiotApiService.apiService.getBrandList().enqueue(new Callback<List<Brand>>() {
+                @Override
+                public void onResponse(Call<List<Brand>> call, Response<List<Brand>> response) {
+                    if (response.isSuccessful()) {
+                        mBrandList = response.body();
+                        mView.getBrandListSuccessfully(mBrandList);
+                    } else {
+                        mView.getBrandListDataFail();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Brand>> call, Throwable throwable) {
+                    mView.getBrandListDataFail();
+                }
+            });
+        }
     }
 
     public void getProductGroupList() {
-        KiotApiService.apiService.getProductGroupList().enqueue(new Callback<List<ProductGroup>>() {
-            @Override
-            public void onResponse(Call<List<ProductGroup>> call, Response<List<ProductGroup>> response) {
-                if (response.isSuccessful()) {
-                    mGroupList = response.body();
-                    mView.getProductGroupAutoCompleteDataSuccessfully(mGroupList);
+        if (!mGroupList.isEmpty()) {
+            mView.getTypeListSuccessfully(mGroupList);
+        } else {
+            KiotApiService.apiService.getProductGroupList().enqueue(new Callback<List<ProductGroup>>() {
+                @Override
+                public void onResponse(Call<List<ProductGroup>> call, Response<List<ProductGroup>> response) {
+                    if (response.isSuccessful()) {
+                        mGroupList.addAll(response.body());
+                        mView.getTypeListSuccessfully(mGroupList);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<ProductGroup>> call, Throwable throwable) {
-                mView.getProductGroupAutoCompleteDataFail();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<ProductGroup>> call, Throwable throwable) {
+                    mView.getTypeListFail();
+                }
+            });
+        }
     }
 
     public void handleCreateProduct(Map<String, Object> productCreationRequest) {

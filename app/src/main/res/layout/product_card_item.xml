@@ -15,20 +15,37 @@
         android:layout_height="match_parent"
         android:padding="8dp">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/image_avatar"
-            android:layout_width="@dimen/product_avatar_on_list"
-            android:layout_height="@dimen/product_avatar_on_list"
-            android:layout_centerVertical="true"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/maggi" />
+        <LinearLayout
+            android:id="@+id/layout_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="@dimen/product_avatar_on_list"
+                android:layout_height="@dimen/product_avatar_on_list"
+                android:indeterminate="true"
+                android:indeterminateTint="@color/primaryColor"
+                android:padding="16dp" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/image_avatar"
+                android:layout_width="@dimen/product_avatar_on_list"
+                android:layout_height="@dimen/product_avatar_on_list"
+                android:layout_centerVertical="true"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                app:srcCompat="@drawable/maggi" />
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:layout_toEndOf="@id/image_avatar"
+            android:layout_toEndOf="@id/layout_image"
             android:orientation="vertical">
 
             <TextView

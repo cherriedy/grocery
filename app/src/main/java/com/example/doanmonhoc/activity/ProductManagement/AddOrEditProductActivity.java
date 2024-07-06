@@ -1,6 +1,7 @@
 package com.example.doanmonhoc.activity.ProductManagement;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.AdapterView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,9 +30,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.adapter.BrandAutoCompleteAdapter;
 import com.example.doanmonhoc.adapter.BrandSpinnerAdapter;
-import com.example.doanmonhoc.adapter.TypeAutoCompleteAdapter;
+import com.example.doanmonhoc.adapter.TypeSpinnerAdapter;
 import com.example.doanmonhoc.contract.ProductManagement.AddOrEditProductContract;
 import com.example.doanmonhoc.databinding.ActivityAddProductBinding;
 import com.example.doanmonhoc.model.Brand;
@@ -44,12 +44,13 @@ import com.example.doanmonhoc.utils.IntentManager;
 import com.example.doanmonhoc.utils.LoadingDialog;
 import com.example.doanmonhoc.utils.NumberUtils;
 import com.example.doanmonhoc.utils.PermissionManager;
+import com.example.doanmonhoc.utils.PicassoHelper;
+import com.example.doanmonhoc.utils.PrefsUtils;
 import com.example.doanmonhoc.utils.TextUtils;
 import com.example.doanmonhoc.utils.validation.TextWatcherValidation;
 import com.example.doanmonhoc.utils.validation.ValidationUtils;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
-import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -57,29 +58,27 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 public class AddOrEditProductActivity extends AppCompatActivity implements AddOrEditProductContract.View {
     public static final int RADIO_BUTTON_IN_STOCK = 0;
     public static final int RADIO_BUTTON_OUT_STOCK = 1;
-    private static final String TAG = "AddProductActivity";
+    private static final String TAG = AddOrEditProductActivity.class.getSimpleName();
 
     private ActivityAddProductBinding binding;
-    private String intentMode;
-    private int brandClickItemId = 1;
-    private int productGroupClickItemId = 1;
+    private String mIntentMode;
+    private List<Brand> mBrandList;
+    private List<ProductGroup> mTypeList;
     private AddOrEditProductPresenter mPresenter;
     private LoadingDialog mLoadingDialog;
     private Map<Integer, Integer> mRadioButton;
     private Product mExtraProduct;
     private BrandSpinnerAdapter mBrandAdapter;
+    private TypeSpinnerAdapter mTypeAdapter;
     private BottomSheetDialog mConfirmDeletionDialog;
     private ActivityResultLauncher<Intent> mOpenGalleryLauncher;
     private ActivityResultLauncher<Uri> mTakePictureLauncher;
     private Uri mSelectedPictureUri;
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +98,11 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         mRadioButton = new HashMap<>();
         mLoadingDialog = new LoadingDialog(this);
         mBrandAdapter = new BrandSpinnerAdapter(this);
+        mTypeAdapter = new TypeSpinnerAdapter(this);
         mPresenter = new AddOrEditProductPresenter(this);
         mConfirmDeletionDialog = new BottomSheetDialog(this);
         mSelectedPictureUri = PermissionManager.createUriForTakePicture(this);
+        mPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         registerOpenGalleryLauncher();
         registerTakePictureLauncher();
@@ -112,21 +113,16 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         mRadioButton.put(R.id.button_inStock, RADIO_BUTTON_IN_STOCK);
         mRadioButton.put(R.id.button_outStock, RADIO_BUTTON_OUT_STOCK);
 
-        // Lấy dữ liệu về dòng sản phẩm mới nhất.
-//        mPresenter.fetchLatestProductRow();
-
         handleIntent(getIntent());
+        handleFeatureByRole();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Lấy dữ liệu từ database hiển thị lên AutoComplete
+        // Lấy dữ liệu từ database hiển thị lên Spinner
         mPresenter.getBrandList();
         mPresenter.getProductGroupList();
-        // Lấy id của item trong AutoComplete theo database
-        getBrandItemId();
-        getProductGroupItemId();
     }
 
     @Override
@@ -143,13 +139,18 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         float inPrice = NumberUtils.parseFloatOrDefault(inPriceText);
         float discount = NumberUtils.parseFloatOrDefault(discountText);
 
+        long selectedBrandItemId = binding.spinnerBrand.getSelectedItemId();
+        long selectedTypeItemId = binding.spinnerType.getSelectedItemId();
+        long selectedBrand = mBrandList.get((int) selectedBrandItemId).getId();
+        long selectedType = mTypeList.get((int) selectedTypeItemId).getId();
+
         Product product = new Product();
         product.setProductName(nameText);
         product.setOutPrice(outPrice);
         product.setProductNote(noteText);
         product.setDescription(descriptionText);
-        product.setProductBrandId(brandClickItemId);
-        product.setProductGroupId(productGroupClickItemId);
+        product.setProductBrandId(selectedBrand);
+        product.setProductGroupId(selectedType);
 
         product.setStatus((byte) 1);
         if (binding.buttonOutStock.isSelected()) {
@@ -200,14 +201,19 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         float discount = NumberUtils.parseFloatOrDefault(discountText);
         int quantity = NumberUtils.parseIntegerOrDefault(quantityText);
 
+        long selectedBrandItemId = binding.spinnerBrand.getSelectedItemId();
+        long selectedTypeItemId = binding.spinnerType.getSelectedItemId();
+        long selectedBrand = mBrandList.get((int) selectedBrandItemId).getId();
+        long selectedType = mTypeList.get((int) selectedTypeItemId).getId();
+
         Product product = new Product();
         product.setProductKey(mPresenter.generateLatestProductKey());
         product.setProductName(nameText);
         product.setOutPrice(outPrice);
         product.setProductNote(noteText);
         product.setDescription(descriptionText);
-        product.setProductBrandId(brandClickItemId);
-        product.setProductGroupId(productGroupClickItemId);
+        product.setProductBrandId(selectedBrand);
+        product.setProductGroupId(selectedType);
         product.setActualQuantity(quantity);
 
         GoodsReceivedNote goodsReceivedNote = new GoodsReceivedNote();
@@ -254,59 +260,40 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
     }
 
     @Override
-    public void getBrandAutoCompleteDataSuccessfully(List<Brand> brandList) {
+    public void getBrandListSuccessfully(List<Brand> brandList) {
         if (brandList != null) {
-            BrandAutoCompleteAdapter adapter = new BrandAutoCompleteAdapter(AddOrEditProductActivity.this, R.layout.dropdown_item, brandList);
-//            binding.autoCompleteBrand.setAdapter(adapter);
-            // TEST SPINNER
-            Log.d(TAG, "getBrandAutoCompleteDataSuccessfully: " + brandList.isEmpty());
+            mBrandList = brandList;
             mBrandAdapter.setData(brandList);
-            Log.d(TAG, "getBrandAutoCompleteDataSuccessfully: " + mBrandAdapter.getData());
             binding.spinnerBrand.setAdapter(mBrandAdapter);
+            if (mIntentMode.equals(IntentManager.ModeParams.EXTRA_MODE_EDIT)) {
+                setSelectedBrand(mExtraProduct.getProductBrandId());
+            }
         } else {
             Toast.makeText(AddOrEditProductActivity.this, "Không có dữ liệu nhãn hàng", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void getBrandAutoCompleteDataFail() {
+    public void getBrandListDataFail() {
         Toast.makeText(AddOrEditProductActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void getProductGroupAutoCompleteDataSuccessfully(List<ProductGroup> productGroupList) {
+    public void getTypeListSuccessfully(List<ProductGroup> productGroupList) {
         if (productGroupList != null) {
-            TypeAutoCompleteAdapter adapter = new TypeAutoCompleteAdapter(AddOrEditProductActivity.this, R.layout.dropdown_item, productGroupList);
-            binding.autoCompleteType.setAdapter(adapter);
+            mTypeList = productGroupList;
+            mTypeAdapter.setData(productGroupList);
+            binding.spinnerType.setAdapter(mTypeAdapter);
+            if (mIntentMode.equals(IntentManager.ModeParams.EXTRA_MODE_EDIT)) {
+                setSelectedType(mExtraProduct.getProductGroupId());
+            }
         } else {
             Toast.makeText(AddOrEditProductActivity.this, "Không có dữ liệu", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void getBrandItemId() {
-//        binding.autoCompleteBrand.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, android.view.View view, int position, long id) {
-//                Brand selectedBrand = (Brand) parent.getItemAtPosition(position);
-//                brandClickItemId = selectedBrand.getId();
-//            }
-//        });
-    }
-
-    @Override
-    public void getProductGroupItemId() {
-        binding.autoCompleteType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, android.view.View view, int position, long id) {
-                ProductGroup selectedProductGroup = (ProductGroup) parent.getItemAtPosition(position);
-                productGroupClickItemId = selectedProductGroup.getId();
-            }
-        });
-    }
-
-    @Override
-    public void getProductGroupAutoCompleteDataFail() {
+    public void getTypeListFail() {
         Toast.makeText(AddOrEditProductActivity.this, "Lỗi hiển thị", Toast.LENGTH_SHORT).show();
     }
 
@@ -331,8 +318,6 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         binding.textProductOutPrice.setText(String.valueOf(product.getOutPrice()));
         binding.textProductDescription.setText(product.getDescription());
         binding.textProductQuantity.setText(String.valueOf(product.getActualQuantity()));
-
-        setSelectionBrand(product.getProductBrandId());
 
         if (product.getStatus() == (byte) 1) {
             binding.buttonInStock.setSelected(true);
@@ -371,26 +356,12 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         }
 
         new Thread(() -> {
-//        String imagePaths = product.getAvatarPath();
-            String imagePaths = "https://images.pexels.com/photos/3230214/pexels-photo-3230214.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-
-            HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-            loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS);
-
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                    .readTimeout(60, TimeUnit.SECONDS)
-                    .connectTimeout(60, TimeUnit.SECONDS)
-                    .retryOnConnectionFailure(true)
-                    .addInterceptor(loggingInterceptor)
-                    .build();
-
-            Picasso picasso = new Picasso.Builder(this)
-                    .downloader(new OkHttp3Downloader(okHttpClient))
-                    .build();
+            String imagePaths = product.getAvatarPath();
 
             runOnUiThread(() -> {
+                binding.progressBarImage.setVisibility(View.VISIBLE);
                 if (TextUtils.isValidString(imagePaths)) {
-                    picasso.load(imagePaths)
+                    PicassoHelper.getPicassoInstance(this).load(imagePaths)
                             .into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -407,7 +378,6 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
                                 @Override
                                 public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                    binding.progressBarImage.setVisibility(View.VISIBLE);
                                 }
                             });
                 }
@@ -479,9 +449,9 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
     }
 
     private void handleIntent(Intent intent) {
-        intentMode = intent.getStringExtra(IntentManager.ModeParams.EXTRA_MODE);
-        if (TextUtils.isValidString(intentMode)) {
-            switch (intentMode) {
+        mIntentMode = intent.getStringExtra(IntentManager.ModeParams.EXTRA_MODE);
+        if (TextUtils.isValidString(mIntentMode)) {
+            switch (mIntentMode) {
                 case IntentManager.ModeParams.EXTRA_MODE_CREATE:
                     // Gán onClickListener cho buttonFinish
                     binding.buttonFinish.setOnClickListener(v -> createProduct());
@@ -552,8 +522,6 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
     private void registerProductValidation() {
         validateProductName();
         validateOutPrice();
-        validateProductBrand();
-        validateProductType();
         validateDescription();
     }
 
@@ -649,75 +617,78 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         }
     }
 
-    private boolean handleValidateProductBrand() {
-//        String brandText = binding.autoCompleteBrand.getText().toString().trim();
-//        if (!brandText.isEmpty()) {
-//            binding.textLayoutAutoCompleteBrand.setError(null);
-//            return true;
-//        }
-//        binding.textLayoutAutoCompleteBrand.setError(getString(R.string.msg_product_brand_requirement));
-//        return false;
-        return true;
-    }
+    private void setSelectedBrand(long id) {
+        int n = mBrandList.size();
+        int fMinus2 = 0;
+        int fMinus1 = 1;
+        int fCurrent = fMinus2 + fMinus1;
 
-    private void validateProductBrand() {
-//        binding.autoCompleteBrand.setOnFocusChangeListener((v, hasFocus) -> {
-//            if (!hasFocus) {
-//                handleValidateProductBrand();
-//            }
-//        });
-//
-//        binding.autoCompleteBrand.addTextChangedListener(new TextWatcherValidation() {
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                handleValidateProductBrand();
-//            }
-//        });
-    }
-
-    private boolean handleValidateProductType() {
-        String typeText = binding.autoCompleteType.getText().toString().trim();
-        if (!typeText.isEmpty()) {
-            binding.textLayoutAutoCompleteType.setError(null);
-            return true;
+        while (fCurrent < n) {
+            fMinus2 = fMinus1;
+            fMinus1 = fCurrent;
+            fCurrent = fMinus2 + fMinus1;
         }
-        binding.textLayoutAutoCompleteType.setError(getString(R.string.msg_product_type_requirement));
-        return false;
+
+        int offset = -1;
+        while (fCurrent > 1) {
+            int i = Math.min(offset + fMinus2, n - 1);
+            Brand currentBrand = mBrandList.get(i);
+
+            if (currentBrand.getId() < id) {
+                fCurrent = fMinus1;
+                fMinus1 = fMinus2;
+                fMinus2 = fCurrent - fMinus1;
+                offset = i;
+            } else if (currentBrand.getId() > id) {
+                fCurrent = fMinus2;
+                fMinus1 = fMinus1 - fMinus2;
+                fMinus2 = fCurrent - fMinus1;
+            } else {
+                binding.spinnerBrand.setSelection(i);
+                return;
+            }
+        }
+
+        if (fMinus1 == 1 && mBrandList.get(offset + 1).getId() == id) {
+            binding.spinnerBrand.setSelection(offset + 1);
+        }
     }
 
-    private void validateProductType() {
-        binding.autoCompleteType.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                handleValidateProductType();
-            }
-        });
+    private void setSelectedType(long id) {
+        int n = mTypeList.size();
+        int fMinus2 = 0;
+        int fMinus1 = 1;
+        int fCurrent = fMinus2 + fMinus1;
 
-        binding.autoCompleteType.addTextChangedListener(new TextWatcherValidation() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                handleValidateProductType();
-            }
-        });
-    }
+        while (fCurrent < n) {
+            fMinus2 = fMinus1;
+            fMinus1 = fCurrent;
+            fCurrent = fMinus2 + fMinus1;
+        }
 
-    private void setSelectionBrand(long id) {
-//        List<Brand> brandList = brandSpinnerAdapter.getData();
-//        BrandSpinnerAdapter adpater = (BrandSpinnerAdapter) binding.spinnerBrand.getAdapter();
-//        List<Brand> brandList = adpater.getData();
-//        Log.d(TAG, "setSelectionBrand: " + brandList);
-//        try {
-//            if (!brandList.isEmpty()) {
-//                for (int i = 0; i < brandList.size(); i++) {
-//                    Brand currentBrand = brandList.get(i);
-//                    if (currentBrand.getId() == id) {
-//                        binding.spinnerBrand.setSelection(i);
-//                        return;
-//                    }
-//                }
-//            }
-//        } catch (NullPointerException e) {
-//            Log.e(TAG, "setSelectionBrand: brandList bị null");
-//        }
+        int offset = -1;
+        while (fCurrent > 1) {
+            int i = Math.min(offset + fMinus2, n - 1);
+            ProductGroup currentType = mTypeList.get(i);
+
+            if (currentType.getId() < id) {
+                fCurrent = fMinus1;
+                fMinus1 = fMinus2;
+                fMinus2 = fCurrent - fMinus1;
+                offset = i;
+            } else if (currentType.getId() > id) {
+                fCurrent = fMinus2;
+                fMinus1 = fMinus1 - fMinus2;
+                fMinus2 = fCurrent - fMinus1;
+            } else {
+                binding.spinnerType.setSelection(i);
+                return;
+            }
+        }
+
+        if (fMinus1 == 1 && mTypeList.get(offset + 1).getId() == id) {
+            binding.spinnerType.setSelection(offset + 1);
+        }
     }
 
     private void onClickRequestGalleryPermission() {
@@ -803,4 +774,32 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
                 }
         );
     }
+
+    @SuppressLint("SetTextI18n")
+    private void handleFeatureByRole() {
+        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+            binding.textActionBarHeader.setText("Chi tiết sản phẩm");
+
+            binding.layoutActionButton.setVisibility(View.GONE);
+            binding.layoutPhotoButton.setVisibility(View.GONE);
+
+            TextUtils.disableEditText(binding.textProductName);
+            TextUtils.disableEditText(binding.textProductOutPrice);
+            TextUtils.disableEditText(binding.textProductInPrice);
+            TextUtils.disableEditText(binding.textProductDiscount);
+            TextUtils.disableEditText(binding.textProductQuantity);
+            TextUtils.disableEditText(binding.textProductBarcode);
+            TextUtils.disableEditText(binding.textProductDescription);
+            TextUtils.disableEditText(binding.textProductNote);
+
+            binding.spinnerBrand.setEnabled(false);
+            binding.spinnerType.setEnabled(false);
+
+            for (int i = 0; i < binding.radioGroupStock.getChildCount(); i++) {
+                RadioButton child = (RadioButton) binding.radioGroupStock.getChildAt(i);
+                child.setEnabled(false);
+            }
+        }
+    }
+
 }

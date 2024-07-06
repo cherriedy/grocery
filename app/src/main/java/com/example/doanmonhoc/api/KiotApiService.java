@@ -36,7 +36,8 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface KiotApiService {
-    String BASE_URL = "http://cherrapi.onlinewebshop.net";
+//    String BASE_URL = "http://cherrapi.onlinewebshop.net";
+    String BASE_URL = "https://cherrapi.azurewebsites.net";
 
     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 

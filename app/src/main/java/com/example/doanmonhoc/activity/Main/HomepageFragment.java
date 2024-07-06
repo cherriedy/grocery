@@ -112,7 +112,6 @@ public class HomepageFragment extends Fragment {
             } else if (position == BottomSheetShortcutAdapter.SHORTCUT_PRODUCT_TYPE) {
                 startActivity(new Intent(getContext(), GroupManagementActivity.class));
             }
-
         }
     }
 }

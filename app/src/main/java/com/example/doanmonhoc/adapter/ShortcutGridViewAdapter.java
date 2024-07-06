@@ -17,19 +17,19 @@ import com.google.android.material.imageview.ShapeableImageView;
 import java.util.List;
 
 public class ShortcutGridViewAdapter extends BaseAdapter {
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
+    public static final int SHORTCUT_PRODUCT = 0;
+    public static final int SHORTCUT_REPORT = 1;
+    public static final int SHORTCUT_ORDER = 2;
+    public static final int SHORTCUT_INVENTORY = 3;
+    public static final int SHORTCUT_STAFF = 4;
+    public static final int SHORTCUT_MORE = 5;
+    public static final int SHORTCUT_BRAND = 6;
+    public static final int SHORTCUT_TYPE = 7;
 
     private final Context context;
+
     private List<Shortcut> shortcutList;
     private OnItemClickListener onItemClickListener;
-    public static int SHORTCUT_PRODUCT = 0;
-    public static int SHORTCUT_REPORT = 1;
-    public static int SHORTCUT_ORDER = 2;
-    public static int SHORTCUT_INVENTORY = 3;
-    public static int SHORTCUT_STAFF = 4;
-    public static int SHORTCUT_MORE = 5;
 
     public ShortcutGridViewAdapter(Context context) {
         this.context = context;
@@ -86,5 +86,9 @@ public class ShortcutGridViewAdapter extends BaseAdapter {
             textShortcutName.setText("<NULL>");
         }
         return convertView;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 }

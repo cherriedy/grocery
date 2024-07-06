@@ -3,11 +3,14 @@ package com.example.doanmonhoc.activity.Main;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,18 +24,26 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.AccountManagement.AccountDetailActivity;
+import com.example.doanmonhoc.activity.AccountManagement.EditPasswordActivity;
 import com.example.doanmonhoc.activity.Auth.LoginActivity;
 import com.example.doanmonhoc.databinding.ActivityMainBinding;
+import com.example.doanmonhoc.utils.PicassoHelper;
+import com.example.doanmonhoc.utils.TextUtils;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = AppCompatActivity.class.getSimpleName();
 
     private ActivityMainBinding binding;
-    private SharedPreferences mPerfs;
+    private SharedPreferences mPrefs;
     private String mAccountName;
-    private String mAccountRole;
+    private int mAccountRoleId;
+    private String mAccountRoleName;
+    private String mAccountAvatar;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -51,13 +62,20 @@ public class MainActivity extends AppCompatActivity {
 
         binding.appBar.imageAvatarToggle.setOnClickListener(v -> binding.main.open());
 
-        mPerfs = getSharedPreferences("myPrefs", MODE_PRIVATE);
+        mPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
         getAccountInformation();
         setNavigationHeader();
         setAppbarText();
 
-        replaceFragment(new HomepageFragment());
         handleNavigationView();
+        switch (mAccountRoleId) {
+            case 1:
+                replaceFragment(new HomepageFragment());
+                break;
+            case 2:
+                replaceFragment(new StaffHomepageFragment());
+                break;
+        }
     }
 
     @Override
@@ -97,18 +115,23 @@ public class MainActivity extends AppCompatActivity {
         binding.navigationView.setNavigationItemSelectedListener(item -> {
             Map<Integer, Integer> navigationItem = new HashMap<>();
             navigationItem.put(R.id.nav_account_setting, 0);
-            navigationItem.put(R.id.nav_logout, 1);
-            try {
-                Integer currentItemId = navigationItem.get(item.getItemId());
+            navigationItem.put(R.id.nav_forget_password, 1);
+            navigationItem.put(R.id.nav_logout, 2);
+
+            Integer currentItemId = navigationItem.get(item.getItemId());
+            if (currentItemId != null) {
                 switch (currentItemId) {
                     case 0:
                         startActivity(new Intent(this, AccountDetailActivity.class));
                         break;
                     case 1:
+                        startActivity(new Intent(this, EditPasswordActivity.class));
+                        break;
+                    case 2:
                         logout();
                         break;
                 }
-            } catch (Exception e) {
+            } else {
                 binding.main.close();
                 return false;
             }
@@ -118,13 +141,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getAccountInformation() {
-        mAccountName = mPerfs.getString("staffName", "NULL");
-        switch ((int) mPerfs.getLong("Roleid", 1)) {
+        mAccountAvatar = mPrefs.getString("staffImage", "");
+        mAccountName = mPrefs.getString("staffName", "");
+        switch (mAccountRoleId = (int) mPrefs.getLong("Roleid", 1)) {
             case 1:
-                mAccountRole = "Quản trị viên";
+                mAccountRoleName = "Quản trị viên";
                 break;
             case 2:
-                mAccountRole = "Nhân viên";
+                mAccountRoleName = "Nhân viên";
                 break;
         }
     }
@@ -136,13 +160,39 @@ public class MainActivity extends AppCompatActivity {
 
         TextView textAccountName = navigationView.findViewById(R.id.text_name);
         TextView textAccountRole = navigationView.findViewById(R.id.text_role);
+        ImageView imageAccountAvatar = navigationView.findViewById(R.id.image_avatar);
         textAccountName.setText(mAccountName);
-        textAccountRole.setText(mAccountRole);
+        textAccountRole.setText(mAccountRoleName);
+
+        if (TextUtils.isValidString(mAccountAvatar)) {
+            PicassoHelper.getPicassoInstance(this)
+                    .load(mAccountAvatar)
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            imageAccountAvatar.setImageBitmap(bitmap);
+                            binding.appBar.imageAvatarToggle.setImageBitmap(bitmap);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+                            imageAccountAvatar.setImageResource(R.drawable.img_no_image);
+                            binding.appBar.imageAvatarToggle.setImageResource(R.drawable.img_no_image);
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                            imageAccountAvatar.setImageResource(R.drawable.img_no_image);
+                            binding.appBar.imageAvatarToggle.setImageResource(R.drawable.img_no_image);
+                        }
+                    });
+        }
+
         binding.navigationView.addHeaderView(navigationView);
     }
 
     private void setAppbarText() {
         binding.appBar.textName.setText(mAccountName);
-        binding.appBar.textRole.setText(mAccountRole);
+        binding.appBar.textRole.setText(mAccountRoleName);
     }
 }
