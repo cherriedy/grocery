@@ -36,7 +36,8 @@ import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 public interface KiotApiService {
-    String BASE_URL = "http://cherrapi.onlinewebshop.net";
+//    String BASE_URL = "http://cherrapi.onlinewebshop.net";
+    String BASE_URL = "https://cherrapi.azurewebsites.net";
 
     HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -125,8 +126,10 @@ public interface KiotApiService {
 
     @GET("staff")
     Call<List<Staff>> getAllStaff();
+
     @DELETE("staff/{id}")
     Call<Void> deleteStaff(@Path("id") long id);
+
     @GET("staff/{id}")
     Call<Staff> getStaffById(@Path("id") long id);
 

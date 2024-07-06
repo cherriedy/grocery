@@ -2,9 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     >
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false"
+        />
+
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <application
         android:allowBackup="true"
@@ -45,7 +53,8 @@
             android:name=".activity.AccountManagement.AccountDetailActivity"
             android:exported="false"
             />
-        <activity android:name=".activity.AccountManagement.EditPasswordActivity"
+        <activity
+            android:name=".activity.AccountManagement.EditPasswordActivity"
             android:exported="false"
             />
         <activity
@@ -74,10 +83,12 @@
             />
         <activity
             android:name=".activity.StaffManagement.StaffDetailManagementActivity"
-            android:exported="false"/>
+            android:exported="false"
+            />
         <activity
             android:name=".activity.StaffManagement.StaffEditActivity"
-            android:exported="false"/>
+            android:exported="false"
+            />
         <activity
             android:name=".activity.ImportManagement.ImportCreateActivity"
             android:exported="false"
@@ -95,8 +106,9 @@
             android:exported="false"
             />
         <activity
-                android:name=".activity.Auth.SplashActivity"
-                android:exported="true">
+            android:name=".activity.Auth.SplashActivity"
+            android:exported="true"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -106,26 +118,33 @@
 
         <activity
             android:name=".activity.SaleManagement.SaleManagementActivity"
-            android:exported="false"/>
+            android:exported="false"
+            />
         <activity
             android:name=".activity.SaleManagement.SaleDetailedInvoiceActivity"
-            android:exported="false"/>
+            android:exported="false"
+            />
         <activity
             android:name=".activity.SaleManagement.SaleCreateActivity"
-            android:exported="false"/>
+            android:exported="false"
+            />
         <activity
             android:name=".activity.SaleManagement.SaleConfirmActivity"
-            android:exported="false"/>
+            android:exported="false"
+            />
 
         <activity
             android:name=".activity.Auth.LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.Auth.ForgotPasswordActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
         <activity
             android:name=".activity.Auth.ChangePasswordActivity"
-            android:exported="false" />
+            android:exported="false"
+            />
 
         <provider
             android:name="androidx.core.content.FileProvider"

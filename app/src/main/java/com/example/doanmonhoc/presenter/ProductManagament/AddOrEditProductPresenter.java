@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -32,51 +33,64 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
 
     private final AddOrEditProductContract.View mView;
 
-    private List<Brand> brandList;
-    private List<ProductGroup> productGroupList;
-    private String latestProductKey;
-    private Product product;
+    private List<Brand> mBrandList;
+    private List<ProductGroup> mGroupList;
+    private Product mExtraProduct;
+    private Product mLatestProduct;
 
     public AddOrEditProductPresenter(AddOrEditProductContract.View mView) {
         this.mView = mView;
-        brandList = new ArrayList<>();
-        productGroupList = new ArrayList<>();
+        mBrandList = new ArrayList<>();
+        mGroupList = new ArrayList<>();
+        fetchLatestProduct();
+    }
+
+    public List<Brand> brandList() {
+        return mBrandList;
     }
 
     public void getBrandList() {
-        KiotApiService.apiService.getBrandList().enqueue(new Callback<List<Brand>>() {
-            @Override
-            public void onResponse(Call<List<Brand>> call, Response<List<Brand>> response) {
-                if (response.isSuccessful()) {
-                    brandList = response.body();
-                    mView.getBrandAutoCompleteDataSuccessfully(brandList);
-                } else {
-                    mView.getBrandAutoCompleteDataFail();
+        if (!mBrandList.isEmpty()) {
+            mView.getBrandListSuccessfully(mBrandList);
+        } else {
+            KiotApiService.apiService.getBrandList().enqueue(new Callback<List<Brand>>() {
+                @Override
+                public void onResponse(Call<List<Brand>> call, Response<List<Brand>> response) {
+                    if (response.isSuccessful()) {
+                        mBrandList = response.body();
+                        mView.getBrandListSuccessfully(mBrandList);
+                    } else {
+                        mView.getBrandListDataFail();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<Brand>> call, Throwable throwable) {
-                mView.getBrandAutoCompleteDataFail();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<Brand>> call, Throwable throwable) {
+                    mView.getBrandListDataFail();
+                }
+            });
+        }
     }
 
     public void getProductGroupList() {
-        KiotApiService.apiService.getProductGroupList().enqueue(new Callback<List<ProductGroup>>() {
-            @Override
-            public void onResponse(Call<List<ProductGroup>> call, Response<List<ProductGroup>> response) {
-                if (response.isSuccessful()) {
-                    productGroupList = response.body();
-                    mView.getProductGroupAutoCompleteDataSuccessfully(productGroupList);
+        if (!mGroupList.isEmpty()) {
+            mView.getTypeListSuccessfully(mGroupList);
+        } else {
+            KiotApiService.apiService.getProductGroupList().enqueue(new Callback<List<ProductGroup>>() {
+                @Override
+                public void onResponse(Call<List<ProductGroup>> call, Response<List<ProductGroup>> response) {
+                    if (response.isSuccessful()) {
+                        mGroupList.addAll(response.body());
+                        mView.getTypeListSuccessfully(mGroupList);
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<ProductGroup>> call, Throwable throwable) {
-                mView.getProductGroupAutoCompleteDataFail();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<ProductGroup>> call, Throwable throwable) {
+                    mView.getTypeListFail();
+                }
+            });
+        }
     }
 
     public void handleCreateProduct(Map<String, Object> productCreationRequest) {
@@ -107,19 +121,19 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
             return;
         }
 
-        product = (Product) intent.getSerializableExtra(ProductManagementActivity.EXTRA_PRODUCT);
-        if (product == null) {
+        mExtraProduct = (Product) intent.getSerializableExtra(ProductManagementActivity.EXTRA_PRODUCT);
+        if (mExtraProduct == null) {
             Log.e(TAG, "getExtraProduct: " + "Không có đối tượng Brand truyền vào Intent");
             mView.getExtraProductFail();
             return;
         }
 
-        mView.getExtraProductSuccessfully(product);
+        mView.getExtraProductSuccessfully(mExtraProduct);
     }
 
     @Override
     public void handleUpdateProduct(Product product) {
-        KiotApiService.apiService.updateProduct(this.product.getId(), product).enqueue(new Callback<Product>() {
+        KiotApiService.apiService.updateProduct(mExtraProduct.getId(), product).enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 if (response.isSuccessful()) {
@@ -161,6 +175,9 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
     @Override
     public void handleUploadTemporaryImage(Context context, Uri imageUri) {
         String uniqueKey = generateLatestProductKey();
+        if (uniqueKey.isEmpty()) {
+            return;
+        }
         String path = RealPathUtils.getRealPath(context, imageUri);
         Log.d(TAG, "handleUploadTemporaryImage: " + "ImagePath: " + path);
 
@@ -194,17 +211,39 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
     }
 
     public String generateLatestProductKey() {
-        int currentKey = Utils.extraKeyNumber(latestProductKey, Product.PREFIX);
+        String latestKey = getLatestProductKey();
+        if (latestKey.isEmpty()) {
+            return "";
+        }
+
+        int currentKey = Utils.extraKeyNumber(latestKey, Product.PREFIX);
+        if (currentKey == 0) {
+            return "";
+        }
+
         return Utils.formatKey(currentKey + 1, Product.PREFIX);
     }
 
-    public void getCurrentLatestProductKey() {
+    public String getLatestProductKey() {
+        return Optional.ofNullable(mLatestProduct).map(product -> {
+            String key = product.getProductKey();
+            if (key.isEmpty()) {
+                Log.e(TAG, "getLatestProductKey: Product key is empty");
+                return "";
+            }
+            return key;
+        }).orElseGet(() -> {
+            Log.e(TAG, "getLatestProductKey: mLatestProduct is null");
+            return "";
+        });
+    }
+
+    private void fetchLatestProduct() {
         KiotApiService.apiService.getLatestProduct().enqueue(new Callback<Product>() {
             @Override
             public void onResponse(Call<Product> call, Response<Product> response) {
                 if (response.isSuccessful()) {
-                    Product product = response.body();
-                    latestProductKey = product.getProductKey();
+                    mLatestProduct = response.body();
                 }
             }
 

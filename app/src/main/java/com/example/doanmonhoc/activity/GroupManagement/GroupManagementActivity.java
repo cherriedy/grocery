@@ -2,6 +2,7 @@ package com.example.doanmonhoc.activity.GroupManagement;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,6 +30,7 @@ import com.example.doanmonhoc.model.ProductGroup;
 import com.example.doanmonhoc.presenter.GroupManagement.GroupManagementPresenter;
 import com.example.doanmonhoc.utils.IntentManager;
 import com.example.doanmonhoc.utils.LoadingDialog;
+import com.example.doanmonhoc.utils.PrefsUtils;
 
 import java.util.List;
 
@@ -46,6 +48,7 @@ public class GroupManagementActivity extends AppCompatActivity implements GroupM
     private GroupListAdapter mGroupListAdapter;
     private List<ProductGroup> mGroupList;
     private ActivityResultLauncher<Intent> mGetResultOkLauncher;
+    private SharedPreferences mPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class GroupManagementActivity extends AppCompatActivity implements GroupM
         mPresenter = new GroupManagementPresenter(this);
         mLoadingDialog = new LoadingDialog(this);
         mGroupListAdapter = new GroupListAdapter(this);
+        mPrefs = getSharedPreferences("myPrefs", MODE_PRIVATE);
 
         mGroupListAdapter.setOnClickListener(this);
 
@@ -89,6 +93,12 @@ public class GroupManagementActivity extends AppCompatActivity implements GroupM
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         );
 
+        handleFeatureByRole();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mPresenter.fetchGroupList();
     }
 
@@ -171,5 +181,11 @@ public class GroupManagementActivity extends AppCompatActivity implements GroupM
 
     private void onAddOneClick() {
         binding.fabAddOne.setOnClickListener(v -> createGroup());
+    }
+
+    private void handleFeatureByRole() {
+        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+            binding.fabExpandMenu.setVisibility(View.GONE);
+        }
     }
 }
