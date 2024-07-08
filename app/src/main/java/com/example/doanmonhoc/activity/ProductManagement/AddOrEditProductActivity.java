@@ -208,6 +208,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
         Product product = new Product();
         product.setProductKey(mPresenter.generateLatestProductKey());
         product.setProductName(nameText);
+        product.setInPrice(inPrice);
         product.setOutPrice(outPrice);
         product.setProductNote(noteText);
         product.setDescription(descriptionText);
@@ -217,11 +218,11 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
         GoodsReceivedNote goodsReceivedNote = new GoodsReceivedNote();
         goodsReceivedNote.setStaffid(staffId);
-        goodsReceivedNote.setTotalAmount(outPrice * quantity);
+        goodsReceivedNote.setTotalAmount(inPrice * quantity);
 
         DetailedGoodsReceivedNote detailedGoodsReceivedNote = new DetailedGoodsReceivedNote();
         detailedGoodsReceivedNote.setQuantity(quantity);
-        detailedGoodsReceivedNote.setPrice(outPrice * quantity);
+        detailedGoodsReceivedNote.setPrice(inPrice * quantity);
 
         product.setStatus((byte) 1);
         if (binding.buttonOutStock.isSelected()) {
