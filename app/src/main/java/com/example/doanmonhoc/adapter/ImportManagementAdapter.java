@@ -64,11 +64,12 @@ public class ImportManagementAdapter extends BaseAdapter {
         holder.txtHD.setText(goodsReceivedNote.getGrnKey());
 
         Timestamp timestamp = goodsReceivedNote.getCreatedAt();
-        // Convert Timestamp to String
+        // timestamp to String
         String timestampString = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(timestamp);
         holder.txtDate.setText(timestampString);
         holder.txtTotalAmount.setText(String.valueOf(goodsReceivedNote.getTotalAmount()));
 
+        // truyền
         holder.cardView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ImportBillActivity.class);
             intent.putExtra("grnId", goodsReceivedNote.getId());

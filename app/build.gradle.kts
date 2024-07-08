@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.android.lottie)
     implementation(libs.picasso)
     implementation(libs.commons.io)
+    implementation(libs.cardview)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
