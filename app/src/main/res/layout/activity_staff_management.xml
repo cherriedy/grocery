@@ -12,7 +12,9 @@
         android:id="@+id/layout_tren"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF">
+        android:background="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
             android:id="@+id/back_btn"
@@ -27,22 +29,23 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="17dp"
-                android:text="Quản lý nhân viên"
+            android:text="Quản lý nhân viên"
             android:textSize="20sp"
             android:textStyle="bold" />
+
         <EditText
             android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/headerTitle"
             android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
             android:layout_marginTop="25dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:hint="Tìm kiếm nhân viên"
-            android:padding="12dp"
+            android:background="@drawable/edit_text_timkiem"
             android:drawableStart="@drawable/ic_search"
-            android:background="@drawable/edit_text_timkiem" />
+            android:hint="Tìm kiếm nhân viên"
+            android:padding="12dp" />
 
     </RelativeLayout>
 
