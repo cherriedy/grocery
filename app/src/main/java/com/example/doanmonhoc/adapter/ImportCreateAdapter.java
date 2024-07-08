@@ -18,6 +18,7 @@ import androidx.cardview.widget.CardView;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.model.CartItem;
+import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.Product;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.squareup.picasso.Picasso;
@@ -29,13 +30,13 @@ import java.util.List;
 public class ImportCreateAdapter extends BaseAdapter {
     private Context context;
     private List<Product> list;
-    private List<CartItem> cartItems;
+    private List<DetailedGoodsReceivedNote> cartItems;
     private int totalQuantity;
     private double totalAmount;
     private TextView tvTotalQuantity, tvTotalAmount;
     private CardView layoutBtnThanhToan;
 
-    public ImportCreateAdapter(Context context, List<Product> list, CardView layoutBtnThanhToan, TextView tvTotalQuantity, TextView tvTotalAmount, List<CartItem> cartItems) {
+    public ImportCreateAdapter(Context context, List<Product> list, CardView layoutBtnThanhToan, TextView tvTotalQuantity, TextView tvTotalAmount, List<DetailedGoodsReceivedNote> cartItems) {
         this.context = context;
         this.list = list;
         this.layoutBtnThanhToan = layoutBtnThanhToan;
@@ -110,24 +111,24 @@ public class ImportCreateAdapter extends BaseAdapter {
                 holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
                 holder.btnBigPlus.setVisibility(View.GONE);
                 holder.editQuantity.setText(String.valueOf(1));
-                updateCart(position, 1);
+                updateChangeProduct(position, 1);
             } else {
                 holder.editQuantity.setText(String.valueOf(currentQuantity + 1));
-                updateCart(position, currentQuantity + 1);
+                updateChangeProduct(position, currentQuantity + 1);
             }
         });
 
         holder.btnPlus.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.editQuantity.getText().toString());
             holder.editQuantity.setText(String.valueOf(currentQuantity + 1));
-            updateCart(position, currentQuantity + 1);
+            updateChangeProduct(position, currentQuantity + 1);
         });
 
         holder.btnMinus.setOnClickListener(v -> {
             int currentQuantity = Integer.parseInt(holder.editQuantity.getText().toString());
             if (currentQuantity > 0) {
                 holder.editQuantity.setText(String.valueOf(currentQuantity - 1));
-                updateCart(position, currentQuantity - 1);
+                updateChangeProduct(position, currentQuantity - 1);
                 if (currentQuantity - 1 == 0) {
                     holder.thanhTangGiamSoLuong.setVisibility(View.GONE);
                     holder.btnBigPlus.setVisibility(View.VISIBLE);
@@ -139,7 +140,7 @@ public class ImportCreateAdapter extends BaseAdapter {
         holder.editQuantity.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 int enteredQuantity = Integer.parseInt(holder.editQuantity.getText().toString());
-                updateCart(position, enteredQuantity);
+                updateChangeProduct(position, enteredQuantity);
 
                 return true;
             }
@@ -151,7 +152,7 @@ public class ImportCreateAdapter extends BaseAdapter {
 
     private void updateQuantityView(ViewHolder holder, Product product) {
         boolean isProductInCart = false;
-        for (CartItem item : cartItems) {
+        for (DetailedGoodsReceivedNote item : cartItems) {
             if (item.getProduct().getId() == product.getId()) {
                 holder.editQuantity.setText(String.valueOf(item.getQuantity()));
                 holder.thanhTangGiamSoLuong.setVisibility(View.VISIBLE);
@@ -169,13 +170,13 @@ public class ImportCreateAdapter extends BaseAdapter {
 
 
 
-    private void updateCart(int position, int quantity) {
+    private void updateChangeProduct(int position, int quantity) {
         Product product = list.get(position);
 
         boolean found = false;
-        Iterator<CartItem> iterator = cartItems.iterator();
+        Iterator<DetailedGoodsReceivedNote> iterator = cartItems.iterator();
         while (iterator.hasNext()) {
-            CartItem item = iterator.next();
+            DetailedGoodsReceivedNote item = iterator.next();
             if (item.getProduct().getId() == product.getId()) {
                 if (quantity == 0) {
                     iterator.remove();
@@ -188,7 +189,7 @@ public class ImportCreateAdapter extends BaseAdapter {
             }
         }
         if (!found && quantity > 0) {
-            CartItem newItem = new CartItem(product, quantity, quantity * product.getInPrice());
+            DetailedGoodsReceivedNote newItem = new DetailedGoodsReceivedNote(product, quantity, quantity * product.getInPrice());
             cartItems.add(newItem);
         }
         updateTotalUI();
@@ -198,7 +199,7 @@ public class ImportCreateAdapter extends BaseAdapter {
     private void updateTotalUI() {
         totalQuantity = 0;
         totalAmount = 0;
-        for (CartItem item : cartItems) {
+        for (DetailedGoodsReceivedNote item : cartItems) {
             totalQuantity += item.getQuantity();
             totalAmount += item.getPrice();
         }

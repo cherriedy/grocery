@@ -45,14 +45,6 @@ public class ImportManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_import_management);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
-        Window window = getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
 
         listView = findViewById(R.id.listView);
         etSearch = findViewById(R.id.etSearch);
@@ -75,19 +67,19 @@ public class ImportManagementActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterInvoices(s.toString());
+                filterImportList(s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Do nothing
+                filterImportList(s.toString());
             }
         });
 
-        loadAllInvoice();
+        getAllListImport();
     }
 
-    private void loadAllInvoice() {
+    private void getAllListImport() {
         KiotApiService.apiService.getAllGoodsReceivedNote().enqueue(new Callback<List<GoodsReceivedNote>>() {
             @Override
             public void onResponse(Call<List<GoodsReceivedNote>> call, Response<List<GoodsReceivedNote>> response) {
@@ -115,7 +107,7 @@ public class ImportManagementActivity extends AppCompatActivity {
         });
     }
 
-    private void filterInvoices(String keyword) {
+    private void filterImportList(String keyword) {
         filteredImportList.clear();
         if (keyword.isEmpty()) {
             filteredImportList.addAll(importList);
@@ -134,6 +126,6 @@ public class ImportManagementActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadAllInvoice(); // Tải lại danh sách
+        getAllListImport(); // Tải lại danh sách
     }
 }

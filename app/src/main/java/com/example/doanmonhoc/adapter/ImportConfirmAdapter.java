@@ -9,12 +9,11 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.model.CartItem;
+import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.Product;
 import com.squareup.picasso.Picasso;
 
@@ -23,10 +22,10 @@ import java.util.List;
 public class ImportConfirmAdapter extends BaseAdapter {
 
     private Context context;
-    private List<CartItem> list;
+    private List<DetailedGoodsReceivedNote> list;
     private TextView tvTongSoLuong, tvThanhTien;
 
-    public ImportConfirmAdapter(Context context, List<CartItem> list, TextView tvTongSoLuong, TextView tvThanhTien) {
+    public ImportConfirmAdapter(Context context, List<DetailedGoodsReceivedNote> list, TextView tvTongSoLuong, TextView tvThanhTien) {
         this.context = context;
         this.list = list;
         this.tvTongSoLuong = tvTongSoLuong;
@@ -76,7 +75,7 @@ public class ImportConfirmAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        CartItem cartItem = list.get(position);
+        DetailedGoodsReceivedNote cartItem = list.get(position);
         Product product = cartItem.getProduct();
         if (product.getAvatarPath() != null) {
             Picasso.get().load(product.getAvatarPath()).into(holder.imageView);
@@ -115,7 +114,7 @@ public class ImportConfirmAdapter extends BaseAdapter {
         return convertView;
     }
     private void updateCart(int position, int quantity) {
-        CartItem cartItem = list.get(position);
+        DetailedGoodsReceivedNote cartItem = list.get(position);
         Product product = cartItem.getProduct();
 
         if (quantity > 0) {
@@ -132,7 +131,7 @@ public class ImportConfirmAdapter extends BaseAdapter {
         int totalQuantity = 0;
         double totalAmount = 0;
 
-        for (CartItem item : list) {
+        for (DetailedGoodsReceivedNote item : list) {
             int quantity = item.getQuantity();
             double inPrice = item.getPrice();
 
