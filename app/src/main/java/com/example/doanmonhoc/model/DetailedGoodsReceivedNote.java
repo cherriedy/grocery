@@ -10,9 +10,6 @@ public class DetailedGoodsReceivedNote implements Serializable {
     private double price;
     private Product product;
 
-    public DetailedGoodsReceivedNote() {
-    }
-
     public DetailedGoodsReceivedNote(long productId, int quantity, double price) {
         this.productId = productId;
         this.quantity = quantity;
@@ -26,6 +23,8 @@ public class DetailedGoodsReceivedNote implements Serializable {
         this.productId = product.getId(); // Lấy productId từ đối tượng Product
     }
 
+    public DetailedGoodsReceivedNote() {
+    }
     public long getId() {
         return id;
     }

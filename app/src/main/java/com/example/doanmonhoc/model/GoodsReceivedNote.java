@@ -12,15 +12,7 @@ public class GoodsReceivedNote {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private double totalAmount;
-    // private List<CartItem> cartItems;
-private List<DetailedGoodsReceivedNote> cartItems;
- //   public List<CartItem> getCartItems() {
-    //    return cartItems;
-  //  }
-
-  //  public void setCartItems(List<CartItem> cartItems) {
-   //     this.cartItems = cartItems;
-   // }
+    private List<DetailedGoodsReceivedNote> cartItems;
 
     public List<DetailedGoodsReceivedNote> getCartItems() {
         return cartItems;
