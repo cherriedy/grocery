@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -53,6 +54,7 @@ public class AddStaffActivity extends AppCompatActivity {
 
     private Uri selectedImageUri;
     private Gson gson;
+    private ImageView staffImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public class AddStaffActivity extends AppCompatActivity {
         txtAddress = findViewById(R.id.txtAddress);
         txtusername = findViewById(R.id.txtusername);
         txtpassword = findViewById(R.id.txtpassword);
+        staffImage = findViewById(R.id.staffImage);
         btnSave = findViewById(R.id.btnSave);
         btnCancel = findViewById(R.id.btnCancel);
         btnSelectImage = findViewById(R.id.btnImage);
@@ -190,7 +193,9 @@ public class AddStaffActivity extends AppCompatActivity {
             result -> {
                 if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
                     selectedImageUri = result.getData().getData();
-                    // You can set the image preview here if needed
+                    if (selectedImageUri != null) {
+                        staffImage.setImageURI(selectedImageUri);
+                    }
                 }
             }
     );

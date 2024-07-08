@@ -15,6 +15,7 @@ import com.example.doanmonhoc.activity.BrandManagement.BrandManagementActivity;
 import com.example.doanmonhoc.activity.GroupManagement.GroupManagementActivity;
 import com.example.doanmonhoc.activity.ImportManagement.ImportManagementActivity;
 import com.example.doanmonhoc.activity.ProductManagement.ProductManagementActivity;
+import com.example.doanmonhoc.activity.SaleManagement.SaleManagementActivity;
 import com.example.doanmonhoc.adapter.ShortcutGridViewAdapter;
 import com.example.doanmonhoc.databinding.FragmentStaffHomepageBinding;
 import com.example.doanmonhoc.model.Shortcut;
@@ -69,7 +70,7 @@ public class StaffHomepageFragment extends Fragment implements ShortcutGridViewA
             if (shortcut == ShortcutGridViewAdapter.SHORTCUT_PRODUCT) {
                 startActivity(new Intent(getContext(), ProductManagementActivity.class));
             } else if (shortcut == ShortcutGridViewAdapter.SHORTCUT_INVENTORY) {
-                startActivity(new Intent(getContext(), ImportManagementActivity.class));
+                startActivity(new Intent(getContext(), SaleManagementActivity.class));
             } else if (shortcut == ShortcutGridViewAdapter.SHORTCUT_BRAND) {
                 startActivity(new Intent(getContext(), BrandManagementActivity.class));
             } else if (shortcut == ShortcutGridViewAdapter.SHORTCUT_TYPE) {
