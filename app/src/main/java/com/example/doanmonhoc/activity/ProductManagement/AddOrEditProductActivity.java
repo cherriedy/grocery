@@ -185,8 +185,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @Override
     public void createProduct() {
-        SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
-        long staffId = sharedPreferences.getLong("id", -1);
+        long staffId = PrefsUtils.getId(mPrefs);
         String nameText = TextUtils.getString(binding.textProductName);
         String barcodeText = TextUtils.getString(binding.textProductBarcode);
         String descriptionText = TextUtils.getString(binding.textProductDescription);
@@ -218,10 +217,11 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
         GoodsReceivedNote goodsReceivedNote = new GoodsReceivedNote();
         goodsReceivedNote.setStaffid(staffId);
+        goodsReceivedNote.setTotalAmount(outPrice * quantity);
 
         DetailedGoodsReceivedNote detailedGoodsReceivedNote = new DetailedGoodsReceivedNote();
         detailedGoodsReceivedNote.setQuantity(quantity);
-        detailedGoodsReceivedNote.setPrice(outPrice);
+        detailedGoodsReceivedNote.setPrice(outPrice * quantity);
 
         product.setStatus((byte) 1);
         if (binding.buttonOutStock.isSelected()) {
@@ -324,15 +324,11 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
             binding.buttonOutStock.setSelected(false);
             binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.primaryColor));
             binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, R.color.text_title));
-            binding.buttonInStock.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.radio_button_left_checked));
-            binding.buttonOutStock.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.radio_button_right_unchecked));
         } else {
             binding.buttonInStock.setSelected(false);
             binding.buttonOutStock.setSelected(true);
             binding.buttonInStock.setTextColor(ContextCompat.getColor(this, R.color.text_title));
             binding.buttonOutStock.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark));
-            binding.buttonInStock.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.radio_button_left_unchecked));
-            binding.buttonOutStock.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.radio_button_right_checked));
         }
 
         Float inPrice = product.getInPrice();
@@ -777,7 +773,7 @@ public class AddOrEditProductActivity extends AppCompatActivity implements AddOr
 
     @SuppressLint("SetTextI18n")
     private void handleFeatureByRole() {
-        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+        if (PrefsUtils.getRoleId(mPrefs) == 2) {
             binding.textActionBarHeader.setText("Chi tiết sản phẩm");
 
             binding.layoutActionButton.setVisibility(View.GONE);

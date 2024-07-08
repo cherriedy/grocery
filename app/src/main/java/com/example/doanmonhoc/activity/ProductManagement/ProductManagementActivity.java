@@ -164,7 +164,7 @@ public class ProductManagementActivity extends AppCompatActivity implements Prod
     }
 
     private void handleFeatureByRole() {
-        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+        if (PrefsUtils.getRoleId(mPrefs) == 2) {
             binding.fabExpandMenu.setVisibility(View.GONE);
         }
     }

@@ -15,6 +15,7 @@ import com.example.doanmonhoc.activity.Main.MainActivity;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.LoginResponse;
 import com.example.doanmonhoc.model.Staff;
+import com.example.doanmonhoc.utils.PrefsUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,12 +64,12 @@ public class LoginActivity extends AppCompatActivity {
                     String staffImage = loginResponse.getStaffImage();
 
                     // Lưu vào SharedPreferences
-                    SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
+                    SharedPreferences sharedPreferences = getSharedPreferences(PrefsUtils.PREFS, MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putLong("id", id);
-                    editor.putLong("Roleid", Roleid);
-                    editor.putString("staffName", staffName);
-                    editor.putString("staffImage", staffImage);
+                    editor.putLong(PrefsUtils.PREFS_ID, id);
+                    editor.putLong(PrefsUtils.PREFS_ROLE, Roleid);
+                    editor.putString(PrefsUtils.PREFS_NAME, staffName);
+                    editor.putString(PrefsUtils.PREFS_IMAGE, staffImage);
                     editor.apply();
 
                     Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
@@ -84,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable throwable) {
-
+                Toast.makeText(LoginActivity.this, "Sai username hoặc password", Toast.LENGTH_SHORT).show();
             }
         });
     }

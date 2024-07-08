@@ -1,17 +1,14 @@
 package com.example.doanmonhoc.activity.AccountManagement;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,27 +19,25 @@ import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.activity.Main.MainActivity;
 import com.example.doanmonhoc.api.CloudinaryService;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.CloudinaryUploadResponse;
 import com.example.doanmonhoc.model.Staff;
 import com.google.android.material.imageview.ShapeableImageView;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -50,7 +45,6 @@ import java.util.Locale;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,6 +62,14 @@ public class EditAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_account_edit);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
 
         txtMaNV = findViewById(R.id.txtMaNV);
         txtName = findViewById(R.id.txtName);

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -33,206 +34,223 @@
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
     <TextView
         android:id="@+id/txtImage"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/staffImage"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:src="@drawable/ic_launcher_background"
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
+        android:src="@drawable/ic_launcher_background"
         app:shapeAppearanceOverlay="@style/roundedImageStyle" />
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="15dp"
-    android:gravity="center">
-    <TextView
-        android:id="@+id/maNV"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="17dp"
-        android:textStyle="bold"
-        android:text="NV001"/>
-</LinearLayout>
-<TableLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="20dp">
-    <TableRow>
-        <TextView
-            android:id="@+id/staffname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="40dp"
-            android:textSize="16dp"
-            android:textStyle="bold"
-            android:text="Họ và tên"/>
+        android:layout_marginTop="15dp"
+        android:gravity="center">
 
         <TextView
-            android:id="@+id/txtName"
-            android:layout_width="match_parent"
+            android:id="@+id/maNV"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:text="Thu Thao"/>
-    </TableRow>
-    <TableRow>
-    <TextView
-        android:id="@+id/staffDob"
-        android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="NV001"
+            android:textSize="17dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="40dp"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        android:text="Ngày sinh" />
+        android:layout_margin="20dp">
 
-    <TextView
-        android:id="@+id/txtDob"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="20dp"
-        android:textSize="16dp"
-        android:text="30/1/2004" />
-    </TableRow>
-    <TableRow>
+        <TableRow>
 
+            <TextView
+                android:id="@+id/staffname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Họ và tên"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/staffgender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="40dp"
-            android:textSize="16dp"
-            android:text="Giới tính"
-            android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Thu Thao"
+                android:textSize="16dp" />
+        </TableRow>
 
-        <TextView
-            android:id="@+id/txtGender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:text="Nữ" />
+        <TableRow>
 
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:id="@+id/staffphone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="40dp"
-            android:textSize="16dp"
-            android:text="Số điện thoại"
-            android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/staffDob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Ngày sinh"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:text="0954848445" />
+            <TextView
+                android:id="@+id/txtDob"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="30/1/2004"
+                android:textSize="16dp" />
+        </TableRow>
 
-    </TableRow>
+        <TableRow>
 
 
-    <TableRow>
-        <TextView
-            android:id="@+id/staffemail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="40dp"
-            android:textSize="16dp"
-            android:text="Email"
-            android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/staffgender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Giới tính"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:text="thao@gmail.com" />
+            <TextView
+                android:id="@+id/txtGender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Nữ"
+                android:textSize="16dp" />
 
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:id="@+id/staffaddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="40dp"
-            android:textSize="16dp"
-            android:text="Địa chỉ"
-            android:textStyle="bold"/>
+        </TableRow>
 
-        <TextView
-            android:id="@+id/txtAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:text="Tân Bình" />
+        <TableRow>
 
-    </TableRow>
-    <TableRow>
-        <TextView
-            android:id="@+id/staffUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="40dp"
-            android:textSize="16dp"
-            android:text="Username"
-            android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/staffphone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Số điện thoại"
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtUsername"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:textSize="16dp"
-            android:text="Anh Kiet" />
-    </TableRow>
+            <TextView
+                android:id="@+id/txtPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="0954848445"
+                android:textSize="16dp" />
 
-    <TableRow>
-        <Button
-            android:id="@+id/btnPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="30dp"
-            android:background="@drawable/radius_4_goc"
-            android:text="Đổi mật khẩu" />
+        </TableRow>
 
-        <Button
-            android:id="@+id/btnEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:layout_marginStart="80dp"
-            android:background="@drawable/radius_4_goc"
-            android:text="Chỉnh sửa" />
 
-    </TableRow>
+        <TableRow>
 
-</TableLayout>
+            <TextView
+                android:id="@+id/staffemail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Email"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="thao@gmail.com"
+                android:textSize="16dp" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/staffaddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Địa chỉ"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtAddress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Tân Bình"
+                android:textSize="16dp" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/staffUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="Username"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Anh Kiet"
+                android:textSize="16dp" />
+        </TableRow>
+
+        <TableRow>
+
+            <Button
+                android:id="@+id/btnPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/radius_4_goc"
+                android:text="Đổi mật khẩu" />
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/radius_4_goc"
+                android:text="Chỉnh sửa" />
+
+        </TableRow>
+
+    </TableLayout>
 </LinearLayout>

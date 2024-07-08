@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -34,6 +35,7 @@
             android:textSize="20sp"
             android:textStyle="bold" />
     </RelativeLayout>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,75 +67,86 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:gravity="center">
+
         <TextView
             android:id="@+id/txtMaNV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:text="NV001"
             android:textSize="17dp"
-            android:textStyle="bold"
-            android:text="NV001"/>
+            android:textStyle="bold" />
     </LinearLayout>
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp">
+
         <TableRow>
+
             <TextView
                 android:id="@+id/staffname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
+                android:text="Họ và tên"
                 android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="Họ và tên"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
-                android:text="Thu Thao"/>
+                android:text="Thu Thao"
+                android:textSize="16dp" />
         </TableRow>
+
         <TableRow>
+
             <TextView
                 android:id="@+id/staffDob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
+                android:text="Ngày sinh"
                 android:textSize="16dp"
-                android:textStyle="bold"
-                android:text="Ngày sinh" />
+                android:textStyle="bold" />
+
             <EditText
                 android:id="@+id/txtDob"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
+                android:focusable="false"
                 android:text="2004 - 01 -30"
-                android:focusable="false"/>
+                android:textSize="16dp" />
         </TableRow>
+
         <TableRow>
+
             <TextView
                 android:id="@+id/staffgender"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Giới tính"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
             <RadioGroup
                 android:id="@+id/radioGroupGender"
                 android:layout_width="wrap_content"
@@ -155,94 +168,102 @@
                     android:text="Nữ" />
             </RadioGroup>
         </TableRow>
+
         <TableRow>
+
             <TextView
                 android:id="@+id/staffaddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Địa chỉ"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txtAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
-                android:text="Tân Bình" />
+                android:text="Tân Bình"
+                android:textSize="16dp" />
 
         </TableRow>
 
         <TableRow>
+
             <TextView
                 android:id="@+id/staffemail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Email"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txtEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
                 android:inputType="textEmailAddress"
-                android:text="thao@gmail.com" />
+                android:text="thao@gmail.com"
+                android:textSize="16dp" />
 
         </TableRow>
+
         <TableRow>
+
             <TextView
                 android:id="@+id/staffphone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Số điện thoại"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txtPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
-                android:text="0954848445" />
+                android:text="0954848445"
+                android:textSize="16dp" />
 
         </TableRow>
+
         <TableRow>
+
             <TextView
                 android:id="@+id/staffusername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:layout_marginStart="40dp"
-                android:textSize="16dp"
                 android:text="Username"
-                android:textStyle="bold"/>
+                android:textSize="16dp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtusername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textSize="16dp"
-                android:text="Kiet" />
+                android:text="Kiet"
+                android:textSize="16dp" />
 
         </TableRow>
 
     </TableLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -252,17 +273,18 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="40dp"
-            android:backgroundTint="@color/lightgray"
             android:layout_toStartOf="@+id/btnSave"
+            android:backgroundTint="@color/lightgray"
             android:text="Thoát" />
+
         <Button
             android:id="@+id/btnSave"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="40dp"
-            android:textSize="16dp"
-            android:text="Lưu"/>
+            android:text="Lưu"
+            android:textSize="16dp" />
     </RelativeLayout>
 
 

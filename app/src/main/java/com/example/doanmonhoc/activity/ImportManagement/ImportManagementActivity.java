@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -12,11 +14,13 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
-import com.example.doanmonhoc.activity.SaleManagement.SaleManagementActivity;
 import com.example.doanmonhoc.adapter.ImportManagementAdapter;
-import com.example.doanmonhoc.adapter.SaleManagementAdapter;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
 
@@ -41,6 +45,14 @@ public class ImportManagementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_import_management);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
 
         listView = findViewById(R.id.listView);
         etSearch = findViewById(R.id.etSearch);

@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,16 +18,15 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.adapter.SaleCreateAdapter;
-import com.example.doanmonhoc.adapter.SaleManagementAdapter;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.CartItem;
-import com.example.doanmonhoc.model.Invoice;
 import com.example.doanmonhoc.model.Product;
 
 import java.util.ArrayList;
@@ -60,6 +60,15 @@ public class SaleCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_sales_create);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.white));
+
         gridView = findViewById(R.id.gridView);
         layoutBtnThanhToan = findViewById(R.id.layoutBtnThanhToan);
         tvTotalQuantity = findViewById(R.id.tvTotalQuantityInCart);

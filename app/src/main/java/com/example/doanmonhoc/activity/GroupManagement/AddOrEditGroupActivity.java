@@ -242,7 +242,7 @@ public class AddOrEditGroupActivity extends AppCompatActivity implements AddOrEd
 
     @SuppressLint("SetTextI18n")
     private void handleFeatureByRole() {
-        if (PrefsUtils.getRoldId(mPrefs) == 2) {
+        if (PrefsUtils.getRoleId(mPrefs) == 2) {
             binding.textActionBarHeader.setText("Chi tiết nhãn hàng");
 
             binding.layoutActionButton.setVisibility(View.GONE);
