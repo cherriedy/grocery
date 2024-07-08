@@ -69,7 +69,7 @@ public class ImportManagementAdapter extends BaseAdapter {
         holder.txtDate.setText(timestampString);
         holder.txtTotalAmount.setText(String.valueOf(goodsReceivedNote.getTotalAmount()));
 
-        // truyền
+        // click vào 1 cái thì chuyển đến hóa đơn của nó
         holder.cardView.setOnClickListener(v -> {
             Intent intent = new Intent(context, ImportBillActivity.class);
             intent.putExtra("grnId", goodsReceivedNote.getId());
