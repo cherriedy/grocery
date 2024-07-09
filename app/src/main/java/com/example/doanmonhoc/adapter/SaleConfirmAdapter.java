@@ -135,9 +135,9 @@ public class SaleConfirmAdapter extends BaseAdapter {
 
     private void updateTotalUI() {
         int totalQuantity = 0;
-        double totalAmount = 0;
-        double totalDiscount = 0;
-        double originalTotal = 0;
+        int totalAmount = 0;
+        int totalDiscount = 0;
+        int originalTotal = 0;
 
         for (CartItem item : list) {
             int quantity = item.getQuantity();
@@ -148,13 +148,14 @@ public class SaleConfirmAdapter extends BaseAdapter {
 
             totalQuantity += quantity;
             originalTotal += originalPrice;
-            totalAmount += discountedPrice;
             totalDiscount += discountAmount;
+            totalAmount += discountedPrice;
         }
 
         tvTongSoLuong.setText(totalQuantity + " sản phẩm");
-        tvTongTien.setText(String.format("%.2f đ", originalTotal));
-        tvTongGiam.setText(String.format("%.2f đ", totalDiscount));
-        tvThanhTien.setText(String.format("%.2f đ", totalAmount));
+        tvTongTien.setText(originalTotal + " đ");
+        tvTongGiam.setText(totalDiscount + " đ");
+        tvThanhTien.setText(totalAmount + " đ");
+
     }
 }

@@ -133,7 +133,7 @@ public interface KiotApiService {
     Call<Staff> getStaffById(@Path("id") long id);
 
     @GET("staff/{email}")
-    Call<Staff> getStaffByEmail(@Path("email") String id);
+    Call<Staff> getStaffByEmail(@Path("email") String email);
 
     @PUT("staff/{email}")
     Call<OTP> updateStaffByEmail(@Path("email") String email, @Body OTP otp);

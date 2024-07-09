@@ -3,6 +3,8 @@ package com.example.doanmonhoc.activity.SaleManagement;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -11,6 +13,10 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.activity.Main.HomepageFragment;
@@ -41,7 +47,6 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
     private ImageButton btnBack;
     private Button btnExit;
     private TextView tvinvoiceKey, staffName, createAt, totalPrice, tvNote;
-    private List<DetailedInvoice> detailedInvoices = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +62,6 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
         createAt = findViewById(R.id.tvCreateAt);
         tvNote = findViewById(R.id.tvNote);
 
-        adapter = new SaleDetailedInvoiceAdapter(this, detailedInvoices);
-        listView.setAdapter(adapter);
 
         Intent intent = getIntent();
         long invoiceId = intent.getLongExtra("invoiceId", -1);
@@ -117,10 +120,7 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     List<DetailedInvoice> list = response.body();
                     if (list != null && !list.isEmpty()) {
-                        detailedInvoices.clear();
-                        detailedInvoices.addAll(list);
-
-                        for (DetailedInvoice detail : detailedInvoices) {
+                        for (DetailedInvoice detail : list) {
                             KiotApiService.apiService.getDetailedProduct(detail.getProductId()).enqueue(new Callback<Product>() {
                                 @Override
                                 public void onResponse(Call<Product> call, Response<Product> response) {
@@ -128,9 +128,10 @@ public class SaleDetailedInvoiceActivity extends AppCompatActivity {
                                         Product product = response.body();
                                         detail.setProduct(product);
 
-                                        // Notify adapter only when all products not null
-                                        if (allProductsNotNull(detailedInvoices)) {
-                                            adapter.notifyDataSetChanged();
+                                        // set adapter only when all products not null
+                                        if (allProductsNotNull(list)) {
+                                            adapter = new SaleDetailedInvoiceAdapter(SaleDetailedInvoiceActivity.this, list);
+                                            listView.setAdapter(adapter);
                                         }
                                     }
                                 }

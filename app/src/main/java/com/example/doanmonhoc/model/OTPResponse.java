@@ -16,7 +16,7 @@ public class OTPResponse {
     public static class Message {
         private String Status;
         private String CustomID;
-        private List<Recipient> To;
+        private List<To> To;
 
         public String getStatus() {
             return Status;
@@ -34,16 +34,16 @@ public class OTPResponse {
             this.CustomID = customID;
         }
 
-        public List<Recipient> getTo() {
+        public List<To> getTo() {
             return To;
         }
 
-        public void setTo(List<Recipient> to) {
+        public void setTo(List<To> to) {
             this.To = to;
         }
     }
 
-    public static class Recipient {
+    public static class To {
         private String Email;
         private String MessageUUID;
         private long MessageID;

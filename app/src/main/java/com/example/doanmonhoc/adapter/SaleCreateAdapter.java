@@ -28,7 +28,7 @@ public class SaleCreateAdapter extends BaseAdapter {
     private List<Product> list;
     private List<CartItem> cartItems;
     private int totalQuantity;
-    private double totalAmount;
+    private int totalAmount;
     private TextView tvTotalQuantity, tvTotalAmount;
     private CardView layoutBtnThanhToan;
 
@@ -132,9 +132,8 @@ public class SaleCreateAdapter extends BaseAdapter {
             if (currentQuantity > 0) {
                 holder.tvQuantity.setText(String.valueOf(currentQuantity - 1));
                 updateCart(position, currentQuantity - 1);
-                if (currentQuantity - 1 == 0) {
-                    holder.thanhTangGiamSoLuong.setVisibility(View.INVISIBLE);
-                }
+            }else{
+                holder.thanhTangGiamSoLuong.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -167,12 +166,10 @@ public class SaleCreateAdapter extends BaseAdapter {
         float discountedPrice = product.getOutPrice() * (1 - product.getDiscount());
 
         boolean found = false;
-        Iterator<CartItem> iterator = cartItems.iterator();
-        while (iterator.hasNext()) {
-            CartItem item = iterator.next();
+        for (CartItem item : cartItems) {
             if (item.getProduct().getId() == product.getId()) {
                 if (quantity == 0) {
-                    iterator.remove();
+                    cartItems.remove(item);
                 } else {
                     item.setQuantity(quantity);
                     item.setPrice(quantity * discountedPrice);

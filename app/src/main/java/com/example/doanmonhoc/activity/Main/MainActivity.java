@@ -28,6 +28,7 @@ import com.example.doanmonhoc.activity.AccountManagement.EditPasswordActivity;
 import com.example.doanmonhoc.activity.Auth.LoginActivity;
 import com.example.doanmonhoc.databinding.ActivityMainBinding;
 import com.example.doanmonhoc.utils.PicassoHelper;
+import com.example.doanmonhoc.utils.PrefsUtils;
 import com.example.doanmonhoc.utils.TextUtils;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -89,17 +90,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void logout() {
         SharedPreferences.Editor editor = getSharedPreferences("myPrefs", MODE_PRIVATE).edit();
-        editor.remove("id");
-        editor.remove("Roleid");
-        editor.remove("staffName");
-        editor.remove("staffImage");
+        editor.remove(PrefsUtils.PREFS_ID);
+        editor.remove(PrefsUtils.PREFS_ROLE);
+        editor.remove(PrefsUtils.PREFS_NAME);
+        editor.remove(PrefsUtils.PREFS_IMAGE);
         editor.apply();
 
         Toast.makeText(this, "Đăng xuất thành công!", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, LoginActivity.class);
-        // Xóa tất cả các activity trước đó khỏi stack
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         // Kết thúc tất cả các Activity hiện tại để người dùng không thể quay lại bằng nút back
         finishAffinity();

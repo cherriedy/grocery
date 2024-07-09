@@ -77,12 +77,13 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         KiotApiService.apiService.getStaffByEmail(email).enqueue(new Callback<Staff>() {
             @Override
             public void onResponse(Call<Staff> call, Response<Staff> response) {
-                if (response.isSuccessful() && response.body() != null) {
+                if (response.isSuccessful()  && response.body() != null) {
                     // Generate OTP
                     generatedOTP = String.valueOf((int) (Math.random() * 9000) + 1000);
                     OTP otp = new OTP(generatedOTP);
                     updateOTP(email, otp);
-                } else {
+                    sendOTP(email, generatedOTP);
+                }else{
                     Toast.makeText(ForgotPasswordActivity.this, "Email không khớp", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -99,9 +100,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<OTP> call, Response<OTP> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    sendOTP(email, String.valueOf(otp));
+
                 } else {
-                    Toast.makeText(ForgotPasswordActivity.this, "Failed update OTP trong db.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ForgotPasswordActivity.this, "Lỗi cập nhật OTP.", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -130,8 +131,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             public void onResponse(Call<OTPResponse> call, Response<OTPResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     OTPResponse otpResponse = response.body();
-                    if (!otpResponse.getMessages().isEmpty() &&
-                            "success".equalsIgnoreCase(otpResponse.getMessages().get(0).getStatus())) {
+                    if ("success".equalsIgnoreCase(otpResponse.getMessages().get(0).getStatus())) {
                         Toast.makeText(ForgotPasswordActivity.this, "Đã gửi mã OTP. Hãy check email!", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(ForgotPasswordActivity.this, "Error: Unable to send OTP", Toast.LENGTH_SHORT).show();
@@ -156,7 +156,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     OTP otp1 = response.body();
                     if (otp1.isSuccess()) {
-                        Toast.makeText(ForgotPasswordActivity.this, "OTP xác thực thành công!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ForgotPasswordActivity.this, otp1.getMessage(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(ForgotPasswordActivity.this, ChangePasswordActivity.class);
                         intent.putExtra("email", otp1.getEmail());
                         startActivity(intent);

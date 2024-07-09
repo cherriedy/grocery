@@ -37,7 +37,6 @@ public class OTPRequest {
 
     public static class To {
         private String Email;
-
         public To(String email) {
             this.Email = email;
         }

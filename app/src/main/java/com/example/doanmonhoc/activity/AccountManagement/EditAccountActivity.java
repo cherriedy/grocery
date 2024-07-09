@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -54,6 +55,7 @@ public class EditAccountActivity extends AppCompatActivity {
     private EditText txtName, txtDob, txtGender, txtAddress, txtEmail, txtPhone;
     private TextView txtUsername, txtMaNV;
     private Button btnBack, btnSave, btnImage;
+    private ImageButton btnBack1;
     private Staff staff;
     private RadioButton radioButtonMale, radioButtonFemale;
     private ShapeableImageView staffImage;
@@ -82,6 +84,7 @@ public class EditAccountActivity extends AppCompatActivity {
         staffImage = findViewById(R.id.staffImage);
         txtUsername = findViewById(R.id.txtusername);
         btnBack = findViewById(R.id.btnCancel);
+        btnBack1 = findViewById(R.id.btnBack);
         btnImage = findViewById(R.id.btnImage);
         btnSave = findViewById(R.id.btnSave);
 
@@ -109,6 +112,8 @@ public class EditAccountActivity extends AppCompatActivity {
         });
 
         btnBack.setOnClickListener(v -> finish());
+        btnBack1.setOnClickListener(v -> finish());
+
         btnImage.setOnClickListener(v -> {
             Intent intent = new Intent();
             intent.setType("image/*");
@@ -232,14 +237,10 @@ public class EditAccountActivity extends AppCompatActivity {
             public void onResponse(Call<CloudinaryUploadResponse> call, Response<CloudinaryUploadResponse> response) {
                 if (response.isSuccessful()) {
                     CloudinaryUploadResponse uploadResponse = response.body();
-                    if (uploadResponse != null) {
-                        String imageUrl = uploadResponse.getUrl();
-                        Toast.makeText(EditAccountActivity.this, "Upload thành công: " + imageUrl, Toast.LENGTH_SHORT).show();
-                        staff.setStaffImage(imageUrl); // Save image URL to staff object
-                        saveToDatabase(staff);
-                    } else {
-                        Toast.makeText(EditAccountActivity.this, "Upload thất bại: Response body is empty", Toast.LENGTH_SHORT).show();
-                    }
+                    String imageUrl = uploadResponse.getUrl();
+                    Toast.makeText(EditAccountActivity.this, "Upload thành công: " + imageUrl, Toast.LENGTH_SHORT).show();
+                    staff.setStaffImage(imageUrl);
+                    saveToDatabase(staff);
                 } else {
                     Toast.makeText(EditAccountActivity.this, "Upload thất bại: " + response.message(), Toast.LENGTH_SHORT).show();
                 }

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -42,7 +45,6 @@ public class SaleConfirmActivity extends AppCompatActivity {
     private EditText etNote;
     private ImageButton btnBack;
     private Button btnThanhToan;
-    private Invoice invoice;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,7 @@ public class SaleConfirmActivity extends AppCompatActivity {
             SharedPreferences sharedPreferences = getSharedPreferences("myPrefs", MODE_PRIVATE);
             long staffId = sharedPreferences.getLong("id", -1);
             invoice.setStaffid(staffId);
-            invoice.setTotalAmount(Double.parseDouble(tvThanhTien.getText().toString().replace(" đ", "").replace(",", "")));
+            invoice.setTotalAmount(Double.parseDouble(tvThanhTien.getText().toString().replace(" đ", "")));
             invoice.setNote(etNote.getText().toString());
 
             List<CartItem> simplifiedCartItems = new ArrayList<>();
@@ -86,9 +88,9 @@ public class SaleConfirmActivity extends AppCompatActivity {
 
     private void updateTotalUI() {
         int totalQuantity = 0;
-        double totalAmount = 0;
-        double totalDiscount = 0;
-        double originalTotal = 0;
+        int totalAmount = 0;
+        int totalDiscount = 0;
+        int originalTotal = 0;
 
         for (CartItem item : cartItems) {
             int quantity = item.getQuantity();
@@ -104,9 +106,9 @@ public class SaleConfirmActivity extends AppCompatActivity {
         }
 
         tvTongSoLuong.setText(totalQuantity + " sản phẩm");
-        tvTongTien.setText(String.format("%.2f đ", originalTotal));
-        tvTongGiam.setText(String.format("%.2f đ", totalDiscount));
-        tvThanhTien.setText(String.format("%.2f đ", totalAmount));
+        tvTongTien.setText(originalTotal + " đ");
+        tvTongGiam.setText(totalDiscount + " đ");
+        tvThanhTien.setText(totalAmount + " đ");
     }
 
     private void addInvoice(Invoice invoice) {

@@ -46,7 +46,6 @@ public class ImportBillActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_import_bill);
 
-
         listView = findViewById(R.id.listView);
         tvGrnKey = findViewById(R.id.tvGrnKey);
         totalPrice = findViewById(R.id.totalPrice);
