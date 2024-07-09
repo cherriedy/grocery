@@ -17,6 +17,7 @@ import com.example.doanmonhoc.R;
 import com.example.doanmonhoc.adapter.ImportConfirmAdapter;
 import com.example.doanmonhoc.api.KiotApiService;
 import com.example.doanmonhoc.model.CartItem;
+import com.example.doanmonhoc.model.DetailedGoodsReceivedNote;
 import com.example.doanmonhoc.model.GoodsReceivedNote;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ImportConfirmActivity extends AppCompatActivity {
-    private List<CartItem> cartItems;
+    private List<DetailedGoodsReceivedNote> cartItems;
     private ListView listView;
     private ImportConfirmAdapter adapter;
     private TextView tvThanhTien, tvTongSoLuong;
@@ -62,9 +63,9 @@ public class ImportConfirmActivity extends AppCompatActivity {
             goodsReceivedNote.setTotalAmount(Double.parseDouble(tvThanhTien.getText().toString().replace(" đ", "").replace(",", "")));
             goodsReceivedNote.setNote(etNote.getText().toString());
 
-            List<CartItem> simplifiedCartItems = new ArrayList<>();
-            for (CartItem cartItem : cartItems) {
-                CartItem simplifiedItem = new CartItem(cartItem.getProductId(), cartItem.getQuantity(), cartItem.getPrice());
+            List<DetailedGoodsReceivedNote> simplifiedCartItems = new ArrayList<>();
+            for (DetailedGoodsReceivedNote cartItem : cartItems) {
+                DetailedGoodsReceivedNote simplifiedItem = new DetailedGoodsReceivedNote(cartItem.getProductId(), cartItem.getQuantity(), cartItem.getPrice());
                 simplifiedCartItems.add(simplifiedItem);
             }
             goodsReceivedNote.setCartItems(simplifiedCartItems);
@@ -77,7 +78,7 @@ public class ImportConfirmActivity extends AppCompatActivity {
         int totalQuantity = 0;
         double totalAmount = 0;
 
-        for (CartItem item : cartItems) {
+        for (DetailedGoodsReceivedNote item : cartItems) {
             int quantity = item.getQuantity();
             double inPrice = item.getPrice();
 

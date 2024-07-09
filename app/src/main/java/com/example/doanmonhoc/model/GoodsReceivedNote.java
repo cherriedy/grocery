@@ -12,13 +12,13 @@ public class GoodsReceivedNote {
     private Timestamp createdAt;
     private Timestamp updatedAt;
     private double totalAmount;
-    private List<CartItem> cartItems;
+    private List<DetailedGoodsReceivedNote> cartItems;
 
-    public List<CartItem> getCartItems() {
+    public List<DetailedGoodsReceivedNote> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(List<CartItem> cartItems) {
+    public void setCartItems(List<DetailedGoodsReceivedNote> cartItems) {
         this.cartItems = cartItems;
     }
 

@@ -67,19 +67,19 @@ public class ImportManagementActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterInvoices(s.toString());
+                filterImportList(s.toString());
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Do nothing
+                filterImportList(s.toString());
             }
         });
 
-        loadAllInvoice();
+        getAllListImport();
     }
 
-    private void loadAllInvoice() {
+    private void getAllListImport() {
         KiotApiService.apiService.getAllGoodsReceivedNote().enqueue(new Callback<List<GoodsReceivedNote>>() {
             @Override
             public void onResponse(Call<List<GoodsReceivedNote>> call, Response<List<GoodsReceivedNote>> response) {
@@ -107,7 +107,7 @@ public class ImportManagementActivity extends AppCompatActivity {
         });
     }
 
-    private void filterInvoices(String keyword) {
+    private void filterImportList(String keyword) {
         filteredImportList.clear();
         if (keyword.isEmpty()) {
             filteredImportList.addAll(importList);
@@ -126,6 +126,6 @@ public class ImportManagementActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadAllInvoice(); // Tải lại danh sách
+        getAllListImport(); // Tải lại danh sách
     }
 }

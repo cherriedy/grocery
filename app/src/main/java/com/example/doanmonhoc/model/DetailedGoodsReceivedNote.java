@@ -1,16 +1,30 @@
 package com.example.doanmonhoc.model;
 
-public class DetailedGoodsReceivedNote {
+import java.io.Serializable;
+
+public class DetailedGoodsReceivedNote implements Serializable {
     private long id;
     private long GoodReceivedNoteid;
     private long productId;
     private int quantity;
-    private float price;
+    private double price;
     private Product product;
+
+    public DetailedGoodsReceivedNote(long productId, int quantity, double price) {
+        this.productId = productId;
+        this.quantity = quantity;
+        this.price = price;
+    }
+
+    public DetailedGoodsReceivedNote(Product product, int quantity, double price) {
+        this.product = product;
+        this.quantity = quantity;
+        this.price = price;
+        this.productId = product.getId(); // Lấy productId từ đối tượng Product
+    }
 
     public DetailedGoodsReceivedNote() {
     }
-
     public long getId() {
         return id;
     }
@@ -43,7 +57,7 @@ public class DetailedGoodsReceivedNote {
         this.quantity = quantity;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 

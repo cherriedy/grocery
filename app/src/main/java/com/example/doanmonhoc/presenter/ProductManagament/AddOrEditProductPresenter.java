@@ -11,6 +11,7 @@ import com.example.doanmonhoc.contract.ProductManagement.AddOrEditProductContrac
 import com.example.doanmonhoc.model.Brand;
 import com.example.doanmonhoc.model.Product;
 import com.example.doanmonhoc.model.ProductGroup;
+import com.example.doanmonhoc.utils.IntentManager;
 import com.example.doanmonhoc.utils.RealPathUtils;
 import com.example.doanmonhoc.utils.Utils;
 
@@ -37,16 +38,14 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
     private List<ProductGroup> mGroupList;
     private Product mExtraProduct;
     private Product mLatestProduct;
+    private String mIntentMode;
 
     public AddOrEditProductPresenter(AddOrEditProductContract.View mView) {
         this.mView = mView;
         mBrandList = new ArrayList<>();
         mGroupList = new ArrayList<>();
+        mIntentMode = IntentManager.ModeParams.EXTRA_MODE_CREATE;
         fetchLatestProduct();
-    }
-
-    public List<Brand> brandList() {
-        return mBrandList;
     }
 
     public void getBrandList() {
@@ -115,6 +114,8 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
 
     @Override
     public void getExtraProduct(Intent intent) {
+        mIntentMode = IntentManager.ModeParams.EXTRA_MODE_EDIT;
+
         if (intent == null) {
             Log.e(TAG, "getExtraProduct: " + "intent truyền vào là null");
             mView.getExtraProductFail();
@@ -174,40 +175,44 @@ public class AddOrEditProductPresenter implements AddOrEditProductContract.Prese
 
     @Override
     public void handleUploadTemporaryImage(Context context, Uri imageUri) {
-        String uniqueKey = generateLatestProductKey();
-        if (uniqueKey.isEmpty()) {
-            return;
+        String uniqueKey;
+        if (mIntentMode.equals(IntentManager.ModeParams.EXTRA_MODE_EDIT)) {
+            uniqueKey = mExtraProduct.getProductKey();
+        } else {
+            uniqueKey = generateLatestProductKey();
         }
-        String path = RealPathUtils.getRealPath(context, imageUri);
-        Log.d(TAG, "handleUploadTemporaryImage: " + "ImagePath: " + path);
+        Log.d(TAG, "handleUploadTemporaryImage: " + uniqueKey);
 
-        File thumbnail = new File(path);
-        RequestBody requestBodyThumbnail =
-                RequestBody.create(MediaType.parse("multipart/form-data"), thumbnail);
-        RequestBody requestBodyUniqueKey =
-                RequestBody.create(MediaType.parse("multipart/form-data"), uniqueKey);
-        MultipartBody.Part partBodyThumbnail =
-                MultipartBody.Part.createFormData("image", thumbnail.getName(), requestBodyThumbnail);
+        if (!uniqueKey.isEmpty()) {
+            String path = RealPathUtils.getRealPath(context, imageUri);
+            File thumbnail = new File(path);
+            RequestBody requestBodyThumbnail =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), thumbnail);
+            RequestBody requestBodyUniqueKey =
+                    RequestBody.create(MediaType.parse("multipart/form-data"), uniqueKey);
+            MultipartBody.Part partBodyThumbnail =
+                    MultipartBody.Part.createFormData("image", thumbnail.getName(), requestBodyThumbnail);
 
-        KiotApiService.apiService
-                .pushTemporaryFiles(requestBodyUniqueKey, partBodyThumbnail)
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            mView.onUploadTemporaryImageSuccess();
-                        } else {
-                            Log.e(TAG, "handleUploadTemporaryImage - onResponse: " + "Lỗi xử lí ở API");
+            KiotApiService.apiService
+                    .pushTemporaryFiles(requestBodyUniqueKey, partBodyThumbnail)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                mView.onUploadTemporaryImageSuccess();
+                            } else {
+                                Log.e(TAG, "handleUploadTemporaryImage - onResponse: " + "Lỗi xử lí ở API");
+                                mView.onUploadTemporaryImageFail();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable throwable) {
+                            Log.e(TAG, "handleUploadTemporaryImage - OnFailure: " + "Lỗi truy vấn API");
                             mView.onUploadTemporaryImageFail();
                         }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable throwable) {
-                        Log.e(TAG, "handleUploadTemporaryImage - OnFailure: " + "Lỗi truy vấn API");
-                        mView.onUploadTemporaryImageFail();
-                    }
-                });
+                    });
+        }
     }
 
     public String generateLatestProductKey() {

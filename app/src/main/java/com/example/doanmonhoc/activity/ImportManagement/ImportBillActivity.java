@@ -152,7 +152,6 @@ public class ImportBillActivity extends AppCompatActivity {
         });
     }
 
-
     private boolean allProductsNotNull(List<DetailedGoodsReceivedNote> detailedGoodsReceivedNotes) {
         for (DetailedGoodsReceivedNote detail : detailedGoodsReceivedNotes) {
             if (detail.getProduct() == null) {
